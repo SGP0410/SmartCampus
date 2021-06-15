@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.smartcampus.R;
+import com.example.smartcampus.fragment.homeFragment.ClassTodayFragment;
+import com.example.smartcampus.fragment.homeFragment.StatisticsFragment;
 import com.example.smartcampus.fragment.applyFragment.Fragment_schoolCard;
 import com.example.smartcampuslibrary.activity.BaseFragmentActivity;
 
@@ -37,6 +39,12 @@ public class FragmentActivity extends BaseFragmentActivity {
     @Override
     protected void initData() {
         switch (name){
+            case "今日课堂":
+                setFragment(new ClassTodayFragment());
+                break;
+            case "信息统计":
+                setFragment(new StatisticsFragment());
+                break;
             case "校园卡":
                 setFragment(new Fragment_schoolCard());
                 break;

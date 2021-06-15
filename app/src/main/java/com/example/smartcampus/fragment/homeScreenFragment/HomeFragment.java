@@ -1,32 +1,44 @@
 package com.example.smartcampus.fragment.homeScreenFragment;
 
+import android.os.Build.VERSION_CODES;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.smartcampus.R;
+import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeScreenAdapter.FunctionRecyclerViewAdapter;
+import com.example.smartcampus.adapter.homeScreenAdapter.HomeThemeRecyclerViewAdapter;
+import com.example.smartcampus.bean.HomeFunction;
+import com.example.smartcampus.bean.HomeTheme;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
-import java.util.Arrays;
+import com.example.smartcampuslibrary.utils.Utils;
+import com.example.smartcampuslibrary.utils.myView.BaseRecyclerView;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class HomeFragment extends BaseFragment {
 
+    @BindView(R.id.search)
+    EditText search;
+    @BindView(R.id.lun_bo_view_pager)
+    ViewPager lunBoViewPager;
     @BindView(R.id.function_recycler_view)
-    RecyclerView functionRecyclerView;
+    BaseRecyclerView functionRecyclerView;
+    @BindView(R.id.theme_recycler_view)
+    BaseRecyclerView themeRecyclerView;
+    @BindView(R.id.news_recycler_view)
+    BaseRecyclerView newsRecyclerView;
 
-    private String[] functions = {
-        "学生生源",
-        "性别统计",
-        "学生统计",
-        "消费趋势",
-        "学霸指数",
-        "招生信息",
-        "学生就业"
-    };
+    private List<HomeFunction> functionList;
+    private List<HomeTheme> themeList;
 
     @Override
     protected int layoutResId() {
@@ -41,25 +53,49 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initData() {
         showFunction();
+        showTheme();
+    }
+
+    private void showTheme() {
+        setTheme();
+        themeRecyclerView.setLayoutManager(new GridLayoutManager(getContext() , 3 ,
+            GridLayoutManager.VERTICAL , false));
+        HomeThemeRecyclerViewAdapter adapter = new HomeThemeRecyclerViewAdapter(
+            themeList);
+        themeRecyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(position -> {
+            for (int i = 0; i < themeList.size(); i++) {
+                themeList.get(i).setClick(i == position);
+            }
+            adapter.notifyDataSetChanged();
+        });
+    }
+
+    private void setTheme() {
+        themeList = new ArrayList<>();
+        themeList.add(new HomeTheme("学校新闻" , true));
+        themeList.add(new HomeTheme("院系新闻" , false));
+        themeList.add(new HomeTheme("学术动态" , false));
     }
 
     private void showFunction() {
-        DisplayMetrics dm = new DisplayMetrics();
+        setFunctionList();
+        functionRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
+            GridLayoutManager.VERTICAL, false));
+        FunctionRecyclerViewAdapter adapter = new FunctionRecyclerViewAdapter(
+            functionList);
+        functionRecyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(position -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("name" , functionList.get(position).getName());
+            toClass(getContext() , FragmentActivity.class , bundle);
+        });
+    }
 
-        Objects.requireNonNull(Objects.requireNonNull(getContext()).getDisplay()).getMetrics(dm);
-
-        int widthPixels = dm.widthPixels;//屏幕宽度
-
-        float density = dm.densityDpi;
-
-        int dp = (int) ((widthPixels*160)/density);
-
-        functionRecyclerView.setLayoutManager(new GridLayoutManager(getContext() , dp/150 ,
-            GridLayoutManager.VERTICAL , false));
-
-//        functionRecyclerView.setAdapter(new FunctionRecyclerViewAdapter(Arrays.asList(functions)));
-
-
+    private void setFunctionList() {
+        functionList = new ArrayList<>();
+        functionList.add(new HomeFunction("今日课堂", "#FBBA01", R.mipmap.jrkt));
+        functionList.add(new HomeFunction("信息统计", "#65EBD9", R.mipmap.xxtj));
     }
 
     @Override

@@ -4,10 +4,51 @@
     android:layout_height="match_parent"
     android:background="#EEE">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/function_recycler_view"
+    <include layout="@layout/home_head"/>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/lun_bo_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/baiyuanjiao"/>
+
+
+            <com.example.smartcampuslibrary.utils.myView.BaseRecyclerView
+                android:id="@+id/function_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.example.smartcampuslibrary.utils.myView.BaseRecyclerView
+                android:id="@+id/theme_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/baiyuanjiao"/>
+
+
+            <com.example.smartcampuslibrary.utils.myView.BaseRecyclerView
+                android:id="@+id/news_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:layout_margin="10dp"/>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </LinearLayout>

@@ -44,7 +44,13 @@ public class HomeActivity extends BaseHomeActivity {
     protected void initData() {
         initFragmentMap();
         initNav();
-        setFragment(Objects.requireNonNull(fragmentMap.get("首页")));
+        showFragment(1);
+    }
+
+    private void showFragment(int index){
+        nav.postDelayed(() -> {
+            nav.setSelectedItemId(nav.getMenu().getItem(index).getItemId());
+        } , 100);
     }
 
     /**
