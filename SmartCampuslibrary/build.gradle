@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    task makeJar(type: Copy) {
+        //删除存在的
+        delete 'build/libs/zhcsmodel.jar'
+        //设置拷贝的文件
+        from('build/intermediates/compile_library_classes_jar/debug/')
+        //打进jar包后的文件目录
+        into('build/libs/')
+
+        exclude('**/R.class')
+        exclude('**/BuildConfig.class')
+
+        //将classes.jar放入build/libs/目录下
+        //include,exclude参数来设置过滤
+        //（我们只关心classes.jar这个文件）
+        include('classes.jar')
+        //重命名
+        rename ('classes.jar','zhcsmodel.jar')
+    }
+    makeJar.dependsOn(build)
+//在终端执行生成JAR包
+// gradlew makeJar
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    debugImplementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+
+}

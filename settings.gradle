@@ -1,0 +1,3 @@
+include ':SmartCampuslibrary'
+include ':app'
+rootProject.name = "SmartCampus"
