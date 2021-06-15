@@ -57,7 +57,7 @@ public class HomeFragment extends BaseFragment {
         functionRecyclerView.setLayoutManager(new GridLayoutManager(getContext() , dp/150 ,
             GridLayoutManager.VERTICAL , false));
 
-        functionRecyclerView.setAdapter(new FunctionRecyclerViewAdapter(Arrays.asList(functions)));
+//        functionRecyclerView.setAdapter(new FunctionRecyclerViewAdapter(Arrays.asList(functions)));
 
 
     }

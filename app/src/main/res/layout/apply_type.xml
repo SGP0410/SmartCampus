@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:padding="15dp"
+  android:orientation="vertical"
+  android:background="@drawable/lin_r14"
+  android:gravity="center"
+  android:elevation="2dp"
+  android:layout_margin="8dp"
+  >
+
+  <com.example.smartcampuslibrary.utils.myView.ImageViewOval
+    android:id="@+id/item_imageview"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:padding="6dp"
+    android:background="@drawable/apply_green"
+    android:src="@mipmap/library"
+    />
+
+  <TextView
+    android:id="@+id/item_title"
+    android:layout_width="90dp"
+    android:layout_height="wrap_content"
+    android:text="图书馆借阅"
+    android:gravity="center"
+    android:textColor="#333"
+    android:textSize="18dp"
+    android:layout_marginTop="10dp"
+    />
+
+
+</LinearLayout>

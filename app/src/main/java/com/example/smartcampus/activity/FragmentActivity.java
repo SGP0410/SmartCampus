@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.smartcampus.R;
+import com.example.smartcampus.fragment.applyFragment.Fragment_schoolCard;
 import com.example.smartcampuslibrary.activity.BaseFragmentActivity;
 
 
@@ -36,6 +37,9 @@ public class FragmentActivity extends BaseFragmentActivity {
     @Override
     protected void initData() {
         switch (name){
+            case "校园卡":
+                setFragment(new Fragment_schoolCard());
+                break;
             //用于显示要显示的fragment，调用setFragment()方法返回按钮绑定onClick事件用于返回
         }
     }
