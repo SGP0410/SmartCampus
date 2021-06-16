@@ -48,9 +48,22 @@ public class StatisticsFragment extends BaseFragment {
             functionList);
         statisticsRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("name", functionList.get(position).getName());
-            toClass(getContext(), FragmentActivity.class, bundle);
+            switch (functionList.get(position).getName()){
+                case "学生生源":
+                    break;
+                case "性别统计":
+                    break;
+                case "学生统计":
+                    break;
+                case "消费趋势":
+                    break;
+                case "学霸指数":
+                    break;
+                case "招生信息":
+                    break;
+                case "学生就业":
+                    break;
+            }
         });
     }
 
