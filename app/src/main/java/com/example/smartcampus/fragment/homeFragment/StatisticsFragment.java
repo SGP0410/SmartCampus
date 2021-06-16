@@ -2,6 +2,7 @@ package com.example.smartcampus.fragment.homeFragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,9 +14,11 @@ import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeAdapter.StatisticsRecyclerViewAdapter;
 import com.example.smartcampus.bean.home.HomeFunction;
+import com.example.smartcampus.fragment.statisticsFragment.StudentSourceFragment;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StatisticsFragment extends BaseFragment {
 
@@ -48,8 +51,10 @@ public class StatisticsFragment extends BaseFragment {
             functionList);
         statisticsRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
-            switch (functionList.get(position).getName()){
+            switch (functionList.get(position).getName().split(",")[0]) {
                 case "学生生源":
+                    ((FragmentActivity) Objects.requireNonNull(getActivity()))
+                        .setFragment(new StudentSourceFragment());
                     break;
                 case "性别统计":
                     break;
@@ -79,7 +84,8 @@ public class StatisticsFragment extends BaseFragment {
             R.mipmap.xfqs));
         functionList.add(new HomeFunction("学霸指数,schoolDomination", Color.parseColor("#F86851"),
             R.mipmap.xbzs));
-        functionList.add(new HomeFunction("招生信息,Admissions", Color.parseColor("#14A88B"), R.mipmap.zsxx));
+        functionList
+            .add(new HomeFunction("招生信息,Admissions", Color.parseColor("#14A88B"), R.mipmap.zsxx));
         functionList.add(new HomeFunction("学生就业,Employment", Color.parseColor("#FF7D01"),
             R.mipmap.xsjy));
     }
