@@ -3,14 +3,11 @@ package com.example.smartcampus.adapter.homeScreenAdapter;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.example.smartcampus.R;
-import com.example.smartcampus.bean.HomeTheme;
+import com.example.smartcampus.bean.home.HomeTheme;
 import com.example.smartcampuslibrary.adapter.BaseRecyclerViewAdapter;
 import java.util.List;
 

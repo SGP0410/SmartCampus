@@ -1,12 +1,9 @@
 package com.example.smartcampus.fragment.homeScreenFragment;
 
-import android.os.Build.VERSION_CODES;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -15,14 +12,12 @@ import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeScreenAdapter.FunctionRecyclerViewAdapter;
 import com.example.smartcampus.adapter.homeScreenAdapter.HomeThemeRecyclerViewAdapter;
-import com.example.smartcampus.bean.HomeFunction;
-import com.example.smartcampus.bean.HomeTheme;
+import com.example.smartcampus.bean.home.HomeFunction;
+import com.example.smartcampus.bean.home.HomeTheme;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
-import com.example.smartcampuslibrary.utils.Utils;
 import com.example.smartcampuslibrary.utils.myView.BaseRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class HomeFragment extends BaseFragment {
 
@@ -94,8 +89,8 @@ public class HomeFragment extends BaseFragment {
 
     private void setFunctionList() {
         functionList = new ArrayList<>();
-        functionList.add(new HomeFunction("今日课堂", "#FBBA01", R.mipmap.jrkt));
-        functionList.add(new HomeFunction("信息统计", "#65EBD9", R.mipmap.xxtj));
+        functionList.add(new HomeFunction("今日课堂", Color.parseColor("#FBBA01"), R.mipmap.jrkt));
+        functionList.add(new HomeFunction("信息统计", Color.parseColor("#65EBD9"), R.mipmap.xxtj));
     }
 
     @Override

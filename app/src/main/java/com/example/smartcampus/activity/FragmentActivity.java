@@ -48,7 +48,6 @@ public class FragmentActivity extends BaseFragmentActivity {
             case "校园卡":
                 setFragment(new Fragment_schoolCard());
                 break;
-            //用于显示要显示的fragment，调用setFragment()方法返回按钮绑定onClick事件用于返回
         }
     }
 }

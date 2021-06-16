@@ -1,16 +1,16 @@
-package com.example.smartcampus.bean;
+package com.example.smartcampus.bean.home;
 
 public class HomeFunction {
 
     private String name;
-    private String color;
+    private int color;
     private int image;
 
     public HomeFunction() {
 
     }
 
-    public HomeFunction(String name, String color, int image) {
+    public HomeFunction(String name, int color, int image) {
         this.name = name;
         this.color = color;
         this.image = image;
@@ -24,11 +24,11 @@ public class HomeFunction {
         this.name = name;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 

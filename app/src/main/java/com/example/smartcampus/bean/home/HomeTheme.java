@@ -1,4 +1,4 @@
-package com.example.smartcampus.bean;
+package com.example.smartcampus.bean.home;
 
 public class HomeTheme {
 

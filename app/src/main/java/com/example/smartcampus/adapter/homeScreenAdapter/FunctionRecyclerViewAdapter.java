@@ -2,17 +2,15 @@ package com.example.smartcampus.adapter.homeScreenAdapter;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.smartcampus.R;
 import com.example.smartcampus.adapter.homeScreenAdapter.FunctionRecyclerViewAdapter.ViewHolder;
-import com.example.smartcampus.bean.HomeFunction;
+import com.example.smartcampus.bean.home.HomeFunction;
 import com.example.smartcampuslibrary.adapter.BaseRecyclerViewAdapter;
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class FunctionRecyclerViewAdapter extends
         holder.imageView.setImageResource(bean.getImage());
         holder.text1.setText(bean.getName());
         GradientDrawable myGrad = (GradientDrawable)holder.itemView.getBackground();
-        myGrad.setColor(Color.parseColor(bean.getColor()));
+        myGrad.setColor(bean.getColor());
     }
 
     static
