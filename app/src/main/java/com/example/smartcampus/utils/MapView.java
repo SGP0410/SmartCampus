@@ -239,7 +239,8 @@ public class MapView extends View {
         if (mMaxRect != null){
             //获取缩放比例
             double mapWidth = mMaxRect.width();
-            mScale = (float) (width/mapWidth);
+            double mapHeight = mMaxRect.height();
+            mScale = Math.min((float) (width/mapWidth) , (float) (height/mapHeight));
         }
 
         //应用测量数据
@@ -252,7 +253,11 @@ public class MapView extends View {
         super.onDraw(canvas);
         if (mItemList != null){
             //使地图从画布左上角开始绘制（图片本身可能存在一定边距）
-            canvas.translate(-mMaxRect.left , -mMaxRect.top);
+            canvas.translate(-mMaxRect.left, -mMaxRect.top);
+//            canvas.translate(-((mMaxRect.left + mMaxRect.right)/2) ,
+//                -((mMaxRect.top + mMaxRect.bottom)/2));
+//            Log.i("aaaa" , "----------------"+mMaxRect.left);
+//            Log.i("aaaa" , "-----------------"+mMaxRect.top);
             //设置画布缩放，以(-mMaxRect.left , -mMaxRect.top)为基准进行缩放
             //因为当前该点对应屏幕左上角（0,0）点
             canvas.scale(mScale , mScale , mMaxRect.left , mMaxRect.top);
