@@ -2,6 +2,7 @@ package com.example.smartcampus.fragment.homeFragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,32 +18,34 @@ import com.example.smartcampus.fragment.statisticsFragment.Fragment_count;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_sex;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_student;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_getAJob;
+import com.example.smartcampus.fragment.statisticsFragment.StudentSourceFragment;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StatisticsFragment extends BaseFragment {
-    
+
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.statistics_recycler_view)
     RecyclerView statisticsRecyclerView;
-    
+
     private List<HomeFunction> functionList;
-    
+
     @Override
     protected int layoutResId() {
         return R.layout.statistics_fragment;
     }
-    
+
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
         title.setText("信息统计");
     }
-    
+
     @Override
     protected void initData() {
         setHomeFunction();
@@ -54,7 +57,8 @@ public class StatisticsFragment extends BaseFragment {
         adapter.setOnItemClickListener(position -> {
             switch (functionList.get(position).getName().split(",")[0]) {
                 case "学生生源":
-                    
+                    ((FragmentActivity) Objects.requireNonNull(getActivity()))
+                        .setFragment(new StudentSourceFragment());
                     break;
                 case "性别统计":
                     ((FragmentActivity)getActivity()).setFragment(new Fragment_count());
@@ -65,10 +69,8 @@ public class StatisticsFragment extends BaseFragment {
                     
                     break;
                 case "消费趋势":
-                    
                     break;
                 case "学霸指数":
-                    
                     break;
                 case "招生信息":
                     break;
@@ -95,9 +97,9 @@ public class StatisticsFragment extends BaseFragment {
         functionList.add(new HomeFunction("学生就业,Employment", Color.parseColor("#FF7D01"),
             R.mipmap.xsjy));
     }
-    
+
     @Override
     public void onClick(View v) {
-    
+
     }
 }

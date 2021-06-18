@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.util.Log;
 import android.view.MotionEvent;
 
 public class ProvinceItem {
@@ -13,6 +14,11 @@ public class ProvinceItem {
      * 省份路径
      */
     private Path mPath;
+
+    /**
+     * 名称
+     */
+    private String name;
 
     /**
      * 区块颜色
@@ -24,8 +30,13 @@ public class ProvinceItem {
      */
     private Region mRegion;
 
-    public ProvinceItem(Path path){
+    public String getName() {
+        return name;
+    }
+
+    public ProvinceItem(Path path , String name){
         this.mPath = path;
+        this.name = name;
 
         RectF rectF = new RectF();
 
