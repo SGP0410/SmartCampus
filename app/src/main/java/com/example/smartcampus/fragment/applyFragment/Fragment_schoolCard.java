@@ -1,8 +1,6 @@
 package com.example.smartcampus.fragment.applyFragment;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,12 +11,9 @@ import com.example.smartcampuslibrary.fragment.BaseFragment;
 
 public class Fragment_schoolCard extends BaseFragment {
     
-    private ImageView back;
     private TextView title;
-    private LinearLayout btnExpensesRecord;
     private ImageView imgExpensesRecord;
     private TextView txtExpensesRecord;
-    private LinearLayout btnRechargeRecord;
     private ImageView imgRechargeRecord;
     private TextView txtRechargeRecord;
     private RecyclerView recyclerView;
@@ -30,28 +25,26 @@ public class Fragment_schoolCard extends BaseFragment {
     
     @Override
     protected void initView(View view) {
-        
-        back = view.findViewById(R.id.back);
+        ImageView back = view.findViewById(R.id.back);
         title = view.findViewById(R.id.title);
-        btnExpensesRecord = view.findViewById(R.id.btn_expenses_record);
-        btnExpensesRecord.setOnClickListener(this::onClick);
         imgExpensesRecord = view.findViewById(R.id.img_expensesRecord);
         txtExpensesRecord = view.findViewById(R.id.txt_expensesRecord);
-        btnRechargeRecord = view.findViewById(R.id.btn_recharge_record);
         imgRechargeRecord = view.findViewById(R.id.img_rechargeRecord);
         txtRechargeRecord = view.findViewById(R.id.txt_rechargeRecord);
         recyclerView = view.findViewById(R.id.recyclerView);
-        btnRechargeRecord.setOnClickListener(this::onClick);
-    
+        LinearLayout btnRechargeRecord = view.findViewById(R.id.btn_recharge_record);
+        LinearLayout btnExpensesRecord = view.findViewById(R.id.btn_expenses_record);
+        btnRechargeRecord.setOnClickListener(this);
+        btnExpensesRecord.setOnClickListener(this);
     }
     
     @Override
     protected void initData() {
+        title.setText("校园卡");
 //        ((FragmentActivity)getActivity()).setFragment();
     
-    }
     
-    private static final String TAG = "Fragment_schoolCard";
+    }
     
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -59,11 +52,15 @@ public class Fragment_schoolCard extends BaseFragment {
         switch (v.getId()){
             case R.id.btn_expenses_record:
                 txtExpensesRecord.setTextColor(txtExpensesRecord.getResources().getColor(R.color.blue_title));
-                imgExpensesRecord.setImageResource(R.mipmap.expenses_record_hui);
+                imgExpensesRecord.setImageResource(R.mipmap.expenses_record);
+                txtRechargeRecord.setTextColor(txtRechargeRecord.getResources().getColor(R.color.color_title_2));
+                imgRechargeRecord.setImageResource(R.mipmap.recharge_record_hui);
                 break;
             case R.id.btn_recharge_record:
                 txtRechargeRecord.setTextColor(txtRechargeRecord.getResources().getColor(R.color.blue_title));
-                imgRechargeRecord.setImageResource(R.mipmap.expenses_record_hui);
+                imgRechargeRecord.setImageResource(R.mipmap.recharge_record);
+                txtExpensesRecord.setTextColor(txtExpensesRecord.getResources().getColor(R.color.color_title_2));
+                imgExpensesRecord.setImageResource(R.mipmap.expenses_record_hui);
                 break;
         }
     }

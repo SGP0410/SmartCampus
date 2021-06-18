@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:orientation="vertical"
+  android:background="@color/color_background">
+
+  <include layout="@layout/title_back_g"/>
+
+  <LinearLayout
+    android:id="@+id/btn_next"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@drawable/lin_r14"
+    android:layout_margin="10dp"
+    android:elevation="5dp"
+    >
+
+    <TextView
+      android:id="@+id/txt_province"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="0.8"
+      android:text="济南市"
+      android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+      android:textColor="@color/color_title"
+      android:lines="1"
+      android:ellipsize="end"
+      android:textSize="20dp" />
+
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1.3"
+      android:gravity="center"
+      >
+
+      <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@mipmap/man"
+        />
+      <TextView
+        android:id="@+id/item_man"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="34%"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:textColor="#20D5CE"
+        android:textStyle="bold"
+        />
+      <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@mipmap/woman"
+        />
+
+
+      <TextView
+        android:id="@+id/item_woman"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="34%"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textColor="#F39445"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        />
+
+
+
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    >
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="horizontal"
+      >
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+        <com.github.mikephil.charting.charts.BarChart
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/barChart"
+          android:background="#BAFFFFFF"
+          android:elevation="10dp"
+          android:padding="2dp"
+          />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+
+        <com.github.mikephil.charting.charts.LineChart
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/lineChart"
+          android:background="#BAFFFFFF"
+          android:elevation="10dp"
+          android:padding="2dp"
+          />
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="horizontal"
+      android:layout_marginTop="30dp"
+      >
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+        <com.github.mikephil.charting.charts.BarChart
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/barChart_pileUp"
+          android:background="#BAFFFFFF"
+          android:elevation="10dp"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          />
+
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+        <com.github.mikephil.charting.charts.PieChart
+          android:id="@+id/chart1"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_above="@+id/seekBar1"
+          android:background="#BAFFFFFF"
+          android:elevation="10dp"
+          />
+
+
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="vertical"
+      >
+
+      <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="0.2"
+      >
+
+    </LinearLayout>
+
+
+
+
+  </LinearLayout>
+
+
+</LinearLayout>

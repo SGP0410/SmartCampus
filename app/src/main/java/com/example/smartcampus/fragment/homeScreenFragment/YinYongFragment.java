@@ -18,7 +18,7 @@ public class YinYongFragment extends BaseFragment {
     
     private TextView title;
     private RecyclerView recyclerView;
-    private List<ApplyType> applyTypes = new ArrayList<>();
+    private final List<ApplyType> applyTypes = new ArrayList<>();
     
     @Override
     protected int layoutResId() {

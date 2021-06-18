@@ -1,5 +1,6 @@
 package com.example.smartcampus.activity;
 
+import android.annotation.SuppressLint;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.NonNull;
@@ -21,6 +22,8 @@ import java.util.Objects;
  * 主页可调用setFragment()方法显示fragment
  */
 public class HomeActivity extends BaseHomeActivity {
+    
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.nav)
     BottomNavigationView nav;
     private Map<String, Fragment> fragmentMap;

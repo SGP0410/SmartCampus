@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:orientation="vertical"
+  android:background="@color/color_background">
+
+  <include layout="@layout/title_back_g"/>
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:padding="10dp"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="500dp"
+      >
+
+      <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/barChart"
+        android:background="#BAFFFFFF"
+        android:layout_marginTop="10dp"
+        android:elevation="10dp"
+        android:padding="2dp"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="400dp"
+      >
+
+      <com.github.mikephil.charting.charts.LineChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lineChart"
+        android:background="#BAFFFFFF"
+        android:elevation="10dp"
+        android:padding="2dp"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="400dp"
+      >
+
+      <com.github.mikephil.charting.charts.BarChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/barChart_pileUp"
+        android:background="#BAFFFFFF"
+        android:elevation="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="400dp"
+      >
+
+      <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/seekBar1"
+        android:background="#BAFFFFFF"
+        android:elevation="10dp"
+        />
+
+
+
+    </LinearLayout>
+
+
+
+  </LinearLayout>
+
+
+  </ScrollView>
+
+
+
+</LinearLayout>

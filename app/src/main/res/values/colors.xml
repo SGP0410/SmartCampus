@@ -9,5 +9,9 @@
     <color name="color_msg_2">#8C8C8C</color>
     <color name="color_hit">#CCCCCC</color>
     <color name="blue_title">#376FE2</color>
+    <color name="color_background">#EEE</color>
+    <color name="drawing_man">#22D5CE</color>
+    <color name="drawing_nv">#F39444</color>
+    <color name="drawing_nv22">#404040</color>
 
 </resources>

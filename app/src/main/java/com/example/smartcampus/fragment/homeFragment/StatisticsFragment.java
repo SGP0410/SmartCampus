@@ -13,32 +13,36 @@ import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeAdapter.StatisticsRecyclerViewAdapter;
 import com.example.smartcampus.bean.home.HomeFunction;
+import com.example.smartcampus.fragment.statisticsFragment.Fragment_count;
+import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_sex;
+import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_student;
+import com.example.smartcampus.fragment.statisticsFragment.Fragment_getAJob;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticsFragment extends BaseFragment {
-
+    
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.statistics_recycler_view)
     RecyclerView statisticsRecyclerView;
-
+    
     private List<HomeFunction> functionList;
-
+    
     @Override
     protected int layoutResId() {
         return R.layout.statistics_fragment;
     }
-
+    
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
         title.setText("信息统计");
     }
-
+    
     @Override
     protected void initData() {
         setHomeFunction();
@@ -48,25 +52,33 @@ public class StatisticsFragment extends BaseFragment {
             functionList);
         statisticsRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
-            switch (functionList.get(position).getName()){
+            switch (functionList.get(position).getName().split(",")[0]) {
                 case "学生生源":
+                    
                     break;
                 case "性别统计":
+                    ((FragmentActivity)getActivity()).setFragment(new Fragment_count());
+                    
                     break;
                 case "学生统计":
+                    ((FragmentActivity)getActivity()).setFragment(new Fragment_count_student());
+                    
                     break;
                 case "消费趋势":
+                    
                     break;
                 case "学霸指数":
+                    
                     break;
                 case "招生信息":
                     break;
                 case "学生就业":
+                    ((FragmentActivity)getActivity()).setFragment(new Fragment_getAJob());
                     break;
             }
         });
     }
-
+    
     private void setHomeFunction() {
         functionList = new ArrayList<>();
         functionList.add(new HomeFunction("学生生源,StudentSource", Color.parseColor("#2C77C5"),
@@ -83,9 +95,9 @@ public class StatisticsFragment extends BaseFragment {
         functionList.add(new HomeFunction("学生就业,Employment", Color.parseColor("#FF7D01"),
             R.mipmap.xsjy));
     }
-
+    
     @Override
     public void onClick(View v) {
-
+    
     }
 }

@@ -9,6 +9,7 @@ import com.example.smartcampuslibrary.ZhcsConfig;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -115,7 +116,10 @@ public class OkHttpTo extends Thread {
 
     @Override
     public void run() {
-        OkHttpClient client = new OkHttpClient();
+    
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(60000, TimeUnit.MILLISECONDS)
+            .readTimeout(60000, TimeUnit.MILLISECONDS)
+            .build();
         do {
 
             RequestBody body = null;
