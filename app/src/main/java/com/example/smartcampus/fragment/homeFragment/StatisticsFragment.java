@@ -1,7 +1,7 @@
 package com.example.smartcampus.fragment.homeFragment;
 
 import android.graphics.Color;
-import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,10 +15,9 @@ import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeAdapter.StatisticsRecyclerViewAdapter;
 import com.example.smartcampus.bean.home.HomeFunction;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count;
-import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_sex;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_student;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_getAJob;
-import com.example.smartcampus.fragment.statisticsFragment.StudentSourceFragment;
+import com.example.smartcampus.fragment.statisticsFragment.ProvinceStudentSourceFragment;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,8 @@ public class StatisticsFragment extends BaseFragment {
     @Override
     protected void initData() {
         setHomeFunction();
-        statisticsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
+        statisticsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),
+            getSpanCount(200),
             GridLayoutManager.VERTICAL, false));
         StatisticsRecyclerViewAdapter adapter = new StatisticsRecyclerViewAdapter(
             functionList);
@@ -58,15 +58,15 @@ public class StatisticsFragment extends BaseFragment {
             switch (functionList.get(position).getName().split(",")[0]) {
                 case "学生生源":
                     ((FragmentActivity) Objects.requireNonNull(getActivity()))
-                        .setFragment(new StudentSourceFragment());
+                        .setFragment(new ProvinceStudentSourceFragment());
                     break;
                 case "性别统计":
                     ((FragmentActivity)getActivity()).setFragment(new Fragment_count());
-                    
+
                     break;
                 case "学生统计":
                     ((FragmentActivity)getActivity()).setFragment(new Fragment_count_student());
-                    
+
                     break;
                 case "消费趋势":
                     break;
@@ -80,7 +80,33 @@ public class StatisticsFragment extends BaseFragment {
             }
         });
     }
-    
+
+    /**
+     * 获取一行最多显示多少item
+     *
+     * @param itemWidth item的宽度
+     * @return
+     */
+    private int getSpanCount(int itemWidth) {
+        DisplayMetrics dm = new DisplayMetrics();
+        Objects.requireNonNull(Objects.requireNonNull(getContext()).getDisplay()).getMetrics(dm);
+        //获取屏幕宽度
+        int widthPixels = dm.widthPixels;
+        //获取设备像素密度
+        float density = dm.densityDpi;
+        //1dp*像素密度(dpi)/160(dpi) = 实际像素数(px)
+        int dp = (int) ((widthPixels * 160) / density);
+
+        if (itemWidth == 0) {
+            return 0;
+        }
+        //计算出一行显示多少item
+
+        double spanCount = ((double)dp) / ((double)itemWidth);
+
+        return (int) Math.round(spanCount);
+    }
+
     private void setHomeFunction() {
         functionList = new ArrayList<>();
         functionList.add(new HomeFunction("学生生源,StudentSource", Color.parseColor("#2C77C5"),

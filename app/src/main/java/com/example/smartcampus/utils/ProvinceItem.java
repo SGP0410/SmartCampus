@@ -92,25 +92,9 @@ public class ProvinceItem {
         }
     }
 
-    public boolean isTouch(int x , int y , MotionEvent event){
+    public boolean isTouch(int x , int y){
         //判断是否在有效区域内
         boolean isTouch = mRegion.contains(x, y);
-        if (isTouch){
-            switch (event.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    break;
-                case MotionEvent.ACTION_MOVE:
-
-                    break;
-                case MotionEvent.ACTION_UP:
-
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
         return isTouch;
     }
 }

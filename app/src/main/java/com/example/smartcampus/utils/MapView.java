@@ -18,6 +18,7 @@ import androidx.core.graphics.PathParser;
 
 import com.example.smartcampus.R;
 
+import java.util.Map;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -38,6 +39,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class MapView extends View {
+
     /**
      * 线程池，用于加载xml文件
      */
@@ -90,6 +92,7 @@ public class MapView extends View {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        initMyOnTouchEvent();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);//设置抗锯齿
         initThreadPool();//初始化线程池
@@ -108,13 +111,14 @@ public class MapView extends View {
                 return thread;
             }
         };
-        mThreadPool = new ThreadPoolExecutor(1 , 1 , 10L , TimeUnit.MINUTES,
-                new LinkedBlockingDeque<Runnable>(10) , threadFactory,
-                new ThreadPoolExecutor.AbortPolicy());
+        mThreadPool = new ThreadPoolExecutor(1, 1, 10L, TimeUnit.MINUTES,
+            new LinkedBlockingDeque<Runnable>(10), threadFactory,
+            new ThreadPoolExecutor.AbortPolicy());
     }
 
     /**
      * 解析自定义属性
+     *
      * @param context
      * @param attrs
      * @param defStyleAttr
@@ -122,14 +126,21 @@ public class MapView extends View {
     private void getMapResource(Context context, AttributeSet attrs, int defStyleAttr) {
         @SuppressLint("Recycle")
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MapView,
-                defStyleAttr, 0);
-        int resId = typedArray.getResourceId(R.styleable.MapView_map,-1);
+            defStyleAttr, 0);
+        int resId = typedArray.getResourceId(R.styleable.MapView_map, -1);
         typedArray.recycle();
         setMapResId(resId);
     }
 
+    private Map<String, Integer> colorMap;
+
+    public void setColors(Map<String, Integer> colorMap) {
+        this.colorMap = colorMap;
+    }
+
     /**
      * 设置地图资源
+     *
      * @param resId
      */
     public void setMapResId(int resId) {
@@ -141,7 +152,7 @@ public class MapView extends View {
      * 执行加载
      */
     private void executeLoad() {
-        if (mMapResId <= 0){
+        if (mMapResId <= 0) {
             return;
         }
         mThreadPool.execute(new Runnable() {
@@ -182,24 +193,29 @@ public class MapView extends View {
                         String fillColor = element.getAttribute("android:fillColor");
 
                         //分装成ProvenceItem对象
-                        ProvinceItem provinceItem = new ProvinceItem(path , name);
-                        provinceItem.setDrawColor(Color.parseColor(fillColor));
+                        ProvinceItem provinceItem = new ProvinceItem(path, name);
+
+                        if (colorMap != null) {
+                            provinceItem.setDrawColor(colorMap.get(name));
+                        } else {
+                            provinceItem.setDrawColor(Color.parseColor(fillColor));
+                        }
 
                         RectF rectF = new RectF();
                         //计算当前path区域的矩形边界
-                        path.computeBounds(rectF , true);
+                        path.computeBounds(rectF, true);
                         //判断边界，最终获得的就是整个地图的最大矩形边界
-                        left = left < 0 ? rectF.left : Math.min(left , rectF.left);
-                        right = Math.max(right , rectF.right);
-                        top = top < 0 ? rectF.top : Math.min(top , rectF.top);
-                        bottom = Math.max(bottom , rectF.bottom);
+                        left = left < 0 ? rectF.left : Math.min(left, rectF.left);
+                        right = Math.max(right, rectF.right);
+                        top = top < 0 ? rectF.top : Math.min(top, rectF.top);
+                        bottom = Math.max(bottom, rectF.bottom);
 
                         provinceItemList.add(provinceItem);
                     }
 
                     //解析完成，保存节点列表和最大边界
                     mItemList = provinceItemList;
-                    mMaxRect = new RectF(left , top , right , bottom);
+                    mMaxRect = new RectF(left, top, right, bottom);
                     //通知重新布局和绘制
                     post(new Runnable() {
                         @Override
@@ -224,7 +240,7 @@ public class MapView extends View {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (mThreadPool != null){
+        if (mThreadPool != null) {
             //释放线程池
             mThreadPool.shutdown();
         }
@@ -236,22 +252,22 @@ public class MapView extends View {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
-        if (mMaxRect != null){
+        if (mMaxRect != null) {
             //获取缩放比例
             double mapWidth = mMaxRect.width();
             double mapHeight = mMaxRect.height();
-            mScale = Math.min((float) (width/mapWidth) , (float) (height/mapHeight));
+            mScale = Math.min((float) (width / mapWidth), (float) (height / mapHeight));
         }
 
         //应用测量数据
-        setMeasuredDimension(MeasureSpec.makeMeasureSpec(width , MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(height , MeasureSpec.EXACTLY));
+        setMeasuredDimension(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (mItemList != null){
+        if (mItemList != null) {
             //使地图从画布左上角开始绘制（图片本身可能存在一定边距）
             canvas.translate(-mMaxRect.left, -mMaxRect.top);
 //            canvas.translate(-((mMaxRect.left + mMaxRect.right)/2) ,
@@ -260,26 +276,52 @@ public class MapView extends View {
 //            Log.i("aaaa" , "-----------------"+mMaxRect.top);
             //设置画布缩放，以(-mMaxRect.left , -mMaxRect.top)为基准进行缩放
             //因为当前该点对应屏幕左上角（0,0）点
-            canvas.scale(mScale , mScale , mMaxRect.left , mMaxRect.top);
+            canvas.scale(mScale, mScale, mMaxRect.left, mMaxRect.top);
             //绘制所有省份区域，并设置是否选中状态
             for (ProvinceItem provinceItem : mItemList) {
-                provinceItem.drawItem(canvas , mPaint , mSelectItem == provinceItem);
+                provinceItem.drawItem(canvas, mPaint, mSelectItem == provinceItem);
             }
         }
     }
 
+    private MotionEvent myEvent;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // 将事件分发给所有的区块，如果事件未被消费，则调用View的onTouchEvent，这里会默认范围false
-        if (handleTouch((int) (event.getX()/mScale + mMaxRect.left) ,
-                (int) (event.getY() / mScale + mMaxRect.top) , event)){
-            return super.onTouchEvent(event);
-        }
+
+//         将事件分发给所有的区块，如果事件未被消费，则调用View的onTouchEvent，这里会默认范围false
+        myEvent = event;
         return super.onTouchEvent(event);
     }
+
+    private MyOnTouchEvent myOnTouchEvent;
+
+    public interface MyOnTouchEvent {
+
+        void onTouchEvent(MotionEvent event);
+    }
+
+    private void initMyOnTouchEvent() {
+        myOnTouchEvent = new MyOnTouchEvent() {
+            @Override
+            public void onTouchEvent(MotionEvent event) {
+                if (myEvent != null) {
+                    handleTouch((int) (myEvent.getX() / mScale + mMaxRect.left),
+                        (int) (myEvent.getY() / mScale + mMaxRect.top), myEvent, event);
+                }
+            }
+        };
+    }
+
+    public MyOnTouchEvent getMyOnTouchEvent() {
+        return myOnTouchEvent;
+    }
+
+    private int down = 0;
+
     //派发事件
-    private boolean handleTouch(int x , int y , MotionEvent event){
-        if (mItemList == null){
+    private boolean handleTouch(int x, int y, MotionEvent myEvent, MotionEvent event) {
+        if (mItemList == null) {
             return false;
         }
 
@@ -288,16 +330,28 @@ public class MapView extends View {
         ProvinceItem selectItem = null;
         for (ProvinceItem provinceItem : mItemList) {
             //依次派发事件
-            if (provinceItem.isTouch(x, y, event)){
+            if (provinceItem.isTouch(x, y)) {
                 //选中省份区块
                 selectItem = provinceItem;
                 isTouch = true;
-                onMapViewClickListener.onClick(provinceItem.getName());
+
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    down = 0;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (down == 1) {
+                        if (onMapViewClickListener != null) {
+                            onMapViewClickListener.onClick(provinceItem.getName());
+                        }
+                    }
+                } else if (myEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    down = 1;
+                }
+
                 break;
             }
         }
 
-        if (selectItem != null && selectItem != mSelectItem){
+        if (selectItem != null && selectItem != mSelectItem) {
             mSelectItem = selectItem;
             //通知重绘
             postInvalidate();
@@ -308,7 +362,8 @@ public class MapView extends View {
 
     private OnMapViewClickListener onMapViewClickListener;
 
-    public interface OnMapViewClickListener{
+    public interface OnMapViewClickListener {
+
         void onClick(String name);
     }
 
