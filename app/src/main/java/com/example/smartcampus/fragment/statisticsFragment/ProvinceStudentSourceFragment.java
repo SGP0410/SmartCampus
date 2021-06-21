@@ -1,36 +1,32 @@
 package com.example.smartcampus.fragment.statisticsFragment;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+import android.widget.ViewFlipper;
+import androidx.core.graphics.drawable.DrawableCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.smartcampus.R;
-import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.bean.statistics.Province;
 import com.example.smartcampus.bean.statistics.ProvinceStudentSource;
 import com.example.smartcampus.utils.MapView;
 import com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;
-import com.example.smartcampuslibrary.adapter.BaseViewPagerAdapter;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import com.example.smartcampuslibrary.net.OkHttpLo;
 import com.example.smartcampuslibrary.net.OkHttpTo;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -52,10 +48,22 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     MapView mapView;
     @BindView(R.id.group_view)
     LinearLayout groupView;
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
+    @BindView(R.id.view_flipper)
+    ViewFlipper viewFlipper;
     @BindView(R.id.layout1)
     LinearLayout layout1;
+    @BindView(R.id.you_xiu)
+    LinearLayout youXiu;
+    @BindView(R.id.pin_kun)
+    LinearLayout pinKun;
+    @BindView(R.id.you_xiu_image)
+    ImageView youXiuImage;
+    @BindView(R.id.you_xiu_text)
+    TextView youXiuText;
+    @BindView(R.id.pin_kun_image)
+    ImageView pinKunImage;
+    @BindView(R.id.pin_kun_text)
+    TextView pinKunText;
 
 
     private List<Province> provinceList;
@@ -77,6 +85,10 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     protected void initView(View view) {
         ButterKnife.bind(this, view);
         title.setText("省生源");
+        youXiu.setOnClickListener(this::onClick);
+        pinKun.setOnClickListener(this::onClick);
+        setColor(youXiuImage , youXiuText , Color.parseColor("#4B5CC5"));
+        setColor(pinKunImage , pinKunText , Color.parseColor("#333333"));
     }
 
     @Override
@@ -84,7 +96,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);
         binder.setFullGroup(true);
         mapView.setOnMapViewClickListener(name -> {
-            Log.i("aaaaa" , "--------"+name);
+            Log.i("aaaaa", "--------" + name);
 //            ((FragmentActivity) getActivity())
 //                .setFragment(new MunicipalStudentSourceFragment(name));
         });
@@ -96,7 +108,6 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     private void province_query_all() {
         new OkHttpTo().setUrl("province_query_all")
             .setRequestType("get")
-            .setDialog(getContext())
             .setOkHttpLo(new OkHttpLo() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
@@ -117,8 +128,13 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
     private void getProvinceStudentSource() {
         provinceStudentSourceList1 = new ArrayList<>();
+        OkHttpTo okHttpTo;
         for (Province province : provinceList) {
-            new OkHttpTo()
+            okHttpTo = new OkHttpTo();
+            if (province == provinceList.get(provinceList.size() - 1)) {
+                okHttpTo.setDialog(getContext());
+            }
+            okHttpTo
                 .setUrl("GetProvinceStudentSource?provinceName=" + province.getProvinceName())
                 .setRequestType("get")
                 .setOkHttpLo(new OkHttpLo() {
@@ -156,59 +172,22 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     }
 
     private void setView() {
-        List<View> viewList = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
             BarChart barChart = new BarChart(getContext());
             setBarChart(barChart, i);
-            viewList.add(barChart);
+            viewFlipper.addView(barChart);
         }
 
-        viewPager.setAdapter(new BaseViewPagerAdapter(viewList) {
-            @Override
-            protected int getItemCount() {
-                return viewList.size();
-            }
-        });
-
-        viewPager.addOnPageChangeListener(new OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                showLayout1(position);
-                if (position == 0) {
-                    barChart1.animateXY(0, 2000);
-                    showMap(colorList1 , provinceStudentSourceList1);
-                } else if (position == 1) {
-                    barChart2.animateXY(0, 2000);
-                    showMap(colorList2 , provinceStudentSourceList2);
-                }
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        setLayout1();
-
-        showMap(colorList1 , provinceStudentSourceList1);
-
+        showMap(colorList1, provinceStudentSourceList1);
     }
 
     private void showMap(List<Integer> colorList,
         List<ProvinceStudentSource> provinceStudentSourceList) {
 
-        Map<String , Integer> colorMap = new HashMap<>();
+        Map<String, Integer> colorMap = new HashMap<>();
         for (int i = 0; i < colorList.size(); i++) {
-            colorMap.put(provinceStudentSourceList.get(i).getProvinceName() , colorList.get(i));
+            colorMap.put(provinceStudentSourceList.get(i).getProvinceName(), colorList.get(i));
         }
         mapView.setColors(colorMap);
         mapView.setMapResId(R.raw.china);
@@ -299,32 +278,32 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
     }
 
-    private void showLayout1(int position) {
-        for (int i = 0; i < layout1.getChildCount(); i++) {
-            if (i == position) {
-                layout1.getChildAt(i).setLayoutParams(new LayoutParams(110, 30));
-            } else {
-                layout1.getChildAt(i).setLayoutParams(new LayoutParams(100, 20));
-            }
-        }
-    }
-
-    private void setLayout1() {
-        for (int i = 0; i < 2; i++) {
-            ImageView imageView = new ImageView(getContext());
-            imageView.setImageResource(R.drawable.green_dian);
-            imageView.setPadding(40, 0, 40, 0);
-            if (i == 0) {
-                imageView.setLayoutParams(new LayoutParams(110, 30));
-            } else {
-                imageView.setLayoutParams(new LayoutParams(100, 20));
-            }
-            layout1.addView(imageView);
-        }
-    }
-
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            //        holder.imageView.setImageDrawable(tintDrawable(holder.imageView.getDrawable() ,
+            //            ColorStateList.valueOf(bean.getColor())));
+            case R.id.you_xiu:
+                viewFlipper.setDisplayedChild(0);
+                barChart1.animateXY(0, 2000);
+                showMap(colorList1, provinceStudentSourceList1);
+                setColor(youXiuImage , youXiuText , Color.parseColor("#4B5CC5"));
+                setColor(pinKunImage , pinKunText , Color.parseColor("#333333"));
+                break;
+            case R.id.pin_kun:
+                viewFlipper.setDisplayedChild(1);
+                barChart2.animateXY(0, 2000);
+                showMap(colorList2, provinceStudentSourceList2);
+                setColor(youXiuImage , youXiuText , Color.parseColor("#333333"));
+                setColor(pinKunImage , pinKunText , Color.parseColor("#4B5CC5"));
+                break;
+        }
+    }
 
+    private void setColor(ImageView imageView, TextView textView, int color) {
+        Drawable wrap = DrawableCompat.wrap(imageView.getDrawable());
+        DrawableCompat.setTintList(wrap, ColorStateList.valueOf(color));
+        imageView.setImageDrawable(wrap);
+        textView.setTextColor(color);
     }
 }
