@@ -18,6 +18,7 @@ import androidx.core.graphics.PathParser;
 
 import com.example.smartcampus.R;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,6 +76,12 @@ public class MapView extends View {
      * 地图缩放比例
      */
     private float mScale = 1f;
+
+    /**
+     * 每个区域的中心坐标
+     */
+    private Map<String, RectF> rectFMap = new HashMap<>();
+
 
     public MapView(Context context) {
         super(context);
@@ -211,6 +218,7 @@ public class MapView extends View {
                         bottom = Math.max(bottom, rectF.bottom);
 
                         provinceItemList.add(provinceItem);
+                        rectFMap.put(name, rectF);
                     }
 
                     //解析完成，保存节点列表和最大边界
@@ -236,6 +244,21 @@ public class MapView extends View {
             }
         });
     }
+
+    /**
+     * 根据名称获取坐标
+     *
+     * @return
+     */
+    public RectF getRectF(String name) {
+        return rectFMap.get(name);
+    }
+
+
+    public boolean setHandleTouch(int x , int y) {
+        return handleTouch(x,y, null, null);
+    }
+
 
     @Override
     protected void onDetachedFromWindow() {
@@ -270,10 +293,6 @@ public class MapView extends View {
         if (mItemList != null) {
             //使地图从画布左上角开始绘制（图片本身可能存在一定边距）
             canvas.translate(-mMaxRect.left, -mMaxRect.top);
-//            canvas.translate(-((mMaxRect.left + mMaxRect.right)/2) ,
-//                -((mMaxRect.top + mMaxRect.bottom)/2));
-//            Log.i("aaaa" , "----------------"+mMaxRect.left);
-//            Log.i("aaaa" , "-----------------"+mMaxRect.top);
             //设置画布缩放，以(-mMaxRect.left , -mMaxRect.top)为基准进行缩放
             //因为当前该点对应屏幕左上角（0,0）点
             canvas.scale(mScale, mScale, mMaxRect.left, mMaxRect.top);
@@ -313,6 +332,7 @@ public class MapView extends View {
         };
     }
 
+
     public MyOnTouchEvent getMyOnTouchEvent() {
         return myOnTouchEvent;
     }
@@ -335,16 +355,18 @@ public class MapView extends View {
                 selectItem = provinceItem;
                 isTouch = true;
 
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    down = 0;
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (down == 1) {
-                        if (onMapViewClickListener != null) {
-                            onMapViewClickListener.onClick(provinceItem.getName());
+                if (myEvent != null && event != null) {
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        down = 0;
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (down == 1) {
+                            if (onMapViewClickListener != null) {
+                                onMapViewClickListener.onClick(provinceItem.getName());
+                            }
                         }
+                    } else if (myEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                        down = 1;
                     }
-                } else if (myEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    down = 1;
                 }
 
                 break;

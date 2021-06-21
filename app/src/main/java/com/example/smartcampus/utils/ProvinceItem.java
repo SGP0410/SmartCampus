@@ -4,10 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.util.Log;
-import android.view.MotionEvent;
 
 public class ProvinceItem {
     /**
@@ -58,7 +58,6 @@ public class ProvinceItem {
     }
 
     public void drawItem(Canvas canvas , Paint paint , boolean isSelect){
-
         if (isSelect){
             //选中状态
             paint.clearShadowLayer();
