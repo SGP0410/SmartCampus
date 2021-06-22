@@ -93,7 +93,16 @@ public class ProvinceItem {
 
     public boolean isTouch(int x , int y){
         //判断是否在有效区域内
+
+        Rect rect = mRegion.getBounds();
         boolean isTouch = mRegion.contains(x, y);
+
+        if (!isTouch){
+            if (x/10 == mRegion.getBounds().centerX()/10 && y/10 == mRegion.getBounds().centerY()/10){
+                isTouch = true;
+            }
+        }
+
         return isTouch;
     }
 }

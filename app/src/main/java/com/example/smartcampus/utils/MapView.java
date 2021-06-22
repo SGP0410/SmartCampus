@@ -265,6 +265,19 @@ public class MapView extends View {
     }
 
     /**
+     * 根据名称获取颜色
+     * @param name
+     * @return
+     */
+    public int getColor(String name) {
+        Integer integer = colorMap.get(name);
+        if (integer != null){
+            return integer;
+        }
+        return 0;
+    }
+
+    /**
      * 获取缩放比例
      * @return
      */
@@ -356,7 +369,6 @@ public class MapView extends View {
         if (mItemList == null) {
             return false;
         }
-
         boolean isTouch = false;
 
         ProvinceItem selectItem = null;

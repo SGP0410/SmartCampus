@@ -7,8 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -16,8 +18,12 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.smartcampus.R;
+import com.example.smartcampus.activity.FragmentActivity;
+import com.example.smartcampus.bean.statistics.Municipal;
 import com.example.smartcampus.bean.statistics.Province;
 import com.example.smartcampus.bean.statistics.ProvinceStudentSource;
+import com.example.smartcampus.marker.StudentSourceMarker;
+import com.example.smartcampus.marker.StudentSourceMarker.OnClickListener;
 import com.example.smartcampus.utils.MapView;
 import com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
@@ -30,10 +36,14 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -77,6 +87,9 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     private BarChart barChart2;
     private List<Integer> colorList1;
     private List<Integer> colorList2;
+    private PopupWindow popupWindow;
+    private String markerName;
+    private Map<String, List<Municipal>> municipalMap;
 
 
     @Override
@@ -96,31 +109,48 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        popupWindow = new PopupWindow(getContext());
         GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);
         binder.setFullGroup(true);
         mapView.setOnMapViewClickListener(name -> {
             Log.i("aaaaa", "--------" + name);
-//            ((FragmentActivity) getActivity())
-//                .setFragment(new MunicipalStudentSourceFragment(name));
-            RectF rectF = mapView.getRectF(name);
-            initPopWindow((int) rectF.centerX(), (int) rectF.bottom);
-//            initPopWindow(0 , 0);
+            ((FragmentActivity) getActivity())
+                .setFragment(new MunicipalStudentSourceFragment(name));
+
+//            RectF rectF = mapView.getRectF(name);
+//            initPopWindow((int) rectF.centerX(), (int) rectF.bottom , mapView.getColor(name));
         });
 
         province_query_all();
 
     }
 
-    private void initPopWindow(int x, int y) {
-        PopupWindow popupWindow = new PopupWindow(getContext());
+    private void initPopWindow(int x, int y, int color, String name) {
+
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setWidth(500);
         popupWindow.setHeight(200);
-        //设置布局
-//        popupWindow.setContentView(textView);
+
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setPadding(15, 15, 15, 15);
+        linearLayout.setBackgroundColor(color);
+        linearLayout.setLayoutParams(
+            new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+        TextView title = new TextView(getContext());
+        title.setLayoutParams(
+            new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(16);
+        title.setBackgroundColor(Color.parseColor("#FDFDFE"));
+        title.setTextColor(Color.parseColor("#333333"));
+        title.setText(name);
+
+        linearLayout.addView(title);
+
+        popupWindow.setContentView(linearLayout);
 //        setTouchListener(popupWindow);
-        
         popupWindow.showAsDropDown(groupView,
             (int) (x * mapView.getMScale()) - (popupWindow.getWidth() / 2),
             (int) (y * mapView.getMScale()) - groupView.getHeight(),
@@ -138,6 +168,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
                     }.getType());
                     if (provinceList != null) {
                         getProvinceStudentSource();
+                        setMunicipalMap();
                     }
                 }
 
@@ -232,7 +263,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
         String[] colors1 = {"#f4a235", "#f8b751", "#ebba46", "#efc800", "#f1cc3e",
             "#f5e84c", "#f5e84c"};
-        String[] colors2 = {"#e21c13", "#a71e32", "#46b797", "#63be9d", "#a0d4bd",
+        String[] colors2 = {"#a71e32", "#e21c13", "#46b797", "#63be9d", "#a0d4bd",
             "#bee0d0", "#bee0d0"};
         //优秀
         if (i == 0) {
@@ -240,7 +271,8 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
             for (int i1 = 0; i1 < provinceStudentSourceList1.size(); i1++) {
                 barEntryList
                     .add(new BarEntry(i1 + 1,
-                        provinceStudentSourceList1.get(i1).getEliteStudent()));
+                        provinceStudentSourceList1.get(i1).getEliteStudent(),
+                        provinceStudentSourceList1.get(i1).getProvinceName()));
                 names.add(provinceStudentSourceList1.get(i1).getProvinceName());
             }
             barDataSet = new BarDataSet(barEntryList, "优秀学子");
@@ -258,7 +290,8 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
             for (int i1 = 0; i1 < provinceStudentSourceList2.size(); i1++) {
                 barEntryList
                     .add(new BarEntry(i1 + 1,
-                        provinceStudentSourceList2.get(i1).getPoorStudent()));
+                        provinceStudentSourceList2.get(i1).getPoorStudent(),
+                        provinceStudentSourceList2.get(i1).getProvinceName()));
                 names.add(provinceStudentSourceList2.get(i1).getProvinceName());
             }
             barDataSet = new BarDataSet(barEntryList, "贫困学子");
@@ -267,7 +300,6 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
             for (int j = 0; j < provinceStudentSourceList2.size(); j++) {
                 colorList2.add(Color.parseColor(colors2[j / colors2.length]));
             }
-
             barDataSet.setColors(colorList2);
         }
 
@@ -275,9 +307,41 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
         barData = new BarData(barDataSet);
         barData.setBarWidth(0.5f);
+        barData.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex,
+                ViewPortHandler viewPortHandler) {
+                DecimalFormat format = new DecimalFormat("0");
+                return format.format(value);
+            }
+        });
+
+        assert barDataSet != null;
+        StudentSourceMarker marker = new StudentSourceMarker(getContext(),
+            barDataSet.getColors());
+        barChart.setMarker(marker);
+        marker.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(String name, int color) {
+                if (markerName == null || !markerName.equals(name)) {
+                    RectF rectF = mapView.getRectF(name);
+                    initPopWindow((int) rectF.centerX(), (int) rectF.bottom, color, name);
+                    if (!name.equals("澳门特别行政区")) {
+                        if (mapView.setHandleTouch((int) rectF.centerX(), (int) rectF.centerY())) {
+                            markerName = name;
+                        }
+                    } else {
+                        if (mapView.setHandleTouch(0, 0)) {
+                            markerName = name;
+                        }
+                    }
+                }
+            }
+        });
 
         barChart.setData(barData);
         barChart.animateXY(0, 2000);
+
     }
 
     private void setAxis(BarChart barChart) {
@@ -287,6 +351,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         xAxis.setLabelCount(provinceStudentSourceList1.size());
         xAxis.setDrawGridLines(false);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(names));
+        xAxis.setLabelCount(names.size());
         xAxis.setLabelRotationAngle(90);
 
         YAxis yAxis = barChart.getAxisLeft();
@@ -325,5 +390,33 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         DrawableCompat.setTintList(wrap, ColorStateList.valueOf(color));
         imageView.setImageDrawable(wrap);
         textView.setTextColor(color);
+    }
+
+    //获取每个省各个市的信息
+    private void setMunicipalMap() {
+        municipalMap = new HashMap<>();
+        for (Province province : provinceList) {
+
+            new OkHttpTo().setUrl("GetMunicipalStudentSourceByProvinceName?provinceName=" + province
+                .getProvinceName())
+                .setRequestType("get")
+                .setOkHttpLo(new OkHttpLo() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        List<Municipal> municipalList =
+                            new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
+                                new TypeToken<List<Municipal>>() {
+                                }.getType());
+                        if (municipalList != null) {
+                            municipalMap.put(province.getProvinceName(), municipalList);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(IOException e) {
+
+                    }
+                }).start();
+        }
     }
 }
