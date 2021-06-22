@@ -254,11 +254,23 @@ public class MapView extends View {
         return rectFMap.get(name);
     }
 
-
+    /**
+     * 手动发放点击事件
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean setHandleTouch(int x , int y) {
         return handleTouch(x,y, null, null);
     }
 
+    /**
+     * 获取缩放比例
+     * @return
+     */
+    public float getMScale() {
+        return mScale;
+    }
 
     @Override
     protected void onDetachedFromWindow() {
@@ -368,7 +380,6 @@ public class MapView extends View {
                         down = 1;
                     }
                 }
-
                 break;
             }
         }

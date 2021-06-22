@@ -68,9 +68,9 @@ public class HomeFragment extends BaseFragment {
 
     private void setTheme() {
         themeList = new ArrayList<>();
-        themeList.add(new HomeTheme("学校新闻" , true));
-        themeList.add(new HomeTheme("院系新闻" , false));
-        themeList.add(new HomeTheme("学术动态" , false));
+        themeList.add(new HomeTheme("学习之星" , true));
+        themeList.add(new HomeTheme("就业标兵" , false));
+        themeList.add(new HomeTheme("学校简介" , false));
     }
 
     private void showFunction() {

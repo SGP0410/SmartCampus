@@ -2,11 +2,14 @@ package com.example.smartcampus.fragment.statisticsFragment;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -87,8 +90,8 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         title.setText("省生源");
         youXiu.setOnClickListener(this::onClick);
         pinKun.setOnClickListener(this::onClick);
-        setColor(youXiuImage , youXiuText , Color.parseColor("#4B5CC5"));
-        setColor(pinKunImage , pinKunText , Color.parseColor("#333333"));
+        setColor(youXiuImage, youXiuText, Color.parseColor("#4B5CC5"));
+        setColor(pinKunImage, pinKunText, Color.parseColor("#333333"));
     }
 
     @Override
@@ -99,10 +102,29 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
             Log.i("aaaaa", "--------" + name);
 //            ((FragmentActivity) getActivity())
 //                .setFragment(new MunicipalStudentSourceFragment(name));
+            RectF rectF = mapView.getRectF(name);
+            initPopWindow((int) rectF.centerX(), (int) rectF.bottom);
+//            initPopWindow(0 , 0);
         });
 
         province_query_all();
 
+    }
+
+    private void initPopWindow(int x, int y) {
+        PopupWindow popupWindow = new PopupWindow(getContext());
+        popupWindow.setFocusable(false);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setWidth(500);
+        popupWindow.setHeight(200);
+        //设置布局
+//        popupWindow.setContentView(textView);
+//        setTouchListener(popupWindow);
+        
+        popupWindow.showAsDropDown(groupView,
+            (int) (x * mapView.getMScale()) - (popupWindow.getWidth() / 2),
+            (int) (y * mapView.getMScale()) - groupView.getHeight(),
+            Gravity.CENTER);
     }
 
     private void province_query_all() {
@@ -281,21 +303,19 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            //        holder.imageView.setImageDrawable(tintDrawable(holder.imageView.getDrawable() ,
-            //            ColorStateList.valueOf(bean.getColor())));
             case R.id.you_xiu:
                 viewFlipper.setDisplayedChild(0);
                 barChart1.animateXY(0, 2000);
                 showMap(colorList1, provinceStudentSourceList1);
-                setColor(youXiuImage , youXiuText , Color.parseColor("#4B5CC5"));
-                setColor(pinKunImage , pinKunText , Color.parseColor("#333333"));
+                setColor(youXiuImage, youXiuText, Color.parseColor("#4B5CC5"));
+                setColor(pinKunImage, pinKunText, Color.parseColor("#333333"));
                 break;
             case R.id.pin_kun:
                 viewFlipper.setDisplayedChild(1);
                 barChart2.animateXY(0, 2000);
                 showMap(colorList2, provinceStudentSourceList2);
-                setColor(youXiuImage , youXiuText , Color.parseColor("#333333"));
-                setColor(pinKunImage , pinKunText , Color.parseColor("#4B5CC5"));
+                setColor(youXiuImage, youXiuText, Color.parseColor("#333333"));
+                setColor(pinKunImage, pinKunText, Color.parseColor("#4B5CC5"));
                 break;
         }
     }
