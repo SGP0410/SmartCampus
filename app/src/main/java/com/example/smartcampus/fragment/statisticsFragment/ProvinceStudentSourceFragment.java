@@ -276,12 +276,10 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
                 names.add(provinceStudentSourceList1.get(i1).getProvinceName());
             }
             barDataSet = new BarDataSet(barEntryList, "优秀学子");
-
             colorList1 = new ArrayList<>();
             for (int j = 0; j < provinceStudentSourceList1.size(); j++) {
                 colorList1.add(Color.parseColor(colors1[j / colors1.length]));
             }
-
             barDataSet.setColors(colorList1);
         }
         //贫困

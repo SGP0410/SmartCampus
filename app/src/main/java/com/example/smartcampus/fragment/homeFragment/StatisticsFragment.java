@@ -17,6 +17,7 @@ import com.example.smartcampus.bean.home.HomeFunction;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_student;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_getAJob;
+import com.example.smartcampus.fragment.statisticsFragment.Fragment_straightAStudent;
 import com.example.smartcampus.fragment.statisticsFragment.ProvinceStudentSourceFragment;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import java.util.ArrayList;
@@ -62,20 +63,19 @@ public class StatisticsFragment extends BaseFragment {
                     break;
                 case "性别统计":
                     ((FragmentActivity)getActivity()).setFragment(new Fragment_count());
-
                     break;
                 case "学生统计":
                     ((FragmentActivity)getActivity()).setFragment(new Fragment_count_student());
-
                     break;
                 case "消费趋势":
                     break;
                 case "学霸指数":
+                    ((FragmentActivity)getActivity()).setFragment(new Fragment_straightAStudent());
                     break;
                 case "招生信息":
                     break;
                 case "学生就业":
-                    ((FragmentActivity)getActivity()).setFragment(new Fragment_getAJob());
+                    ((FragmentActivity) getActivity()).setFragment(new Fragment_getAJob());
                     break;
             }
         });

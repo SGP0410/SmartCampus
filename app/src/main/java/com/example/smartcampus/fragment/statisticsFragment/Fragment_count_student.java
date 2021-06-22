@@ -192,6 +192,8 @@ public class Fragment_count_student extends BaseFragment {
         //不支持图表缩放
         barChartPileUp.setScaleEnabled(false);
         //设置点击图表时的标记，可以自定义布局
+        
+        
 //        barChartPileUp.setMarker(new MyMarkView(context);
         
         // 改变y标签的位置
@@ -213,10 +215,7 @@ public class Fragment_count_student extends BaseFragment {
             }
         });
         
-        YAxis yAxis = barChartPileUp.getAxisLeft();
-        yAxis.setMaxWidth(1000);
-        yAxis.setMinWidth(0);
-        
+
         ArrayList<BarEntry> yValues = new ArrayList<>();
         
         List<Integer> integers = new ArrayList<>();
@@ -255,6 +254,12 @@ public class Fragment_count_student extends BaseFragment {
             data.setValueTextColor(Color.WHITE);
             barChartPileUp.setData(data);
         }
+    
+        YAxis yAxis = barChartPileUp.getAxisLeft();
+        yAxis.setMaxWidth(1000);
+        yAxis.setMinWidth(0);
+        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
+    
         barChartPileUp.animateXY(0, 2000);
         barChartPileUp.setFitBars(true);
         barChartPileUp.setTouchEnabled(false);                   //禁用触摸
@@ -302,7 +307,7 @@ public class Fragment_count_student extends BaseFragment {
         
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
-        yAxis.setAxisMinimum(0);                        //最小值
+        yAxis.setAxisMinimum(100);                        //最小值
         
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);      //X轴在底部显示

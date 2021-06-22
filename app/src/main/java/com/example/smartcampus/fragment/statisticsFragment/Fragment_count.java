@@ -13,7 +13,6 @@ public class Fragment_count extends BaseFragment {
     
     private ImageView back;
     private TextView title;
-    private RecyclerView recyclerView;
     private LinearLayout btnArea;
     private LinearLayout btnCollege;
     
@@ -26,7 +25,6 @@ public class Fragment_count extends BaseFragment {
     protected void initView(View view) {
         back = view.findViewById(R.id.back);
         title = view.findViewById(R.id.title);
-        recyclerView = view.findViewById(R.id.recyclerView);
         btnArea = view.findViewById(R.id.btn_area);
         btnCollege = view.findViewById(R.id.btn_college);
     }

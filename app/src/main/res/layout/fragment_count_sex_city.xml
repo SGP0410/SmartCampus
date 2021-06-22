@@ -5,7 +5,7 @@
   android:background="@color/color_background"
   android:orientation="vertical">
 
-  <include layout="@layout/title_back_g"/>
+  <include layout="@layout/title_search"/>
 
   <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
