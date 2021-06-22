@@ -99,7 +99,6 @@ public class Fragment_count_sex_city_count extends BaseFragment {
         getPieChart1();//平面图
         
         
-        
     }
     
     private void getPieChart1() {
@@ -280,12 +279,12 @@ public class Fragment_count_sex_city_count extends BaseFragment {
         });
         LineData lineData = new LineData(dataSet);
         
-        YAxis yAxis = barchart.getAxisLeft();
+        YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
         yAxis.setAxisMinimum(0);                        //最小值
         yAxis.setAxisMaximum(100);                        //最大值
         
-        XAxis xAxis = barchart.getXAxis();
+        XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示
         xAxis.setValueFormatter(new IndexAxisValueFormatter(stringSex));    //将每秒显示的数据放到X轴
         xAxis.setLabelCount(stringSex.size());            //标签个数

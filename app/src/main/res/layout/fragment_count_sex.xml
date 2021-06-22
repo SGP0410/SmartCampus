@@ -6,7 +6,7 @@
   android:background="#EEE"
   >
 
-  <include layout="@layout/title_back_g"/>
+  <include layout="@layout/title_search"/>
 
   <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"

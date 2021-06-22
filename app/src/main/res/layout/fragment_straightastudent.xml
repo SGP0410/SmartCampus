@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:background="@color/color_background"
+  >
+
+  <include layout="@layout/title_back_g"/>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    >
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="22dp"
+      android:text="榜上有名"
+      android:gravity="center"
+      android:padding="5dp"
+      android:textColor="@color/color_title"
+      />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="排名"
+        android:gravity="center"
+        android:layout_weight="0.8"
+        />
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="姓名"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="语文"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="数学"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="英语"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="总分"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="4dp"
+      android:id="@+id/recyclerView"
+      />
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    >
+
+    <com.github.mikephil.charting.charts.BarChart
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/barChart"
+      android:padding="10dp"
+      android:layout_margin="10dp"
+      />
+
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:id="@+id/btn_learning_situation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/bai_r5"
+    android:orientation="horizontal"
+    >
+
+    <ImageView
+      android:layout_width="40dp"
+      android:layout_height="40dp"
+      android:src="@mipmap/student_tj"
+      />
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:text="学习情况"
+      android:layout_weight="1"
+      android:textSize="20dp"
+      android:textColor="@color/color_title"
+      android:layout_gravity="center"
+      android:layout_marginLeft="10dp"
+      />
+
+    <ImageView
+      android:layout_width="30dp"
+      android:layout_height="40dp"
+      android:src="@mipmap/right"
+      />
+
+
+
+  </LinearLayout>
+
+
+
+</LinearLayout>

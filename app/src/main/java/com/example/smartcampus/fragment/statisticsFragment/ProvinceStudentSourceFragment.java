@@ -140,7 +140,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
                         getProvinceStudentSource();
                     }
                 }
-
+                
                 @Override
                 public void onFailure(IOException e) {
 
@@ -202,11 +202,11 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         }
 
         showMap(colorList1, provinceStudentSourceList1);
+        
     }
 
     private void showMap(List<Integer> colorList,
         List<ProvinceStudentSource> provinceStudentSourceList) {
-
         Map<String, Integer> colorMap = new HashMap<>();
         for (int i = 0; i < colorList.size(); i++) {
             colorMap.put(provinceStudentSourceList.get(i).getProvinceName(), colorList.get(i));
@@ -230,10 +230,8 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         names = new ArrayList<>();
         names.add("");
 
-        String[] colors1 = {"#f4a235", "#f8b751", "#ebba46", "#efc800", "#f1cc3e",
-            "#f5e84c", "#f5e84c"};
-        String[] colors2 = {"#e21c13", "#a71e32", "#46b797", "#63be9d", "#a0d4bd",
-            "#bee0d0", "#bee0d0"};
+        String[] colors1 = {"#f4a235", "#f8b751", "#ebba46", "#efc800", "#f1cc3e", "#f5e84c", "#f5e84c"};
+        String[] colors2 = {"#e21c13", "#a71e32", "#46b797", "#63be9d", "#a0d4bd", "#bee0d0", "#bee0d0"};
         //优秀
         if (i == 0) {
             barChart1 = barChart;
@@ -244,12 +242,10 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
                 names.add(provinceStudentSourceList1.get(i1).getProvinceName());
             }
             barDataSet = new BarDataSet(barEntryList, "优秀学子");
-
             colorList1 = new ArrayList<>();
             for (int j = 0; j < provinceStudentSourceList1.size(); j++) {
                 colorList1.add(Color.parseColor(colors1[j / colors1.length]));
             }
-
             barDataSet.setColors(colorList1);
         }
         //贫困

@@ -39,6 +39,25 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="400dp"
+      >
+
+      <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/seekBar1"
+        android:background="#BAFFFFFF"
+        android:elevation="10dp"
+        />
+
+
+
+    </LinearLayout>
+
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="400dp"
@@ -72,23 +91,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="400dp"
-      >
 
-      <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/seekBar1"
-        android:background="#BAFFFFFF"
-        android:elevation="10dp"
-        />
-
-
-
-    </LinearLayout>
 
 
 

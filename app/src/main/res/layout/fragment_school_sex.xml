@@ -5,14 +5,13 @@
   android:background="@color/color_background"
   android:orientation="vertical">
 
-  <include layout="@layout/title_back_g"/>
+  <include layout="@layout/title_search"/>
 
   <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/recyclerView"
-    android:paddingLeft="3dp"
-    />
+    android:paddingLeft="3dp" />
 
 
 </LinearLayout>
