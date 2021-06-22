@@ -50,7 +50,7 @@ public class Fragment_count_school extends BaseFragment {
     private BarChart barChartPileUp;
     private PieChart chart;
     private PieChart pieChart;
-    private GetCollegeMenAndWomenNumberAll getCollegeMenAndWomenNumberAll;
+    private final GetCollegeMenAndWomenNumberAll getCollegeMenAndWomenNumberAll;
     private int woman1;
     private int man1;
     

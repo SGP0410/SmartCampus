@@ -235,8 +235,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         showMap(colorList1, provinceStudentSourceList1);
     }
 
-    private void showMap(List<Integer> colorList,
-        List<ProvinceStudentSource> provinceStudentSourceList) {
+    private void showMap(List<Integer> colorList, List<ProvinceStudentSource> provinceStudentSourceList) {
 
         Map<String, Integer> colorMap = new HashMap<>();
         for (int i = 0; i < colorList.size(); i++) {

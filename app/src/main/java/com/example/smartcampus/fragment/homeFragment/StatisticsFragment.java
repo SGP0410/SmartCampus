@@ -2,7 +2,6 @@ package com.example.smartcampus.fragment.homeFragment;
 
 import android.graphics.Color;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +12,7 @@ import butterknife.ButterKnife;
 import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeAdapter.StatisticsRecyclerViewAdapter;
+import com.example.smartcampus.fragment.statisticsFragment.Fragment_Admissions;
 import com.example.smartcampus.bean.home.HomeFunction;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_student;
@@ -25,27 +25,27 @@ import java.util.List;
 import java.util.Objects;
 
 public class StatisticsFragment extends BaseFragment {
-
+    
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.statistics_recycler_view)
     RecyclerView statisticsRecyclerView;
-
+    
     private List<HomeFunction> functionList;
-
+    
     @Override
     protected int layoutResId() {
         return R.layout.statistics_fragment;
     }
-
+    
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
         title.setText("信息统计");
     }
-
+    
     @Override
     protected void initData() {
         setHomeFunction();
@@ -62,17 +62,18 @@ public class StatisticsFragment extends BaseFragment {
                         .setFragment(new ProvinceStudentSourceFragment());
                     break;
                 case "性别统计":
-                    ((FragmentActivity)getActivity()).setFragment(new Fragment_count());
+                    ((FragmentActivity) getActivity()).setFragment(new Fragment_count());
                     break;
                 case "学生统计":
-                    ((FragmentActivity)getActivity()).setFragment(new Fragment_count_student());
+                    ((FragmentActivity) getActivity()).setFragment(new Fragment_count_student());
                     break;
                 case "消费趋势":
                     break;
                 case "学霸指数":
-                    ((FragmentActivity)getActivity()).setFragment(new Fragment_straightAStudent());
+                    ((FragmentActivity) getActivity()).setFragment(new Fragment_straightAStudent());
                     break;
                 case "招生信息":
+                    ((FragmentActivity)getActivity()).setFragment(new Fragment_Admissions());
                     break;
                 case "学生就业":
                     ((FragmentActivity) getActivity()).setFragment(new Fragment_getAJob());
@@ -80,7 +81,7 @@ public class StatisticsFragment extends BaseFragment {
             }
         });
     }
-
+    
     /**
      * 获取一行最多显示多少item
      *
@@ -96,17 +97,17 @@ public class StatisticsFragment extends BaseFragment {
         float density = dm.densityDpi;
         //1dp*像素密度(dpi)/160(dpi) = 实际像素数(px)
         int dp = (int) ((widthPixels * 160) / density);
-
+        
         if (itemWidth == 0) {
             return 0;
         }
         //计算出一行显示多少item
-
-        double spanCount = ((double)dp) / ((double)itemWidth);
-
+        
+        double spanCount = ((double) dp) / ((double) itemWidth);
+        
         return (int) Math.round(spanCount);
     }
-
+    
     private void setHomeFunction() {
         functionList = new ArrayList<>();
         functionList.add(new HomeFunction("学生生源,StudentSource", Color.parseColor("#2C77C5"),
@@ -123,9 +124,9 @@ public class StatisticsFragment extends BaseFragment {
         functionList.add(new HomeFunction("学生就业,Employment", Color.parseColor("#FF7D01"),
             R.mipmap.xsjy));
     }
-
+    
     @Override
     public void onClick(View v) {
-
+    
     }
 }
