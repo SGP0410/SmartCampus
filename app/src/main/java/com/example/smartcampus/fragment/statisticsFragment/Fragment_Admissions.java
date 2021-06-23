@@ -214,8 +214,8 @@ public class Fragment_Admissions extends BaseFragment {
             for (GetProvinceRecruitStudentNumber getProvinceRecruitStudentNumber : getProvinceRecruitStudentNumbers) {
                 plan = plan+getProvinceRecruitStudentNumber.getEnrollStudentNum();
             }
-            txtPlan.setText(plan+"人");
             
+            txtPlan.setText(plan+"人");
             
             colorList1.clear();
             Collections.sort(getProvinceRecruitStudentNumbers,
