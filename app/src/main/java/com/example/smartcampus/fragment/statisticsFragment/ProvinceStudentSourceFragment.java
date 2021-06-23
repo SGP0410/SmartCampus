@@ -329,8 +329,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         if (i == 0) {
             barChart1 = barChart;
             for (int i1 = 0; i1 < provinceStudentSourceList1.size(); i1++) {
-                barEntryList
-                    .add(new BarEntry(i1 + 1,
+                barEntryList.add(new BarEntry(i1 + 1,
                         provinceStudentSourceList1.get(i1).getEliteStudent(),
                         provinceStudentSourceList1.get(i1).getProvinceName()));
                 names.add(provinceStudentSourceList1.get(i1).getProvinceName());
