@@ -16,8 +16,6 @@ import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.bean.statistics.GetMunicipal_query_all;
 import com.example.smartcampus.bean.statistics.GetProvinceRecruitStudentNumber;
-import com.example.smartcampus.marker.StudentSourceMarker;
-import com.example.smartcampus.marker.StudentSourceMarker.OnClickListener;
 import com.example.smartcampus.utils.MapView;
 import com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
@@ -59,6 +57,7 @@ public class Fragment_Admissions extends BaseFragment {
     private ImageView imgForeign;
     private TextView txtForeign;
     private ViewFlipper viewFlipper;
+    private TextView txtPlan;
     
     @Override
     protected int layoutResId() {
@@ -91,7 +90,7 @@ public class Fragment_Admissions extends BaseFragment {
             showData("CH");
             barChart1.animateXY(0, 2000);
             viewFlipper.setDisplayedChild(0);
-            Log.i(TAG, "setBarChart: "+barChart1);
+            Log.i(TAG, "setBarChart: " + barChart1);
         });
         btnForeign.setOnClickListener(v -> {
             imgForeign.setImageResource(R.mipmap.xs_2_lan);
@@ -102,9 +101,9 @@ public class Fragment_Admissions extends BaseFragment {
             
             viewFlipper.setDisplayedChild(1);
             barChart2.animateXY(0, 2000);
-            Log.i(TAG, "setBarChart: "+barChart2);
+            Log.i(TAG, "setBarChart: " + barChart2);
         });
-        
+        txtPlan = view.findViewById(R.id.txt_plan);
     }
     
     @Override
@@ -124,7 +123,7 @@ public class Fragment_Admissions extends BaseFragment {
         mapView.setOnMapViewClickListener(name -> {
             Log.i("aaaaa", "--------" + name);
             
-            ((FragmentActivity)getActivity()).setFragment(new Fragment_admissions1(name,getMunicipal_query_alls,
+            ((FragmentActivity) getActivity()).setFragment(new Fragment_admissions1(name, getMunicipal_query_alls,
                 getProvinceRecruitStudentNumbers));
             
             RectF rectF = mapView.getRectF(name);
@@ -136,6 +135,7 @@ public class Fragment_Admissions extends BaseFragment {
     }
     
     private List<GetProvinceRecruitStudentNumber> getProvinceRecruitStudentNumbers;
+    private int plan;
     
     private void getDate() {
         if (getProvinceRecruitStudentNumbers == null) {
@@ -153,6 +153,7 @@ public class Fragment_Admissions extends BaseFragment {
                         .addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
                             new TypeToken<List<GetProvinceRecruitStudentNumber>>() {
                             }.getType()));
+                    
                     if (getProvinceRecruitStudentNumbers != null) {
                         getCity();
                     }
@@ -184,7 +185,7 @@ public class Fragment_Admissions extends BaseFragment {
                     getMunicipal_query_alls.addAll(new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
                         new TypeToken<List<GetMunicipal_query_all>>() {
                         }.getType()));
-    
+                    
                     viewFlipper.addView(barChart1);
                     viewFlipper.addView(barChart2);
                     showData("CH");
@@ -205,14 +206,20 @@ public class Fragment_Admissions extends BaseFragment {
     private List<Integer> colorList1 = new ArrayList<>();
     
     
-    
     private void showData(String ch) {
         
         if (ch.equals("CH")) {
+    
+            plan = 0;
+            for (GetProvinceRecruitStudentNumber getProvinceRecruitStudentNumber : getProvinceRecruitStudentNumbers) {
+                plan = plan+getProvinceRecruitStudentNumber.getEnrollStudentNum();
+            }
+            txtPlan.setText(plan+"人");
+            
+            
             colorList1.clear();
             Collections.sort(getProvinceRecruitStudentNumbers,
                 (o1, o2) -> o2.getEnrollStudentNum() - o1.getEnrollStudentNum());
-            
             
             setBarChart(ch);
             
@@ -230,6 +237,12 @@ public class Fragment_Admissions extends BaseFragment {
                 }
             }
         } else {
+            plan = 0;
+            for (GetProvinceRecruitStudentNumber getProvinceRecruitStudentNumber : getProvinceRecruitStudentNumbers) {
+                plan = plan+getProvinceRecruitStudentNumber.getOverseasStudentNum();
+            }
+            txtPlan.setText(plan+"人");
+            
             colorList1.clear();
             Collections.sort(getProvinceRecruitStudentNumbers,
                 (o1, o2) -> o2.getOverseasStudentNum() - o1.getOverseasStudentNum());
@@ -271,11 +284,11 @@ public class Fragment_Admissions extends BaseFragment {
     private BarChart barChart2;
     
     private void setBarChart(String ch) {
-  
+        
         barEntryList.clear();
         names.clear();
         if (ch.equals("CH")) {
-    
+            
             barChart1.getLegend().setEnabled(false);
             barChart1.setDescription(null);
             

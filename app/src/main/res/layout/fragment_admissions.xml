@@ -37,14 +37,35 @@
       android:layout_weight="1"
       tools:ignore="NestedWeights" />
 
-    <TextView
+    <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="山东省"
-      android:textSize="20dp"
-      android:gravity="center"
-      android:padding="10dp"
-      />
+      android:orientation="horizontal"
+      >
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="wrap_content"
+        android:text="国内招生"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        />
+
+      <TextView
+        android:id="@+id/txt_plan"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="···"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        />
+
+
+    </LinearLayout>
 
 
 
@@ -113,12 +134,6 @@
 
     </LinearLayout>
 
-
   </LinearLayout>
-
-
-
-
-
 
 </LinearLayout>
