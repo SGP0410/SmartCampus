@@ -8,6 +8,7 @@
 
     <include layout="@layout/title_back_g"/>
 
+
     <LinearLayout
         android:id="@+id/group_view"
         android:layout_width="match_parent"

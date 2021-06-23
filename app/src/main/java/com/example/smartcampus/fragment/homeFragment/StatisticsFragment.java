@@ -14,6 +14,7 @@ import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeAdapter.StatisticsRecyclerViewAdapter;
 import com.example.smartcampus.bean.home.HomeFunction;
+import com.example.smartcampus.fragment.statisticsFragment.ConsumptionTrendFragment;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_student;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_getAJob;
@@ -68,6 +69,7 @@ public class StatisticsFragment extends BaseFragment {
                     ((FragmentActivity)getActivity()).setFragment(new Fragment_count_student());
                     break;
                 case "消费趋势":
+                    ((FragmentActivity)getActivity()).setFragment(new ConsumptionTrendFragment());
                     break;
                 case "学霸指数":
                     ((FragmentActivity)getActivity()).setFragment(new Fragment_straightAStudent());

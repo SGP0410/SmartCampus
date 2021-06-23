@@ -203,6 +203,7 @@ public class MapView extends View {
                         ProvinceItem provinceItem = new ProvinceItem(path, name);
 
                         if (colorMap != null) {
+                            Log.d("setDrawColor" , "--------"+name);
                             provinceItem.setDrawColor(colorMap.get(name));
                         } else {
                             provinceItem.setDrawColor(Color.parseColor(fillColor));

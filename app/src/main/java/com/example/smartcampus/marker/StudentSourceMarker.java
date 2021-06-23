@@ -42,9 +42,9 @@ public class StudentSourceMarker extends MarkerView {
     @SuppressLint("SetTextI18n")
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        name.setText(e.getData().toString());
-        content.setText("人数：" + (int) e.getY() + "人");
-        layout1.setBackgroundColor(colors.get((int) e.getX() - 1));
+//        name.setText(e.getData().toString());
+//        content.setText("人数：" + (int) e.getY() + "人");
+//        layout1.setBackgroundColor(colors.get((int) e.getX() - 1));
         if (onClickListener != null) {
             onClickListener.onClick(e.getData().toString() , colors.get((int) e.getX() - 1));
         }

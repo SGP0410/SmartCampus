@@ -1,16 +1,20 @@
 package com.example.smartcampus.fragment.statisticsFragment;
 
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -114,29 +118,31 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         binder.setFullGroup(true);
         mapView.setOnMapViewClickListener(name -> {
             Log.i("aaaaa", "--------" + name);
-            ((FragmentActivity) getActivity())
-                .setFragment(new MunicipalStudentSourceFragment(name));
+//            ((FragmentActivity) getActivity())
+//                .setFragment(new MunicipalStudentSourceFragment(name , municipalMap.get(name)));
 
-//            RectF rectF = mapView.getRectF(name);
-//            initPopWindow((int) rectF.centerX(), (int) rectF.bottom , mapView.getColor(name));
+            RectF rectF = mapView.getRectF(name);
+            initPopWindow((int) rectF.centerX(), (int) rectF.bottom, mapView.getColor(name), name);
         });
 
         province_query_all();
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void initPopWindow(int x, int y, int color, String name) {
 
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setWidth(500);
-        popupWindow.setHeight(200);
+        popupWindow.setHeight(400);
 
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setPadding(15, 15, 15, 15);
         linearLayout.setBackgroundColor(color);
         linearLayout.setLayoutParams(
             new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         TextView title = new TextView(getContext());
         title.setLayoutParams(
@@ -149,8 +155,61 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
         linearLayout.addView(title);
 
+        List<View> viewList = new ArrayList<>();
+        List<Municipal> municipalList = municipalMap.get(name);
+        assert municipalList != null;
+        for (Municipal municipal : municipalList) {
+            TextView textView = new TextView(getContext());
+            textView.setLayoutParams(
+                new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            textView.setPadding(15, 5, 15, 5);
+            textView.setTextSize(14);
+            textView.setBackgroundColor(Color.parseColor("#FDFDFE"));
+            textView.setTextColor(Color.parseColor("#666666"));
+            if (viewFlipper.getDisplayedChild() == 0) {
+                textView.setText(
+                    municipal.getMunicipalName() + "：优秀：" +
+                        municipal.getEliteStudent() + "人"
+                );
+            } else {
+                textView.setText(
+                    municipal.getMunicipalName() + "：贫困：" +
+                        municipal.getPoorStudent() + "人"
+                );
+            }
+            viewList.add(textView);
+            textView.setOnClickListener(v -> {
+                popupWindow.dismiss();
+                ((FragmentActivity) getActivity())
+                    .setFragment(new MunicipalStudentSourceFragment(name, municipalMap.get(name)));
+            });
+        }
+
+        ListView listView = new ListView(getContext());
+        linearLayout.addView(listView);
+        listView.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return viewList.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return null;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                return viewList.get(position);
+            }
+        });
+
         popupWindow.setContentView(linearLayout);
-//        setTouchListener(popupWindow);
         popupWindow.showAsDropDown(groupView,
             (int) (x * mapView.getMScale()) - (popupWindow.getWidth() / 2),
             (int) (y * mapView.getMScale()) - groupView.getHeight(),
@@ -228,6 +287,8 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
         for (int i = 0; i < 2; i++) {
             BarChart barChart = new BarChart(getContext());
+            barChart.setLayoutParams(
+                new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             setBarChart(barChart, i);
             viewFlipper.addView(barChart);
         }
@@ -302,6 +363,8 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         }
 
         setAxis(barChart);
+        barDataSet.setValueTextSize(16f);
+        barDataSet.setValueTextColor(Color.parseColor("#333333"));
 
         barData = new BarData(barDataSet);
         barData.setBarWidth(0.5f);
@@ -337,6 +400,10 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
             }
         });
 
+        Matrix m = new Matrix();
+        m.postScale(4f, 1f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
+        barChart.getViewPortHandler().refresh(m, barChart, false);//将图表动画显示之前进行缩放
+
         barChart.setData(barData);
         barChart.animateXY(0, 2000);
 
@@ -346,11 +413,13 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);
-        xAxis.setLabelCount(provinceStudentSourceList1.size());
         xAxis.setDrawGridLines(false);
+        xAxis.setAxisMinimum(0);
+        xAxis.setAxisMaximum(names.size());
         xAxis.setValueFormatter(new IndexAxisValueFormatter(names));
-        xAxis.setLabelCount(names.size());
         xAxis.setLabelRotationAngle(90);
+        xAxis.setTextColor(Color.parseColor("#333333"));
+        xAxis.setTextSize(12f);
 
         YAxis yAxis = barChart.getAxisLeft();
         yAxis.setAxisMinimum(0f);

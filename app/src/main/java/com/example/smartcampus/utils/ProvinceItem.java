@@ -58,6 +58,7 @@ public class ProvinceItem {
     }
 
     public void drawItem(Canvas canvas , Paint paint , boolean isSelect){
+
         if (isSelect){
             //选中状态
             paint.clearShadowLayer();
