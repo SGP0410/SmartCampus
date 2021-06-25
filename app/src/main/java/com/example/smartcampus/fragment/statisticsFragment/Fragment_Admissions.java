@@ -128,7 +128,7 @@ public class Fragment_Admissions extends BaseFragment {
         title.setText("招生信息");
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("提示");
-        progressDialog.setMessage("网络请求中。。。");
+        progressDialog.setMessage("网络请求中···");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         
@@ -159,8 +159,8 @@ public class Fragment_Admissions extends BaseFragment {
             }
         });
         
-        
         strings.clear();
+        strings.add("");
         
         barChartPileUp.getDescription().setEnabled(false);
         //所有值均绘制在其条形顶部上方
@@ -193,7 +193,7 @@ public class Fragment_Admissions extends BaseFragment {
             float val1 = (float) getProvinceRecruitStudentNumber.getEnrollStudentNum();
             float val2 = (float) getProvinceRecruitStudentNumber.getOverseasStudentNum();
             strings.add(getProvinceRecruitStudentNumber.getProvinceName().substring(0,3));
-            yValues.add(new BarEntry(i, new float[]{val1, val2}));
+            yValues.add(new BarEntry(i+1, new float[]{val1, val2}));
         }
         
         xLabels.setValueFormatter(new IndexAxisValueFormatter(strings));
@@ -249,7 +249,7 @@ public class Fragment_Admissions extends BaseFragment {
         legend.setFormSize(15);
         
         Matrix m = new Matrix();
-        m.postScale(2.471f, 2f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
+        m.postScale(2.478f, 2f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
         barChartPileUp.getViewPortHandler().refresh(m, barChartPileUp, false);//将图表动画显示之前进行缩放
     
         barChartPileUp.animateXY(0, 2000);
