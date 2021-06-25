@@ -1,6 +1,7 @@
 package com.example.smartcampus.fragment.statisticsFragment;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -113,13 +114,16 @@ public class Fragment_count_student extends BaseFragment {
     private void getPieChart1() {
         
         ArrayList<PieEntry> entries = new ArrayList<>();
-    
+        
         for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {
-            int s =
-                getCollegeMenAndWomenNumberAlls.get(i).getMan()+getCollegeMenAndWomenNumberAlls.get(i).getWoman();
+            int s = getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i)
+                .getWoman();
             entries.add(new PieEntry((float) (s), getCollegeMenAndWomenNumberAlls.get(i).getCollegeName()));
         }
-        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
+        
+        
+        
+        PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         ArrayList<Integer> colors = new ArrayList<>();
@@ -173,7 +177,7 @@ public class Fragment_count_student extends BaseFragment {
         chart.setRotationEnabled(true);
         chart.setHighlightPerTapEnabled(true);
         
-        Legend  l = chart.getLegend();
+        Legend l = chart.getLegend();
         l.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
@@ -193,16 +197,15 @@ public class Fragment_count_student extends BaseFragment {
         barChartPileUp.setScaleEnabled(false);
         //设置点击图表时的标记，可以自定义布局
         
-        
-//        barChartPileUp.setMarker(new MyMarkView(context);
-        
         // 改变y标签的位置
+        
         YAxis leftAxis = barChartPileUp.getAxisLeft();
         leftAxis.setAxisMinimum(0);
-        leftAxis.setMaxWidth(1000);
+        
+        leftAxis.setDrawAxisLine(false);
         //右y轴不显示
         barChartPileUp.getAxisRight().setEnabled(false);
-        leftAxis.setDrawAxisLine(false);
+        
         //获取x坐标轴
         XAxis xLabels = barChartPileUp.getXAxis();
         //设置x坐标轴显示位置在下方
@@ -215,16 +218,35 @@ public class Fragment_count_student extends BaseFragment {
             }
         });
         
-
         ArrayList<BarEntry> yValues = new ArrayList<>();
         
-        List<Integer> integers = new ArrayList<>();
-        for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {
-            integers.add(getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i).getWoman());
-        }
-    
-        for (int i = 0; i < integers.size(); i++) {
-            yValues.add(new BarEntry(0,new float[]{integers.get(i)}));
+        for (int i = 0; i < 1; i++) {
+            float val1 =
+                (float) getCollegeMenAndWomenNumberAlls.get(0).getWoman() + getCollegeMenAndWomenNumberAlls.get(0)
+                    .getMan();
+            float val2 =
+                (float) getCollegeMenAndWomenNumberAlls.get(1).getWoman() + getCollegeMenAndWomenNumberAlls.get(1)
+                    .getMan();
+            float val3 =
+                (float) getCollegeMenAndWomenNumberAlls.get(2).getWoman() + getCollegeMenAndWomenNumberAlls.get(2)
+                    .getMan();
+            float val4 =
+                (float) getCollegeMenAndWomenNumberAlls.get(3).getWoman() + getCollegeMenAndWomenNumberAlls.get(3)
+                    .getMan();
+            float val5 =
+                (float) getCollegeMenAndWomenNumberAlls.get(4).getWoman() + getCollegeMenAndWomenNumberAlls.get(4)
+                    .getMan();
+            float val6 =
+                (float) getCollegeMenAndWomenNumberAlls.get(5).getWoman() + getCollegeMenAndWomenNumberAlls.get(5)
+                    .getMan();
+            float val7 =
+                (float) getCollegeMenAndWomenNumberAlls.get(6).getWoman() + getCollegeMenAndWomenNumberAlls.get(6)
+                    .getMan();
+            float val8 =
+                (float) getCollegeMenAndWomenNumberAlls.get(7).getWoman() + getCollegeMenAndWomenNumberAlls.get(7)
+                    .getMan();
+            
+            yValues.add(new BarEntry(i, new float[]{val1, val2, val3, val4, val5, val6, val7, val8}));
         }
         
         BarDataSet set1;
@@ -234,6 +256,8 @@ public class Fragment_count_student extends BaseFragment {
             set1.setValues(yValues);
             barChartPileUp.getData().notifyDataChanged();
             barChartPileUp.notifyDataSetChanged();
+            
+            Log.i(TAG, "getBarChart_PileUp: ");
         } else {
             set1 = new BarDataSet(yValues, "");
             set1.setValueTextSize(20);
@@ -242,11 +266,28 @@ public class Fragment_count_student extends BaseFragment {
                 return format.format(value);
             });
             //设置图例的颜色和名称
-            set1.setColors(new int[]{R.color.drawing_nv, R.color.drawing_man}, getContext());
-    
-            for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {
-                set1.setStackLabels(new String[]{getCollegeMenAndWomenNumberAlls.get(i).getCollegeName()});
-            }
+            ArrayList<Integer> colors = new ArrayList<>();
+            colors.add(Color.parseColor("#3CBBFF"));
+            colors.add(Color.parseColor("#FFB81C"));
+            colors.add(Color.parseColor("#3AEFC3"));
+            colors.add(Color.parseColor("#FFA9B3"));
+            colors.add(Color.parseColor("#A139FD"));
+            colors.add(Color.parseColor("#4DCCED"));
+            colors.add(Color.parseColor("#25B576"));
+            colors.add(Color.parseColor("#84CBFA"));
+            
+            set1.setColors(colors);
+            
+            set1.setStackLabels(new String[]{getCollegeMenAndWomenNumberAlls.get(0).getCollegeName().substring(0
+                , 3),
+                getCollegeMenAndWomenNumberAlls.get(1).getCollegeName().substring(0, 3),
+                getCollegeMenAndWomenNumberAlls.get(2).getCollegeName().substring(0, 3),
+                getCollegeMenAndWomenNumberAlls.get(3).getCollegeName().substring(0, 3),
+                getCollegeMenAndWomenNumberAlls.get(4).getCollegeName().substring(0, 3),
+                getCollegeMenAndWomenNumberAlls.get(5).getCollegeName().substring(0, 3),
+                getCollegeMenAndWomenNumberAlls.get(6).getCollegeName().substring(0, 3),
+                getCollegeMenAndWomenNumberAlls.get(7).getCollegeName().substring(0, 3),
+            });
             
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
@@ -254,11 +295,17 @@ public class Fragment_count_student extends BaseFragment {
             data.setValueTextColor(Color.WHITE);
             barChartPileUp.setData(data);
         }
-    
+        
         YAxis yAxis = barChartPileUp.getAxisLeft();
-        yAxis.setMaxWidth(1000);
+        
         yAxis.setMinWidth(0);
         yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
+    
+        Legend legend = barChartPileUp.getLegend();
+        legend.setHorizontalAlignment(LegendHorizontalAlignment.RIGHT);
+        legend.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);
+        legend.setOrientation(LegendOrientation.HORIZONTAL);
+   
     
         barChartPileUp.animateXY(0, 2000);
         barChartPileUp.setFitBars(true);
@@ -267,6 +314,8 @@ public class Fragment_count_student extends BaseFragment {
         
         
     }
+    
+    private static final String TAG = "Fragment_count_student";
     
     private List<Entry> entries;
     private List<String> stringLine;
@@ -280,11 +329,11 @@ public class Fragment_count_student extends BaseFragment {
             stringLine.clear();
         }
         
-        
         for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {
-            int s = getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i).getWoman();
+            int s = getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i)
+                .getWoman();
             entries.add(new BarEntry(i, s));
-            String string = getCollegeMenAndWomenNumberAlls.get(i).getCollegeName().substring(0,3);
+            String string = getCollegeMenAndWomenNumberAlls.get(i).getCollegeName().substring(0, 3);
             stringLine.add(string);
         }
         
@@ -315,6 +364,7 @@ public class Fragment_count_student extends BaseFragment {
         xAxis.setLabelCount(stringLine.size());            //标签个数
         xAxis.setGranularity(1f);
         xAxis.setTextSize(15);
+        xAxis.setLabelRotationAngle(-35);
         //两个数之间的间距
         xAxis.setDrawGridLines(false);                    //关闭网格线
         
@@ -340,12 +390,13 @@ public class Fragment_count_student extends BaseFragment {
         }
         
         for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {
-            int s = getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i).getWoman();
+            int s = getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i)
+                .getWoman();
             barEntries.add(new BarEntry(i, s));
-            String string = getCollegeMenAndWomenNumberAlls.get(i).getCollegeName().substring(0,5);
+            String string = getCollegeMenAndWomenNumberAlls.get(i).getCollegeName().substring(0, 5);
             string_Bar.add(string);
         }
-    
+        
         BarDataSet barDataSet = new BarDataSet(barEntries, "");
         barDataSet.setColor(Color.parseColor("#20D5CE"));
         BarData data = new BarData(barDataSet);
@@ -357,13 +408,13 @@ public class Fragment_count_student extends BaseFragment {
         });
         
         data.setBarWidth(0.5f);
-    
+        
         barChart.getLegend().setEnabled(false);
-    
+        
         YAxis yAxis = barChart.getAxisLeft();
         yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
         yAxis.setAxisMinimum(0);                        //最小值
-    
+        
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示
         xAxis.setValueFormatter(new IndexAxisValueFormatter(string_Bar));    //将每秒显示的数据放到X轴
@@ -372,9 +423,9 @@ public class Fragment_count_student extends BaseFragment {
         xAxis.setTextSize(15);
         //两个数之间的间距
         xAxis.setDrawGridLines(false);                    //关闭网格线
-    
+        
         barDataSet.setColors(Color.parseColor("#22D5CE"), Color.parseColor("#F39444"));
-    
+        
         barChart.animateXY(0, 2000);
         barChart.setFitBars(true);
         barChart.getAxisRight().setEnabled(false);         //关闭右边线和数据

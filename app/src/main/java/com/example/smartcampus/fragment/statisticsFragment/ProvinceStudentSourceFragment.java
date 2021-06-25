@@ -81,8 +81,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     ImageView pinKunImage;
     @BindView(R.id.pin_kun_text)
     TextView pinKunText;
-
-
+    
     private List<Province> provinceList;
     private List<ProvinceStudentSource> provinceStudentSourceList1;
     private List<ProvinceStudentSource> provinceStudentSourceList2;
@@ -94,7 +93,6 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     private PopupWindow popupWindow;
     private String markerName;
     private Map<String, List<Municipal>> municipalMap;
-
 
     @Override
     protected int layoutResId() {
@@ -113,7 +111,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        popupWindow = new PopupWindow(getContext());
+//        popupWindow = new PopupWindow(getContext());
         GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);
         binder.setFullGroup(true);
         mapView.setOnMapViewClickListener(name -> {
@@ -128,14 +126,16 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         province_query_all();
 
     }
+    
+    private static final String TAG = "ProvinceStudentSourceFr";
 
     @SuppressLint("SetTextI18n")
     private void initPopWindow(int x, int y, int color, String name) {
-
+    
+        Log.i(TAG, "initPopWindow: "+color);
+        popupWindow = new PopupWindow(500,400);
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(true);
-        popupWindow.setWidth(500);
-        popupWindow.setHeight(400);
 
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setPadding(15, 15, 15, 15);

@@ -3,6 +3,7 @@ package com.example.smartcampus.fragment.statisticsFragment;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,6 +16,7 @@ import android.widget.ViewFlipper;
 import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.bean.statistics.GetMunicipal_query_all;
+import com.example.smartcampus.bean.statistics.GetProvinceMenAndWomenNumberAll;
 import com.example.smartcampus.bean.statistics.GetProvinceRecruitStudentNumber;
 import com.example.smartcampus.utils.MapView;
 import com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;
@@ -22,6 +24,11 @@ import com.example.smartcampuslibrary.fragment.BaseFragment;
 import com.example.smartcampuslibrary.net.OkHttpLo;
 import com.example.smartcampuslibrary.net.OkHttpTo;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment;
+import com.github.mikephil.charting.components.Legend.LegendOrientation;
+import com.github.mikephil.charting.components.Legend.LegendVerticalAlignment;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
@@ -29,8 +36,10 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,6 +47,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +68,8 @@ public class Fragment_Admissions extends BaseFragment {
     private TextView txtForeign;
     private ViewFlipper viewFlipper;
     private TextView txtPlan;
+    private TextView txtStudent;
+    private BarChart barChartPileUp;
     
     @Override
     protected int layoutResId() {
@@ -81,6 +93,8 @@ public class Fragment_Admissions extends BaseFragment {
         imgDomestic.setImageResource(R.mipmap.xs_1_lan);
         txtDomestic.setTextColor(Color.parseColor("#386FE2"));
         viewFlipper = view.findViewById(R.id.view_flipper);
+        txtStudent = view.findViewById(R.id.txt_student);
+        txtPlan = view.findViewById(R.id.txt_plan);
         
         btnDomestic.setOnClickListener(v -> {
             imgForeign.setImageResource(R.mipmap.xs_2_hui);
@@ -90,7 +104,7 @@ public class Fragment_Admissions extends BaseFragment {
             showData("CH");
             barChart1.animateXY(0, 2000);
             viewFlipper.setDisplayedChild(0);
-            Log.i(TAG, "setBarChart: " + barChart1);
+            txtStudent.setText("国内招生");
         });
         btnForeign.setOnClickListener(v -> {
             imgForeign.setImageResource(R.mipmap.xs_2_lan);
@@ -98,12 +112,12 @@ public class Fragment_Admissions extends BaseFragment {
             imgDomestic.setImageResource(R.mipmap.xs_1_hui);
             txtDomestic.setTextColor(Color.parseColor("#414141"));
             showData("GH");
-            
             viewFlipper.setDisplayedChild(1);
             barChart2.animateXY(0, 2000);
-            Log.i(TAG, "setBarChart: " + barChart2);
+            txtStudent.setText("留学生招生");
         });
-        txtPlan = view.findViewById(R.id.txt_plan);
+        
+        barChartPileUp = view.findViewById(R.id.barChart_pileUp);
     }
     
     @Override
@@ -131,6 +145,117 @@ public class Fragment_Admissions extends BaseFragment {
         });
         
         getDate();
+        
+    }
+    
+    private List<String> strings = new ArrayList<>();
+    
+    private void getBarUp() {
+        
+        Collections.sort(getProvinceRecruitStudentNumbers, new Comparator<GetProvinceRecruitStudentNumber>() {
+            @Override
+            public int compare(GetProvinceRecruitStudentNumber o1, GetProvinceRecruitStudentNumber o2) {
+                return o2.getEnrollStudentNum()-o1.getEnrollStudentNum();
+            }
+        });
+        
+        
+        strings.clear();
+        
+        barChartPileUp.getDescription().setEnabled(false);
+        //所有值均绘制在其条形顶部上方
+        barChartPileUp.setDrawValueAboveBar(false);
+        //纵坐标不显示网格线
+        barChartPileUp.getXAxis().setDrawGridLines(false);
+        //不支持图表缩放
+        barChartPileUp.setScaleEnabled(false);
+ 
+        //右y轴不显示
+        barChartPileUp.getAxisRight().setEnabled(false);
+    
+        //获取x坐标轴
+        XAxis xLabels = barChartPileUp.getXAxis();
+        //设置x坐标轴显示位置在下方
+        xLabels.setPosition(XAxisPosition.BOTTOM);
+
+        
+        //转换x坐标轴显示内容
+        xLabels.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return "";
+            }
+        });
+    
+        ArrayList<BarEntry> yValues = new ArrayList<>();
+        for (int i = 0; i < getProvinceRecruitStudentNumbers.size(); i++) {
+            GetProvinceRecruitStudentNumber getProvinceRecruitStudentNumber = getProvinceRecruitStudentNumbers.get(i);
+            float val1 = (float) getProvinceRecruitStudentNumber.getEnrollStudentNum();
+            float val2 = (float) getProvinceRecruitStudentNumber.getOverseasStudentNum();
+            strings.add(getProvinceRecruitStudentNumber.getProvinceName().substring(0,3));
+            yValues.add(new BarEntry(i, new float[]{val1, val2}));
+        }
+        
+        xLabels.setValueFormatter(new IndexAxisValueFormatter(strings));
+        xLabels.setLabelCount(strings.size());
+        xLabels.setLabelRotationAngle(-90);
+        xLabels.setTextSize(18);
+    
+        BarDataSet set1;
+        if (barChartPileUp.getData() != null && barChartPileUp.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) barChartPileUp.getData().getDataSetByIndex(0);
+            set1.setValues(yValues);
+            barChartPileUp.getData().notifyDataChanged();
+            barChartPileUp.notifyDataSetChanged();
+        
+            Log.i(TAG, "getBarChart_PileUp: ");
+        } else {
+            set1 = new BarDataSet(yValues, "");
+            set1.setValueTextSize(20);
+            set1.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {
+                DecimalFormat format = new DecimalFormat("0");
+                return format.format(value);
+            });
+            //设置图例的颜色和名称
+            ArrayList<Integer> colors = new ArrayList<>();
+            colors.add(Color.parseColor("#3CBBFF"));
+            colors.add(Color.parseColor("#FFB81C"));
+        
+            set1.setColors(colors);
+        
+            set1.setStackLabels(new String[]{"国内学生","留学生"});
+        
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            set1.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> "");
+            dataSets.add(set1);
+            
+            BarData data = new BarData(dataSets);
+            data.setValueTextColor(Color.WHITE);
+            barChartPileUp.setData(data);
+        }
+    
+        YAxis yAxis = barChartPileUp.getAxisLeft();
+    
+        yAxis.setAxisMinimum(0);
+        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
+    
+        YAxis yAxis1 = barChartPileUp.getAxisRight();
+        yAxis1.setAxisMinimum(0);
+        
+        Legend legend = barChartPileUp.getLegend();
+        legend.setHorizontalAlignment(LegendHorizontalAlignment.RIGHT);
+        legend.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);
+        legend.setOrientation(LegendOrientation.HORIZONTAL);
+    
+    
+        Matrix m = new Matrix();
+        m.postScale(4f, 2f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
+        barChartPileUp.getViewPortHandler().refresh(m, barChartPileUp, false);//将图表动画显示之前进行缩放
+    
+        barChartPileUp.animateXY(0, 2000);
+        barChartPileUp.setFitBars(true);
+      
+        barChartPileUp.invalidate();
         
     }
     
@@ -188,6 +313,9 @@ public class Fragment_Admissions extends BaseFragment {
                     
                     viewFlipper.addView(barChart1);
                     viewFlipper.addView(barChart2);
+    
+                    getBarUp();
+                    
                     showData("CH");
                 }
                 
@@ -209,13 +337,13 @@ public class Fragment_Admissions extends BaseFragment {
     private void showData(String ch) {
         
         if (ch.equals("CH")) {
-    
+            
             plan = 0;
             for (GetProvinceRecruitStudentNumber getProvinceRecruitStudentNumber : getProvinceRecruitStudentNumbers) {
-                plan = plan+getProvinceRecruitStudentNumber.getEnrollStudentNum();
+                plan = plan + getProvinceRecruitStudentNumber.getEnrollStudentNum();
             }
             
-            txtPlan.setText(plan+"人");
+            txtPlan.setText(plan + "人");
             
             colorList1.clear();
             Collections.sort(getProvinceRecruitStudentNumbers,
@@ -239,9 +367,9 @@ public class Fragment_Admissions extends BaseFragment {
         } else {
             plan = 0;
             for (GetProvinceRecruitStudentNumber getProvinceRecruitStudentNumber : getProvinceRecruitStudentNumbers) {
-                plan = plan+getProvinceRecruitStudentNumber.getOverseasStudentNum();
+                plan = plan + getProvinceRecruitStudentNumber.getOverseasStudentNum();
             }
-            txtPlan.setText(plan+"人");
+            txtPlan.setText(plan + "人");
             
             colorList1.clear();
             Collections.sort(getProvinceRecruitStudentNumbers,
@@ -329,6 +457,9 @@ public class Fragment_Admissions extends BaseFragment {
                 }
             });
             barChart1.animateXY(0, 2000);
+            Matrix m = new Matrix();
+            m.postScale(4f, 1f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
+            barChart1.getViewPortHandler().refresh(m, barChart1, false);//将图表动画显示之前进行缩放
             barChart1.setData(barData);
             barChart1.invalidate();
             
@@ -376,6 +507,11 @@ public class Fragment_Admissions extends BaseFragment {
                 }
             });
             barChart2.animateXY(0, 2000);
+            
+            Matrix m = new Matrix();
+            m.postScale(4f, 1f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
+            barChart2.getViewPortHandler().refresh(m, barChart2, false);//将图表动画显示之前进行缩放
+            
             barChart2.setData(barData);
             barChart2.invalidate();
         }

@@ -35,6 +35,7 @@
           android:layout_height="wrap_content"
           android:text="省份查询"
           android:layout_gravity="center"
+          android:textStyle="bold"
           android:layout_marginLeft="40dp"
           android:textColor="#FFFFFF"
           android:textSize="20dp"
@@ -108,6 +109,7 @@
           android:layout_gravity="center"
           android:layout_marginLeft="40dp"
           android:textColor="#FFFFFF"
+          android:textStyle="bold"
           android:textSize="20dp"
           />
 
