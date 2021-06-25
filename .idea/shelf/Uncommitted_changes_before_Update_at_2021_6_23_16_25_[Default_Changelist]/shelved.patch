@@ -1,0 +1,1028 @@
+Index: app/src/main/res/layout/fragment_admissions.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n  android:layout_width=\"match_parent\"\r\n  android:layout_height=\"match_parent\"\r\n  android:background=\"@color/color_background\"\r\n  android:orientation=\"vertical\"\r\n  >\r\n\r\n  <include layout=\"@layout/title_back_g\"/>\r\n\r\n\r\n  <LinearLayout\r\n    android:id=\"@+id/group_view\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"0dp\"\r\n    android:layout_weight=\"0.8\"\r\n    >\r\n\r\n    <com.example.smartcampus.utils.MapView\r\n      android:id=\"@+id/map_view\"\r\n      android:layout_width=\"match_parent\"\r\n      android:layout_height=\"match_parent\"/>\r\n\r\n  </LinearLayout>\r\n\r\n  <LinearLayout\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"0dp\"\r\n    android:layout_weight=\"1\"\r\n    >\r\n\r\n\r\n\r\n\r\n  </LinearLayout>\r\n\r\n\r\n\r\n\r\n\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_admissions.xml	(revision 526b746ddf65ad5d3237a5caaac9428a49e4105d)
++++ app/src/main/res/layout/fragment_admissions.xml	(date 1624417672966)
+@@ -2,9 +2,9 @@
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
++  xmlns:tools="http://schemas.android.com/tools"
+   android:background="@color/color_background"
+-  android:orientation="vertical"
+-  >
++  android:orientation="vertical">
+ 
+   <include layout="@layout/title_back_g"/>
+ 
+@@ -27,9 +27,91 @@
+     android:layout_width="match_parent"
+     android:layout_height="0dp"
+     android:layout_weight="1"
++    android:orientation="vertical"
++    >
++
++    <ViewFlipper
++      android:id="@+id/view_flipper"
++      android:layout_width="match_parent"
++      android:layout_height="0dp"
++      android:layout_weight="1"
++      tools:ignore="NestedWeights" />
++
++    <TextView
++      android:layout_width="match_parent"
++      android:layout_height="wrap_content"
++      android:text="山东省"
++      android:textSize="20dp"
++      android:gravity="center"
++      android:padding="10dp"
++      />
++
++
++
++  </LinearLayout>
++
++
++  <LinearLayout
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    android:padding="10dp"
++
+     >
+ 
++    <LinearLayout
++      android:id="@+id/btn_domestic"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:orientation="horizontal"
++      android:gravity="center"
++      android:layout_weight="1"
++      >
++      <ImageView
++        android:id="@+id/img_domestic"
++        android:layout_width="30dp"
++        android:layout_height="30dp"
++        android:src="@mipmap/xs_1_hui"
++        />
++
++      <TextView
++        android:id="@+id/txt_domestic"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="国内学生"
++        android:textSize="20dp"
++        android:layout_marginLeft="10dp"
++        android:layout_gravity="center"
++        />
++
++    </LinearLayout>
++
++    <LinearLayout
++      android:id="@+id/btn_foreign"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:orientation="horizontal"
++      android:gravity="center"
++      android:layout_weight="1"
++      >
++      <ImageView
++        android:id="@+id/img_foreign"
++        android:layout_width="30dp"
++        android:layout_height="30dp"
++        android:src="@mipmap/xs_2_hui"
++        />
+ 
++      <TextView
++        android:id="@+id/txt_foreign"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="留学生"
++        android:layout_marginLeft="10dp"
++        android:textSize="20dp"
++        android:layout_gravity="center"
++        />
++
++    </LinearLayout>
+ 
+ 
+   </LinearLayout>
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_Admissions.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.graphics.Color;\r\nimport android.graphics.RectF;\r\nimport android.util.Log;\r\nimport android.view.Gravity;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.PopupWindow;\r\nimport android.widget.TextView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.bean.statistics.GetMunicipalMenAndWomenNumberAll;\r\nimport com.example.smartcampus.bean.statistics.Province;\r\nimport com.example.smartcampus.bean.statistics.Provinces;\r\nimport com.example.smartcampus.utils.MapView;\r\nimport com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.example.smartcampuslibrary.net.OkHttpLo;\r\nimport com.example.smartcampuslibrary.net.OkHttpTo;\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.reflect.TypeToken;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\nimport org.json.JSONObject;\r\n\r\npublic class Fragment_Admissions extends BaseFragment {\r\n    \r\n    private ImageView back;\r\n    private TextView title;\r\n    private MapView mapView;\r\n    private LinearLayout groupView;\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_admissions;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        mapView = view.findViewById(R.id.map_view);\r\n        groupView = view.findViewById(R.id.group_view);\r\n    }\r\n    \r\n    @Override\r\n    protected void initData() {\r\n        title.setText(\"招生信息\");\r\n        \r\n        GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);\r\n        binder.setFullGroup(true);\r\n        mapView.setOnMapViewClickListener(name -> {\r\n            Log.i(\"aaaaa\", \"--------\" + name);\r\n            RectF rectF = mapView.getRectF(name);\r\n            initPopWindow((int) rectF.centerX(), (int) rectF.bottom);\r\n        });\r\n        \r\n        getData();\r\n        \r\n    }\r\n    \r\n    private List<Provinces> provinceList;\r\n    \r\n    private void getData() {\r\n        if (provinceList == null) {\r\n            provinceList = new ArrayList<>();\r\n        } else {\r\n            provinceList.clear();\r\n        }\r\n        new OkHttpTo()\r\n            .setUrl(\"province_query_all\")\r\n            .setRequestType(\"GET\")\r\n            .setOkHttpLo(new OkHttpLo() {\r\n                @Override\r\n                public void onResponse(JSONObject jsonObject) {\r\n                    provinceList.addAll(new Gson().fromJson(jsonObject.optJSONArray(\"data\").toString(),\r\n                        new TypeToken<List<Provinces>>() {\r\n                        }.getType()));\r\n                    if (provinceList != null) {\r\n                        Province_GetMunicipalMenAndWomenNumberAll();\r\n                    }\r\n                }\r\n                \r\n                @Override\r\n                public void onFailure(IOException e) {\r\n                \r\n                }\r\n            }).start();\r\n        \r\n        \r\n    }\r\n    \r\n    private int count = 0;\r\n    private static final String TAG = \"Fragment_Admissions\";\r\n    \r\n    private void Province_GetMunicipalMenAndWomenNumberAll() {\r\n        count = 0;\r\n        for (Provinces provinces : provinceList) {\r\n            new OkHttpTo()\r\n                .setUrl(\"GetMunicipalMenAndWomenNumberAll?provinceName=\" + provinces.getProvinceName())\r\n                .setRequestType(\"GET\")\r\n                .setOkHttpLo(new OkHttpLo() {\r\n                    @Override\r\n                    public void onResponse(JSONObject jsonObject) {\r\n                        \r\n                        List<GetMunicipalMenAndWomenNumberAll> getMunicipalMenAndWomenNumberAlls =\r\n                            new Gson().fromJson(jsonObject.optJSONArray(\"rows\").toString(),\r\n                                new TypeToken<List<GetMunicipalMenAndWomenNumberAll>>(){}.getType());\r\n                        provinces.setGetMunicipalMenAndWomenNumberAll(getMunicipalMenAndWomenNumberAlls);\r\n                        \r\n                        count++;\r\n                        Log.i(TAG, \"onResponse: \" + count);\r\n                        if (count == provinceList.size()) {\r\n                            showData();\r\n                        }\r\n                    }\r\n                    \r\n                    @Override\r\n                    public void onFailure(IOException e) {\r\n                    \r\n                    }\r\n                }).start();\r\n        }\r\n        \r\n    }\r\n    \r\n    private List<Integer> colorList1 = new ArrayList<>();\r\n    private String[] colors1 = {\"#f4a235\", \"#f8b751\", \"#ebba46\", \"#efc800\", \"#f1cc3e\", \"#f5e84c\", \"#f5e84c\"};\r\n    \r\n    \r\n    private void showData() {\r\n        for (Provinces provinces : provinceList) {\r\n            colorList1.add(Color.parseColor(\"#DDDDDD\"));\r\n        }\r\n        \r\n        Map<String, Integer> colorMap = new HashMap<>();\r\n        for (int i = 0; i < colorList1.size(); i++) {\r\n            colorMap.put(provinceList.get(i).getProvinceName(), colorList1.get(i));\r\n        }\r\n        mapView.setColors(colorMap);\r\n        mapView.setMapResId(R.raw.china);\r\n        \r\n        \r\n    }\r\n    \r\n    private void initPopWindow(int x, int y) {\r\n        PopupWindow popupWindow = new PopupWindow(getContext());\r\n        popupWindow.setFocusable(false);\r\n        popupWindow.setOutsideTouchable(true);\r\n        popupWindow.setWidth(500);\r\n        popupWindow.setHeight(200);\r\n        //设置布局\r\n//        popupWindow.setContentView(textView);\r\n//        setTouchListener(popupWindow);\r\n        \r\n        popupWindow.showAsDropDown(groupView,\r\n            (int) (x * mapView.getMScale()) - (popupWindow.getWidth() / 2),\r\n            (int) (y * mapView.getMScale()) - groupView.getHeight(),\r\n            Gravity.CENTER);\r\n    }\r\n    \r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n    \r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_Admissions.java	(revision 526b746ddf65ad5d3237a5caaac9428a49e4105d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_Admissions.java	(date 1624434995593)
+@@ -1,5 +1,7 @@
+ package com.example.smartcampus.fragment.statisticsFragment;
+ 
++import android.annotation.SuppressLint;
++import android.app.ProgressDialog;
+ import android.graphics.Color;
+ import android.graphics.RectF;
+ import android.util.Log;
+@@ -9,19 +11,35 @@
+ import android.widget.LinearLayout;
+ import android.widget.PopupWindow;
+ import android.widget.TextView;
++import android.widget.ViewFlipper;
+ import com.example.smartcampus.R;
+-import com.example.smartcampus.bean.statistics.GetMunicipalMenAndWomenNumberAll;
+-import com.example.smartcampus.bean.statistics.Province;
+-import com.example.smartcampus.bean.statistics.Provinces;
++import com.example.smartcampus.activity.FragmentActivity;
++import com.example.smartcampus.bean.statistics.GetMunicipal_query_all;
++import com.example.smartcampus.bean.statistics.GetProvinceRecruitStudentNumber;
++import com.example.smartcampus.marker.StudentSourceMarker;
++import com.example.smartcampus.marker.StudentSourceMarker.OnClickListener;
+ import com.example.smartcampus.utils.MapView;
+ import com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;
+ import com.example.smartcampuslibrary.fragment.BaseFragment;
+ import com.example.smartcampuslibrary.net.OkHttpLo;
+ import com.example.smartcampuslibrary.net.OkHttpTo;
++import com.github.mikephil.charting.charts.BarChart;
++import com.github.mikephil.charting.components.XAxis;
++import com.github.mikephil.charting.components.XAxis.XAxisPosition;
++import com.github.mikephil.charting.components.YAxis;
++import com.github.mikephil.charting.data.BarData;
++import com.github.mikephil.charting.data.BarDataSet;
++import com.github.mikephil.charting.data.BarEntry;
++import com.github.mikephil.charting.data.Entry;
++import com.github.mikephil.charting.formatter.IValueFormatter;
++import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
++import com.github.mikephil.charting.utils.ViewPortHandler;
+ import com.google.gson.Gson;
+ import com.google.gson.reflect.TypeToken;
+ import java.io.IOException;
++import java.text.DecimalFormat;
+ import java.util.ArrayList;
++import java.util.Collections;
+ import java.util.HashMap;
+ import java.util.List;
+ import java.util.Map;
+@@ -29,10 +47,18 @@
+ 
+ public class Fragment_Admissions extends BaseFragment {
+     
+-    private ImageView back;
+     private TextView title;
+     private MapView mapView;
+     private LinearLayout groupView;
++    private ProgressDialog progressDialog;
++    private ImageView back;
++    private LinearLayout btnDomestic;
++    private ImageView imgDomestic;
++    private TextView txtDomestic;
++    private LinearLayout btnForeign;
++    private ImageView imgForeign;
++    private TextView txtForeign;
++    private ViewFlipper viewFlipper;
+     
+     @Override
+     protected int layoutResId() {
+@@ -41,47 +67,94 @@
+     
+     @Override
+     protected void initView(View view) {
+-        back = view.findViewById(R.id.back);
++        ImageView back = view.findViewById(R.id.back);
+         title = view.findViewById(R.id.title);
+         mapView = view.findViewById(R.id.map_view);
+         groupView = view.findViewById(R.id.group_view);
++        btnDomestic = view.findViewById(R.id.btn_domestic);
++        imgDomestic = view.findViewById(R.id.img_domestic);
++        txtDomestic = view.findViewById(R.id.txt_domestic);
++        btnForeign = view.findViewById(R.id.btn_foreign);
++        imgForeign = view.findViewById(R.id.img_foreign);
++        txtForeign = view.findViewById(R.id.txt_foreign);
++        imgForeign.setImageResource(R.mipmap.xs_2_hui);
++        txtForeign.setTextColor(Color.parseColor("#414141"));
++        imgDomestic.setImageResource(R.mipmap.xs_1_lan);
++        txtDomestic.setTextColor(Color.parseColor("#386FE2"));
++        viewFlipper = view.findViewById(R.id.view_flipper);
++        
++        btnDomestic.setOnClickListener(v -> {
++            imgForeign.setImageResource(R.mipmap.xs_2_hui);
++            txtForeign.setTextColor(Color.parseColor("#414141"));
++            imgDomestic.setImageResource(R.mipmap.xs_1_lan);
++            txtDomestic.setTextColor(Color.parseColor("#386FE2"));
++            showData("CH");
++            barChart1.animateXY(0, 2000);
++            viewFlipper.setDisplayedChild(0);
++            Log.i(TAG, "setBarChart: "+barChart1);
++        });
++        btnForeign.setOnClickListener(v -> {
++            imgForeign.setImageResource(R.mipmap.xs_2_lan);
++            txtForeign.setTextColor(Color.parseColor("#386FE2"));
++            imgDomestic.setImageResource(R.mipmap.xs_1_hui);
++            txtDomestic.setTextColor(Color.parseColor("#414141"));
++            showData("GH");
++            
++            viewFlipper.setDisplayedChild(1);
++            barChart2.animateXY(0, 2000);
++            Log.i(TAG, "setBarChart: "+barChart2);
++        });
++        
+     }
+     
+     @Override
+     protected void initData() {
++        barChart1 = new BarChart(getContext());
++        barChart2 = new BarChart(getContext());
++        
+         title.setText("招生信息");
++        progressDialog = new ProgressDialog(getContext());
++        progressDialog.setTitle("提示");
++        progressDialog.setMessage("网络请求中。。。");
++        progressDialog.setCanceledOnTouchOutside(false);
++        progressDialog.show();
+         
+         GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);
+         binder.setFullGroup(true);
+         mapView.setOnMapViewClickListener(name -> {
+             Log.i("aaaaa", "--------" + name);
++            
++            ((FragmentActivity)getActivity()).setFragment(new Fragment_admissions1(name,getMunicipal_query_alls,
++                getProvinceRecruitStudentNumbers));
++            
+             RectF rectF = mapView.getRectF(name);
+             initPopWindow((int) rectF.centerX(), (int) rectF.bottom);
+         });
+         
+-        getData();
++        getDate();
+         
+     }
+     
+-    private List<Provinces> provinceList;
++    private List<GetProvinceRecruitStudentNumber> getProvinceRecruitStudentNumbers;
+     
+-    private void getData() {
+-        if (provinceList == null) {
+-            provinceList = new ArrayList<>();
++    private void getDate() {
++        if (getProvinceRecruitStudentNumbers == null) {
++            getProvinceRecruitStudentNumbers = new ArrayList<>();
+         } else {
+-            provinceList.clear();
++            getProvinceRecruitStudentNumbers.clear();
+         }
+         new OkHttpTo()
+-            .setUrl("province_query_all")
++            .setUrl("GetProvinceRecruitStudentNumber")
+             .setRequestType("GET")
+             .setOkHttpLo(new OkHttpLo() {
+                 @Override
+                 public void onResponse(JSONObject jsonObject) {
+-                    provinceList.addAll(new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
+-                        new TypeToken<List<Provinces>>() {
+-                        }.getType()));
+-                    if (provinceList != null) {
+-                        Province_GetMunicipalMenAndWomenNumberAll();
++                    getProvinceRecruitStudentNumbers
++                        .addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
++                            new TypeToken<List<GetProvinceRecruitStudentNumber>>() {
++                            }.getType()));
++                    if (getProvinceRecruitStudentNumbers != null) {
++                        getCity();
+                     }
+                 }
+                 
+@@ -94,59 +167,209 @@
+         
+     }
+     
+-    private int count = 0;
+-    private static final String TAG = "Fragment_Admissions";
++    private List<GetMunicipal_query_all> getMunicipal_query_alls;
+     
+-    private void Province_GetMunicipalMenAndWomenNumberAll() {
+-        count = 0;
+-        for (Provinces provinces : provinceList) {
+-            new OkHttpTo()
+-                .setUrl("GetMunicipalMenAndWomenNumberAll?provinceName=" + provinces.getProvinceName())
+-                .setRequestType("GET")
+-                .setOkHttpLo(new OkHttpLo() {
+-                    @Override
+-                    public void onResponse(JSONObject jsonObject) {
+-                        
+-                        List<GetMunicipalMenAndWomenNumberAll> getMunicipalMenAndWomenNumberAlls =
+-                            new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
+-                                new TypeToken<List<GetMunicipalMenAndWomenNumberAll>>(){}.getType());
+-                        provinces.setGetMunicipalMenAndWomenNumberAll(getMunicipalMenAndWomenNumberAlls);
+-                        
+-                        count++;
+-                        Log.i(TAG, "onResponse: " + count);
+-                        if (count == provinceList.size()) {
+-                            showData();
+-                        }
+-                    }
+-                    
+-                    @Override
+-                    public void onFailure(IOException e) {
+-                    
+-                    }
+-                }).start();
+-        }
+-        
+-    }
++    private void getCity() {
++        if (getMunicipal_query_alls == null) {
++            getMunicipal_query_alls = new ArrayList<>();
++        } else {
++            getMunicipal_query_alls.clear();
++        }
++        new OkHttpTo()
++            .setUrl("getMunicipal_query_all")
++            .setRequestType("GET")
++            .setOkHttpLo(new OkHttpLo() {
++                @Override
++                public void onResponse(JSONObject jsonObject) {
++                    getMunicipal_query_alls.addAll(new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
++                        new TypeToken<List<GetMunicipal_query_all>>() {
++                        }.getType()));
++    
++                    viewFlipper.addView(barChart1);
++                    viewFlipper.addView(barChart2);
++                    showData("CH");
++                }
++                
++                @Override
++                public void onFailure(IOException e) {
++                
++                }
++            }).start();
++        
++        
++    }
++    
++    private int count = 0;
++    private static final String TAG = "Fragment_Admissions";
+     
+     private List<Integer> colorList1 = new ArrayList<>();
+-    private String[] colors1 = {"#f4a235", "#f8b751", "#ebba46", "#efc800", "#f1cc3e", "#f5e84c", "#f5e84c"};
+     
+     
+-    private void showData() {
+-        for (Provinces provinces : provinceList) {
+-            colorList1.add(Color.parseColor("#DDDDDD"));
++    
++    private void showData(String ch) {
++        
++        if (ch.equals("CH")) {
++            colorList1.clear();
++            Collections.sort(getProvinceRecruitStudentNumbers,
++                (o1, o2) -> o2.getEnrollStudentNum() - o1.getEnrollStudentNum());
++            
++            
++            setBarChart(ch);
++            
++            for (int i = 0; i < getProvinceRecruitStudentNumbers.size(); i++) {
++                if (i == 0) {
++                    colorList1.add(Color.parseColor("#A61F25"));
++                } else if (i <= 10) {
++                    colorList1.add(Color.parseColor("#D8232A"));
++                } else if (i <= 20) {
++                    colorList1.add(Color.parseColor("#DE4A4A"));
++                } else if (i <= 30) {
++                    colorList1.add(Color.parseColor("#E6746A"));
++                } else {
++                    colorList1.add(Color.parseColor("#ED9A92"));
++                }
++            }
++        } else {
++            colorList1.clear();
++            Collections.sort(getProvinceRecruitStudentNumbers,
++                (o1, o2) -> o2.getOverseasStudentNum() - o1.getOverseasStudentNum());
++            
++            setBarChart(ch);
++            
++            for (int i = 0; i < getProvinceRecruitStudentNumbers.size(); i++) {
++                if (i == 0) {
++                    colorList1.add(Color.parseColor("#EC9F2D"));
++                } else if (i <= 10) {
++                    colorList1.add(Color.parseColor("#F4B452"));
++                } else if (i <= 20) {
++                    colorList1.add(Color.parseColor("#F5C178"));
++                } else if (i <= 30) {
++                    colorList1.add(Color.parseColor("#FAD79F"));
++                } else {
++                    colorList1.add(Color.parseColor("#FCE3C4"));
++                }
++            }
+         }
+         
+         Map<String, Integer> colorMap = new HashMap<>();
++        
+         for (int i = 0; i < colorList1.size(); i++) {
+-            colorMap.put(provinceList.get(i).getProvinceName(), colorList1.get(i));
++            colorMap.put(getProvinceRecruitStudentNumbers.get(i).getProvinceName(), colorList1.get(i));
+         }
++        
+         mapView.setColors(colorMap);
+         mapView.setMapResId(R.raw.china);
+-        
++        progressDialog.dismiss();
++    }
++    
++    List<BarEntry> barEntryList = new ArrayList<>();
++    BarDataSet barDataSet = null;
++    BarData barData = null;
++    List<String> names = new ArrayList<>();
++    
++    private BarChart barChart1;
++    private BarChart barChart2;
++    
++    private void setBarChart(String ch) {
++  
++        barEntryList.clear();
++        names.clear();
++        if (ch.equals("CH")) {
++    
++            barChart1.getLegend().setEnabled(false);
++            barChart1.setDescription(null);
++            
++            for (int i1 = 0; i1 < getProvinceRecruitStudentNumbers.size(); i1++) {
++                barEntryList.add(new BarEntry(i1,
++                    getProvinceRecruitStudentNumbers.get(i1).getEnrollStudentNum(),
++                    getProvinceRecruitStudentNumbers.get(i1).getProvinceName()));
++                names.add(getProvinceRecruitStudentNumbers.get(i1).getProvinceName());
++            }
++            barDataSet = new BarDataSet(barEntryList, "国内学生");
++            barDataSet.setColors(colorList1);
++            
++            XAxis xAxis = barChart1.getXAxis();
++            xAxis.setPosition(XAxisPosition.BOTTOM);
++            xAxis.setLabelCount(getProvinceRecruitStudentNumbers.size());
++            xAxis.setDrawGridLines(false);
++            xAxis.setValueFormatter(new IndexAxisValueFormatter(names));
++            xAxis.setLabelCount(names.size());
++            xAxis.setLabelRotationAngle(90);
++            
++            YAxis yAxis = barChart1.getAxisLeft();
++            yAxis.setAxisMinimum(0f);
++            yAxis.setLabelCount(10);
++            
++            YAxis yAxis1 = barChart1.getAxisRight();
++            yAxis1.setEnabled(false);
++            yAxis1.setAxisMinimum(0f);
++            yAxis1.setLabelCount(10);
++            
++            barData = new BarData(barDataSet);
++            barData.setBarWidth(0.5f);
++            barData.setValueFormatter(new IValueFormatter() {
++                @Override
++                public String getFormattedValue(float value, Entry entry, int dataSetIndex,
++                    ViewPortHandler viewPortHandler) {
++                    DecimalFormat format = new DecimalFormat("0");
++                    return format.format(value);
++                }
++            });
++            barChart1.animateXY(0, 2000);
++            barChart1.setData(barData);
++            barChart1.invalidate();
++            
++        } else {
++            
++            Log.i(TAG, "setBarChart: HH");
++            
++            barChart2.getLegend().setEnabled(false);
++            barChart2.setDescription(null);
++            
++            for (int i1 = 0; i1 < getProvinceRecruitStudentNumbers.size(); i1++) {
++                barEntryList.add(new BarEntry(i1,
++                    getProvinceRecruitStudentNumbers.get(i1).getOverseasStudentNum(),
++                    getProvinceRecruitStudentNumbers.get(i1).getProvinceName()));
++                names.add(getProvinceRecruitStudentNumbers.get(i1).getProvinceName());
++            }
++            barDataSet = new BarDataSet(barEntryList, "留学生");
++            barDataSet.setColors(colorList1);
++            
++            XAxis xAxis = barChart2.getXAxis();
++            xAxis.setPosition(XAxisPosition.BOTTOM);
++            xAxis.setLabelCount(getProvinceRecruitStudentNumbers.size());
++            xAxis.setDrawGridLines(false);
++            xAxis.setValueFormatter(new IndexAxisValueFormatter(names));
++            xAxis.setLabelCount(names.size());
++            xAxis.setLabelRotationAngle(90);
++            
++            YAxis yAxis = barChart2.getAxisLeft();
++            yAxis.setAxisMinimum(0f);
++            yAxis.setLabelCount(10);
++            
++            YAxis yAxis1 = barChart2.getAxisRight();
++            yAxis1.setEnabled(false);
++            yAxis1.setAxisMinimum(0f);
++            yAxis1.setLabelCount(10);
++            
++            barData = new BarData(barDataSet);
++            barData.setBarWidth(0.5f);
++            barData.setValueFormatter(new IValueFormatter() {
++                @Override
++                public String getFormattedValue(float value, Entry entry, int dataSetIndex,
++                    ViewPortHandler viewPortHandler) {
++                    DecimalFormat format = new DecimalFormat("0");
++                    return format.format(value);
++                }
++            });
++            barChart2.animateXY(0, 2000);
++            barChart2.setData(barData);
++            barChart2.invalidate();
++        }
+         
+     }
+     
++    @SuppressLint("NewApi")
+     private void initPopWindow(int x, int y) {
+         PopupWindow popupWindow = new PopupWindow(getContext());
+         popupWindow.setFocusable(false);
+@@ -154,9 +377,6 @@
+         popupWindow.setWidth(500);
+         popupWindow.setHeight(200);
+         //设置布局
+-//        popupWindow.setContentView(textView);
+-//        setTouchListener(popupWindow);
+-        
+         popupWindow.showAsDropDown(groupView,
+             (int) (x * mapView.getMScale()) - (popupWindow.getWidth() / 2),
+             (int) (y * mapView.getMScale()) - groupView.getHeight(),
+Index: app/src/main/res/layout/fragment_admissions1.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_admissions1.xml	(date 1624434468872)
++++ app/src/main/res/layout/fragment_admissions1.xml	(date 1624434468872)
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++  android:layout_width="match_parent"
++  android:layout_height="match_parent"
++  xmlns:tools="http://schemas.android.com/tools"
++  android:background="@color/color_background"
++  android:orientation="vertical">
++
++  <include layout="@layout/title_back_g"/>
++
++
++  <LinearLayout
++    android:id="@+id/group_view"
++    android:layout_width="match_parent"
++    android:layout_height="0dp"
++    android:layout_weight="0.8"
++    >
++
++    <com.example.smartcampus.utils.MapView
++      android:id="@+id/map_view"
++      android:layout_width="match_parent"
++      android:layout_height="match_parent"/>
++
++  </LinearLayout>
++
++  <LinearLayout
++    android:layout_width="match_parent"
++    android:layout_height="0dp"
++    android:layout_weight="1"
++    android:orientation="vertical"
++    >
++
++    <ViewFlipper
++      android:id="@+id/view_flipper"
++      android:layout_width="match_parent"
++      android:layout_height="0dp"
++      android:layout_weight="1"
++      tools:ignore="NestedWeights" />
++
++    <TextView
++      android:layout_width="match_parent"
++      android:layout_height="wrap_content"
++      android:text="山东省"
++      android:textSize="20dp"
++      android:gravity="center"
++      android:padding="10dp"
++      />
++
++
++
++  </LinearLayout>
++
++
++  <LinearLayout
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    android:padding="10dp"
++
++    >
++
++    <LinearLayout
++      android:id="@+id/btn_domestic"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:orientation="horizontal"
++      android:gravity="center"
++      android:layout_weight="1"
++      >
++      <ImageView
++        android:id="@+id/img_domestic"
++        android:layout_width="30dp"
++        android:layout_height="30dp"
++        android:src="@mipmap/xs_1_hui"
++        />
++
++      <TextView
++        android:id="@+id/txt_domestic"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="国内学生"
++        android:textSize="20dp"
++        android:layout_marginLeft="10dp"
++        android:layout_gravity="center"
++        />
++
++    </LinearLayout>
++
++    <LinearLayout
++      android:id="@+id/btn_foreign"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:orientation="horizontal"
++      android:gravity="center"
++      android:layout_weight="1"
++      >
++      <ImageView
++        android:id="@+id/img_foreign"
++        android:layout_width="30dp"
++        android:layout_height="30dp"
++        android:src="@mipmap/xs_2_hui"
++        />
++
++      <TextView
++        android:id="@+id/txt_foreign"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="留学生"
++        android:layout_marginLeft="10dp"
++        android:textSize="20dp"
++        android:layout_gravity="center"
++        />
++
++    </LinearLayout>
++
++
++  </LinearLayout>
++
++
++
++
++
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/ProvinceStudentSourceFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.content.res.ColorStateList;\r\nimport android.graphics.Color;\r\nimport android.graphics.RectF;\r\nimport android.graphics.drawable.Drawable;\r\nimport android.util.Log;\r\nimport android.view.Gravity;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageView;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.LinearLayout.LayoutParams;\r\nimport android.widget.PopupWindow;\r\nimport android.widget.TextView;\r\nimport android.widget.ViewFlipper;\r\nimport androidx.core.graphics.drawable.DrawableCompat;\r\nimport butterknife.BindView;\r\nimport butterknife.ButterKnife;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.activity.FragmentActivity;\r\nimport com.example.smartcampus.bean.statistics.Municipal;\r\nimport com.example.smartcampus.bean.statistics.Province;\r\nimport com.example.smartcampus.bean.statistics.ProvinceStudentSource;\r\nimport com.example.smartcampus.marker.StudentSourceMarker;\r\nimport com.example.smartcampus.marker.StudentSourceMarker.OnClickListener;\r\nimport com.example.smartcampus.utils.MapView;\r\nimport com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.example.smartcampuslibrary.net.OkHttpLo;\r\nimport com.example.smartcampuslibrary.net.OkHttpTo;\r\nimport com.github.mikephil.charting.charts.BarChart;\r\nimport com.github.mikephil.charting.components.XAxis;\r\nimport com.github.mikephil.charting.components.XAxis.XAxisPosition;\r\nimport com.github.mikephil.charting.components.YAxis;\r\nimport com.github.mikephil.charting.data.BarData;\r\nimport com.github.mikephil.charting.data.BarDataSet;\r\nimport com.github.mikephil.charting.data.BarEntry;\r\nimport com.github.mikephil.charting.data.Entry;\r\nimport com.github.mikephil.charting.formatter.IValueFormatter;\r\nimport com.github.mikephil.charting.formatter.IndexAxisValueFormatter;\r\nimport com.github.mikephil.charting.utils.ViewPortHandler;\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.reflect.TypeToken;\r\nimport java.io.IOException;\r\nimport java.text.DecimalFormat;\r\nimport java.util.ArrayList;\r\nimport java.util.Collections;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\nimport org.json.JSONObject;\r\n\r\npublic class ProvinceStudentSourceFragment extends BaseFragment {\r\n\r\n    @BindView(R.id.back)\r\n    ImageView back;\r\n    @BindView(R.id.title)\r\n    TextView title;\r\n    @BindView(R.id.map_view)\r\n    MapView mapView;\r\n    @BindView(R.id.group_view)\r\n    LinearLayout groupView;\r\n    @BindView(R.id.view_flipper)\r\n    ViewFlipper viewFlipper;\r\n    @BindView(R.id.layout1)\r\n    LinearLayout layout1;\r\n    @BindView(R.id.you_xiu)\r\n    LinearLayout youXiu;\r\n    @BindView(R.id.pin_kun)\r\n    LinearLayout pinKun;\r\n    @BindView(R.id.you_xiu_image)\r\n    ImageView youXiuImage;\r\n    @BindView(R.id.you_xiu_text)\r\n    TextView youXiuText;\r\n    @BindView(R.id.pin_kun_image)\r\n    ImageView pinKunImage;\r\n    @BindView(R.id.pin_kun_text)\r\n    TextView pinKunText;\r\n\r\n\r\n    private List<Province> provinceList;\r\n    private List<ProvinceStudentSource> provinceStudentSourceList1;\r\n    private List<ProvinceStudentSource> provinceStudentSourceList2;\r\n    private List<String> names;\r\n    private BarChart barChart1;\r\n    private BarChart barChart2;\r\n    private List<Integer> colorList1;\r\n    private List<Integer> colorList2;\r\n    private PopupWindow popupWindow;\r\n    private String markerName;\r\n    private Map<String, List<Municipal>> municipalMap;\r\n\r\n\r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.student_source_fragment;\r\n    }\r\n\r\n    @Override\r\n    protected void initView(View view) {\r\n        ButterKnife.bind(this, view);\r\n        title.setText(\"省生源\");\r\n        youXiu.setOnClickListener(this::onClick);\r\n        pinKun.setOnClickListener(this::onClick);\r\n        setColor(youXiuImage, youXiuText, Color.parseColor(\"#4B5CC5\"));\r\n        setColor(pinKunImage, pinKunText, Color.parseColor(\"#333333\"));\r\n    }\r\n\r\n    @Override\r\n    protected void initData() {\r\n        popupWindow = new PopupWindow(getContext());\r\n        GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);\r\n        binder.setFullGroup(true);\r\n        mapView.setOnMapViewClickListener(name -> {\r\n            Log.i(\"aaaaa\", \"--------\" + name);\r\n            ((FragmentActivity) getActivity())\r\n                .setFragment(new MunicipalStudentSourceFragment(name));\r\n\r\n//            RectF rectF = mapView.getRectF(name);\r\n//            initPopWindow((int) rectF.centerX(), (int) rectF.bottom , mapView.getColor(name));\r\n        });\r\n\r\n        province_query_all();\r\n\r\n    }\r\n\r\n    private void initPopWindow(int x, int y, int color, String name) {\r\n\r\n        popupWindow.setFocusable(false);\r\n        popupWindow.setOutsideTouchable(true);\r\n        popupWindow.setWidth(500);\r\n        popupWindow.setHeight(200);\r\n\r\n        LinearLayout linearLayout = new LinearLayout(getContext());\r\n        linearLayout.setPadding(15, 15, 15, 15);\r\n        linearLayout.setBackgroundColor(color);\r\n        linearLayout.setLayoutParams(\r\n            new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));\r\n\r\n        TextView title = new TextView(getContext());\r\n        title.setLayoutParams(\r\n            new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));\r\n        title.setGravity(Gravity.CENTER);\r\n        title.setTextSize(16);\r\n        title.setBackgroundColor(Color.parseColor(\"#FDFDFE\"));\r\n        title.setTextColor(Color.parseColor(\"#333333\"));\r\n        title.setText(name);\r\n\r\n        linearLayout.addView(title);\r\n\r\n        popupWindow.setContentView(linearLayout);\r\n//        setTouchListener(popupWindow);\r\n        popupWindow.showAsDropDown(groupView,\r\n            (int) (x * mapView.getMScale()) - (popupWindow.getWidth() / 2),\r\n            (int) (y * mapView.getMScale()) - groupView.getHeight(),\r\n            Gravity.CENTER);\r\n    }\r\n\r\n    private void province_query_all() {\r\n        new OkHttpTo().setUrl(\"province_query_all\")\r\n            .setRequestType(\"get\")\r\n            .setOkHttpLo(new OkHttpLo() {\r\n                @Override\r\n                public void onResponse(JSONObject jsonObject) {\r\n                    provinceList = new Gson().fromJson(jsonObject.optJSONArray(\r\n                        \"data\").toString(), new TypeToken<List<Province>>() {\r\n                    }.getType());\r\n                    if (provinceList != null) {\r\n                        getProvinceStudentSource();\r\n                        setMunicipalMap();\r\n                    }\r\n                }\r\n\r\n                @Override\r\n                public void onFailure(IOException e) {\r\n\r\n                }\r\n            }).start();\r\n    }\r\n\r\n    private void getProvinceStudentSource() {\r\n        provinceStudentSourceList1 = new ArrayList<>();\r\n        OkHttpTo okHttpTo;\r\n        for (Province province : provinceList) {\r\n            okHttpTo = new OkHttpTo();\r\n            if (province == provinceList.get(provinceList.size() - 1)) {\r\n                okHttpTo.setDialog(getContext());\r\n            }\r\n            okHttpTo\r\n                .setUrl(\"GetProvinceStudentSource?provinceName=\" + province.getProvinceName())\r\n                .setRequestType(\"get\")\r\n                .setOkHttpLo(new OkHttpLo() {\r\n                    @Override\r\n                    public void onResponse(JSONObject jsonObject) {\r\n                        provinceStudentSourceList1.add(new Gson().fromJson(jsonObject.toString(),\r\n                            ProvinceStudentSource.class));\r\n\r\n                        if (provinceStudentSourceList1.size() == provinceList.size()) {\r\n                            showData();\r\n                        }\r\n                    }\r\n\r\n                    @Override\r\n                    public void onFailure(IOException e) {\r\n\r\n                    }\r\n                }).start();\r\n        }\r\n    }\r\n\r\n    private void showData() {\r\n        provinceStudentSourceList2 = new ArrayList<>();\r\n        provinceStudentSourceList2.addAll(provinceStudentSourceList1);\r\n\r\n        Collections.sort(provinceStudentSourceList1, ((o1, o2) -> {\r\n            return o2.getEliteStudent() - o1.getEliteStudent();\r\n        }));\r\n\r\n        Collections.sort(provinceStudentSourceList2, ((o1, o2) -> {\r\n            return o2.getPoorStudent() - o1.getPoorStudent();\r\n        }));\r\n\r\n        setView();\r\n    }\r\n\r\n    private void setView() {\r\n\r\n        for (int i = 0; i < 2; i++) {\r\n            BarChart barChart = new BarChart(getContext());\r\n            setBarChart(barChart, i);\r\n            viewFlipper.addView(barChart);\r\n        }\r\n\r\n        showMap(colorList1, provinceStudentSourceList1);\r\n    }\r\n\r\n    private void showMap(List<Integer> colorList, List<ProvinceStudentSource> provinceStudentSourceList) {\r\n\r\n        Map<String, Integer> colorMap = new HashMap<>();\r\n        for (int i = 0; i < colorList.size(); i++) {\r\n            colorMap.put(provinceStudentSourceList.get(i).getProvinceName(), colorList.get(i));\r\n        }\r\n        mapView.setColors(colorMap);\r\n        mapView.setMapResId(R.raw.china);\r\n    }\r\n\r\n\r\n    private void setBarChart(BarChart barChart, int i) {\r\n        barChart.getLegend().setEnabled(false);\r\n        barChart.setDescription(null);\r\n        setBarChartData(barChart, i);\r\n    }\r\n\r\n    private void setBarChartData(BarChart barChart, int i) {\r\n        List<BarEntry> barEntryList = new ArrayList<>();\r\n        BarDataSet barDataSet = null;\r\n        BarData barData = null;\r\n\r\n        names = new ArrayList<>();\r\n        names.add(\"\");\r\n\r\n        String[] colors1 = {\"#f4a235\", \"#f8b751\", \"#ebba46\", \"#efc800\", \"#f1cc3e\",\r\n            \"#f5e84c\", \"#f5e84c\"};\r\n        String[] colors2 = {\"#a71e32\", \"#e21c13\", \"#46b797\", \"#63be9d\", \"#a0d4bd\",\r\n            \"#bee0d0\", \"#bee0d0\"};\r\n        //优秀\r\n        if (i == 0) {\r\n            barChart1 = barChart;\r\n            for (int i1 = 0; i1 < provinceStudentSourceList1.size(); i1++) {\r\n                barEntryList\r\n                    .add(new BarEntry(i1 + 1,\r\n                        provinceStudentSourceList1.get(i1).getEliteStudent(),\r\n                        provinceStudentSourceList1.get(i1).getProvinceName()));\r\n                names.add(provinceStudentSourceList1.get(i1).getProvinceName());\r\n            }\r\n            barDataSet = new BarDataSet(barEntryList, \"优秀学子\");\r\n            colorList1 = new ArrayList<>();\r\n            for (int j = 0; j < provinceStudentSourceList1.size(); j++) {\r\n                colorList1.add(Color.parseColor(colors1[j / colors1.length]));\r\n            }\r\n            barDataSet.setColors(colorList1);\r\n        }\r\n        //贫困\r\n        if (i == 1) {\r\n            barChart2 = barChart;\r\n            for (int i1 = 0; i1 < provinceStudentSourceList2.size(); i1++) {\r\n                barEntryList\r\n                    .add(new BarEntry(i1 + 1,\r\n                        provinceStudentSourceList2.get(i1).getPoorStudent(),\r\n                        provinceStudentSourceList2.get(i1).getProvinceName()));\r\n                names.add(provinceStudentSourceList2.get(i1).getProvinceName());\r\n            }\r\n            barDataSet = new BarDataSet(barEntryList, \"贫困学子\");\r\n\r\n            colorList2 = new ArrayList<>();\r\n            for (int j = 0; j < provinceStudentSourceList2.size(); j++) {\r\n                colorList2.add(Color.parseColor(colors2[j / colors2.length]));\r\n            }\r\n            barDataSet.setColors(colorList2);\r\n        }\r\n\r\n        setAxis(barChart);\r\n\r\n        barData = new BarData(barDataSet);\r\n        barData.setBarWidth(0.5f);\r\n        barData.setValueFormatter(new IValueFormatter() {\r\n            @Override\r\n            public String getFormattedValue(float value, Entry entry, int dataSetIndex,\r\n                ViewPortHandler viewPortHandler) {\r\n                DecimalFormat format = new DecimalFormat(\"0\");\r\n                return format.format(value);\r\n            }\r\n        });\r\n\r\n        assert barDataSet != null;\r\n        StudentSourceMarker marker = new StudentSourceMarker(getContext(),\r\n            barDataSet.getColors());\r\n        barChart.setMarker(marker);\r\n        marker.setOnClickListener(new OnClickListener() {\r\n            @Override\r\n            public void onClick(String name, int color) {\r\n                if (markerName == null || !markerName.equals(name)) {\r\n                    RectF rectF = mapView.getRectF(name);\r\n                    initPopWindow((int) rectF.centerX(), (int) rectF.bottom, color, name);\r\n                    if (!name.equals(\"澳门特别行政区\")) {\r\n                        if (mapView.setHandleTouch((int) rectF.centerX(), (int) rectF.centerY())) {\r\n                            markerName = name;\r\n                        }\r\n                    } else {\r\n                        if (mapView.setHandleTouch(0, 0)) {\r\n                            markerName = name;\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        });\r\n\r\n        barChart.setData(barData);\r\n        barChart.animateXY(0, 2000);\r\n\r\n    }\r\n\r\n    private void setAxis(BarChart barChart) {\r\n\r\n        XAxis xAxis = barChart.getXAxis();\r\n        xAxis.setPosition(XAxisPosition.BOTTOM);\r\n        xAxis.setLabelCount(provinceStudentSourceList1.size());\r\n        xAxis.setDrawGridLines(false);\r\n        xAxis.setValueFormatter(new IndexAxisValueFormatter(names));\r\n        xAxis.setLabelCount(names.size());\r\n        xAxis.setLabelRotationAngle(90);\r\n\r\n        YAxis yAxis = barChart.getAxisLeft();\r\n        yAxis.setAxisMinimum(0f);\r\n        yAxis.setLabelCount(10);\r\n\r\n        YAxis yAxis1 = barChart.getAxisRight();\r\n        yAxis1.setEnabled(false);\r\n        yAxis1.setAxisMinimum(0f);\r\n        yAxis1.setLabelCount(10);\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n        switch (v.getId()) {\r\n            case R.id.you_xiu:\r\n                viewFlipper.setDisplayedChild(0);\r\n                barChart1.animateXY(0, 2000);\r\n                showMap(colorList1, provinceStudentSourceList1);\r\n                setColor(youXiuImage, youXiuText, Color.parseColor(\"#4B5CC5\"));\r\n                setColor(pinKunImage, pinKunText, Color.parseColor(\"#333333\"));\r\n                break;\r\n            case R.id.pin_kun:\r\n                viewFlipper.setDisplayedChild(1);\r\n                barChart2.animateXY(0, 2000);\r\n                showMap(colorList2, provinceStudentSourceList2);\r\n                setColor(youXiuImage, youXiuText, Color.parseColor(\"#333333\"));\r\n                setColor(pinKunImage, pinKunText, Color.parseColor(\"#4B5CC5\"));\r\n                break;\r\n        }\r\n    }\r\n\r\n    private void setColor(ImageView imageView, TextView textView, int color) {\r\n        Drawable wrap = DrawableCompat.wrap(imageView.getDrawable());\r\n        DrawableCompat.setTintList(wrap, ColorStateList.valueOf(color));\r\n        imageView.setImageDrawable(wrap);\r\n        textView.setTextColor(color);\r\n    }\r\n\r\n    //获取每个省各个市的信息\r\n    private void setMunicipalMap() {\r\n        municipalMap = new HashMap<>();\r\n        for (Province province : provinceList) {\r\n\r\n            new OkHttpTo().setUrl(\"GetMunicipalStudentSourceByProvinceName?provinceName=\" + province\r\n                .getProvinceName())\r\n                .setRequestType(\"get\")\r\n                .setOkHttpLo(new OkHttpLo() {\r\n                    @Override\r\n                    public void onResponse(JSONObject jsonObject) {\r\n                        List<Municipal> municipalList =\r\n                            new Gson().fromJson(jsonObject.optJSONArray(\"rows\").toString(),\r\n                                new TypeToken<List<Municipal>>() {\r\n                                }.getType());\r\n                        if (municipalList != null) {\r\n                            municipalMap.put(province.getProvinceName(), municipalList);\r\n                        }\r\n                    }\r\n\r\n                    @Override\r\n                    public void onFailure(IOException e) {\r\n\r\n                    }\r\n                }).start();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/ProvinceStudentSourceFragment.java	(revision 526b746ddf65ad5d3237a5caaac9428a49e4105d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/ProvinceStudentSourceFragment.java	(date 1624418053507)
+@@ -268,8 +268,7 @@
+         if (i == 0) {
+             barChart1 = barChart;
+             for (int i1 = 0; i1 < provinceStudentSourceList1.size(); i1++) {
+-                barEntryList
+-                    .add(new BarEntry(i1 + 1,
++                barEntryList.add(new BarEntry(i1 + 1,
+                         provinceStudentSourceList1.get(i1).getEliteStudent(),
+                         provinceStudentSourceList1.get(i1).getProvinceName()));
+                 names.add(provinceStudentSourceList1.get(i1).getProvinceName());
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Tue Jun 08 19:06:53 CST 2021\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionPath=wrapper/dists\r\nzipStoreBase=GRADLE_USER_HOME\r\nzipStorePath=wrapper/dists\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-6.1.1-all.zip\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>GBK
+===================================================================
+--- gradle/wrapper/gradle-wrapper.properties	(revision 526b746ddf65ad5d3237a5caaac9428a49e4105d)
++++ gradle/wrapper/gradle-wrapper.properties	(date 1624407299714)
+@@ -1,6 +1,6 @@
+-#Tue Jun 08 19:06:53 CST 2021
++#Wed Jun 23 08:14:59 CST 2021
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-6.5-bin.zip
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_admissions1.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_admissions1.java	(date 1624436343194)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_admissions1.java	(date 1624436343194)
+@@ -0,0 +1,123 @@
++package com.example.smartcampus.fragment.statisticsFragment;
++
++import android.annotation.SuppressLint;
++import android.graphics.Color;
++import android.graphics.RectF;
++import android.util.Log;
++import android.view.Gravity;
++import android.view.View;
++import android.widget.ImageView;
++import android.widget.LinearLayout;
++import android.widget.PopupWindow;
++import android.widget.TextView;
++import android.widget.ViewFlipper;
++import com.example.smartcampus.R;
++import com.example.smartcampus.activity.FragmentActivity;
++import com.example.smartcampus.bean.statistics.GetMunicipal_query_all;
++import com.example.smartcampus.bean.statistics.GetProvinceRecruitStudentNumber;
++import com.example.smartcampus.utils.MapView;
++import com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;
++import com.example.smartcampuslibrary.fragment.BaseFragment;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.HashMap;
++import java.util.List;
++import java.util.Map;
++
++public class Fragment_admissions1 extends BaseFragment {
++    
++    private String name;
++    private ImageView back;
++    private TextView title;
++    private LinearLayout groupView;
++    private MapView mapView;
++    private ViewFlipper viewFlipper;
++    private LinearLayout btnDomestic;
++    private ImageView imgDomestic;
++    private TextView txtDomestic;
++    private LinearLayout btnForeign;
++    private ImageView imgForeign;
++    private TextView txtForeign;
++    private List<GetMunicipal_query_all> getMunicipal_query_alls;
++    private List<GetProvinceRecruitStudentNumber> getProvinceRecruitStudentNumbers;
++    private String name1;
++    
++    public Fragment_admissions1(String name, List<GetMunicipal_query_all> getMunicipal_query_alls,
++        List<GetProvinceRecruitStudentNumber> getProvinceRecruitStudentNumbers) {
++        this.name = name;
++        this.getMunicipal_query_alls = getMunicipal_query_alls;
++        this.getProvinceRecruitStudentNumbers = getProvinceRecruitStudentNumbers;
++    }
++    
++    @Override
++    protected int layoutResId() {
++        return R.layout.fragment_admissions1;
++    }
++    
++    @Override
++    protected void initView(View view) {
++        back = view.findViewById(R.id.back);
++        title = view.findViewById(R.id.title);
++        groupView = view.findViewById(R.id.group_view);
++        mapView = view.findViewById(R.id.map_view);
++        viewFlipper = view.findViewById(R.id.view_flipper);
++        btnDomestic = view.findViewById(R.id.btn_domestic);
++        imgDomestic = view.findViewById(R.id.img_domestic);
++        txtDomestic = view.findViewById(R.id.txt_domestic);
++        btnForeign = view.findViewById(R.id.btn_foreign);
++        imgForeign = view.findViewById(R.id.img_foreign);
++        txtForeign = view.findViewById(R.id.txt_foreign);
++    }
++    
++    @Override
++    protected void initData() {
++        GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);
++        binder.setFullGroup(true);
++        mapView.setOnMapViewClickListener(name -> {
++            Log.i("aaaaa", "--------" + name);
++            RectF rectF = mapView.getRectF(name);
++            initPopWindow((int) rectF.centerX(), (int) rectF.bottom);
++        });
++        
++        getData();
++        
++    }
++    
++    private List<GetMunicipal_query_all> getMunicipal_query = new ArrayList<>();
++    
++    private void getData() {
++        getMunicipal_query.clear();
++        for (GetProvinceRecruitStudentNumber getProvinceRecruitStudentNumber : getProvinceRecruitStudentNumbers) {
++            if (getProvinceRecruitStudentNumber.getProvinceName().equals(name)) {
++                name1 = getProvinceRecruitStudentNumber.getProvinceId();
++            }
++        }
++        
++        for (GetMunicipal_query_all getMunicipal_query_all : getMunicipal_query_alls) {
++            if (getMunicipal_query_all.getProvinceId().equals(name1)) {
++                getMunicipal_query.add(getMunicipal_query_all);
++            }
++        }
++        
++        
++    }
++    
++    @SuppressLint("NewApi")
++    private void initPopWindow(int x, int y) {
++        PopupWindow popupWindow = new PopupWindow(getContext());
++        popupWindow.setFocusable(false);
++        popupWindow.setOutsideTouchable(true);
++        popupWindow.setWidth(500);
++        popupWindow.setHeight(200);
++        //设置布局
++        popupWindow.showAsDropDown(groupView,
++            (int) (x * mapView.getMScale()) - (popupWindow.getWidth() / 2),
++            (int) (y * mapView.getMScale()) - groupView.getHeight(),
++            Gravity.CENTER);
++    }
++    
++    @Override
++    public void onClick(View v) {
++    
++    }
++}
+Index: app/src/main/java/com/example/smartcampus/bean/statistics/GetProvinceRecruitStudentNumber.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/bean/statistics/GetProvinceRecruitStudentNumber.java	(date 1624355554932)
++++ app/src/main/java/com/example/smartcampus/bean/statistics/GetProvinceRecruitStudentNumber.java	(date 1624355554932)
+@@ -0,0 +1,60 @@
++package com.example.smartcampus.bean.statistics;
++
++import java.io.Serializable;
++
++public class GetProvinceRecruitStudentNumber implements Serializable {
++    
++    /**
++     * overseasStudentNum : 14
++     * id : 1
++     * provinceName : 河北省
++     * enrollStudentNum : 67
++     * provinceId : 1
++     */
++    
++    private int overseasStudentNum;
++    private String id;
++    private String provinceName;
++    private int enrollStudentNum;
++    private String provinceId;
++    
++    public int getOverseasStudentNum() {
++        return overseasStudentNum;
++    }
++    
++    public void setOverseasStudentNum(int overseasStudentNum) {
++        this.overseasStudentNum = overseasStudentNum;
++    }
++    
++    public String getId() {
++        return id;
++    }
++    
++    public void setId(String id) {
++        this.id = id;
++    }
++    
++    public String getProvinceName() {
++        return provinceName;
++    }
++    
++    public void setProvinceName(String provinceName) {
++        this.provinceName = provinceName;
++    }
++    
++    public int getEnrollStudentNum() {
++        return enrollStudentNum;
++    }
++    
++    public void setEnrollStudentNum(int enrollStudentNum) {
++        this.enrollStudentNum = enrollStudentNum;
++    }
++    
++    public String getProvinceId() {
++        return provinceId;
++    }
++    
++    public void setProvinceId(String provinceId) {
++        this.provinceId = provinceId;
++    }
++}
+Index: app/src/main/java/com/example/smartcampus/bean/statistics/GetMunicipal_query_all.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/bean/statistics/GetMunicipal_query_all.java	(date 1624355821413)
++++ app/src/main/java/com/example/smartcampus/bean/statistics/GetMunicipal_query_all.java	(date 1624355821413)
+@@ -0,0 +1,60 @@
++package com.example.smartcampus.bean.statistics;
++
++import java.io.Serializable;
++
++public class GetMunicipal_query_all implements Serializable {
++    
++    /**
++     * overseasStudentNum : 0
++     * municipalName : 石家庄市
++     * id : 1
++     * enrollStudentNum : 4
++     * provinceId : 1
++     */
++    
++    private String overseasStudentNum;
++    private String municipalName;
++    private String id;
++    private String enrollStudentNum;
++    private String provinceId;
++    
++    public String getOverseasStudentNum() {
++        return overseasStudentNum;
++    }
++    
++    public void setOverseasStudentNum(String overseasStudentNum) {
++        this.overseasStudentNum = overseasStudentNum;
++    }
++    
++    public String getMunicipalName() {
++        return municipalName;
++    }
++    
++    public void setMunicipalName(String municipalName) {
++        this.municipalName = municipalName;
++    }
++    
++    public String getId() {
++        return id;
++    }
++    
++    public void setId(String id) {
++        this.id = id;
++    }
++    
++    public String getEnrollStudentNum() {
++        return enrollStudentNum;
++    }
++    
++    public void setEnrollStudentNum(String enrollStudentNum) {
++        this.enrollStudentNum = enrollStudentNum;
++    }
++    
++    public String getProvinceId() {
++        return provinceId;
++    }
++    
++    public void setProvinceId(String provinceId) {
++        this.provinceId = provinceId;
++    }
++}
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nbuildscript {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n    dependencies {\r\n        classpath \"com.android.tools.build:gradle:4.0.2\"\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        maven { url \"https://jitpack.io\" }\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 526b746ddf65ad5d3237a5caaac9428a49e4105d)
++++ build.gradle	(date 1624407299702)
+@@ -5,7 +5,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath "com.android.tools.build:gradle:4.0.2"
++        classpath 'com.android.tools.build:gradle:4.1.2'
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+         // in the individual module build.gradle files
+Index: app/src/main/java/com/example/smartcampus/Application.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus;\r\n\r\nimport com.example.smartcampuslibrary.ZhcsConfig;\r\n\r\npublic class Application extends android.app.Application {\r\n    @Override\r\n    public void onCreate() {\r\n        super.onCreate();\r\n        ZhcsConfig.setUrl(\"http://192.168.155.202:8080/Smart_campus/\");\r\n        ZhcsConfig.setContext(getApplicationContext());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/Application.java	(revision 526b746ddf65ad5d3237a5caaac9428a49e4105d)
++++ app/src/main/java/com/example/smartcampus/Application.java	(date 1624431857772)
+@@ -6,7 +6,7 @@
+     @Override
+     public void onCreate() {
+         super.onCreate();
+-        ZhcsConfig.setUrl("http://192.168.155.202:8080/Smart_campus/");
++        ZhcsConfig.setUrl("http://192.168.155.208:8080/Smart_campus_war/");
+         ZhcsConfig.setContext(getApplicationContext());
+     }
+ }

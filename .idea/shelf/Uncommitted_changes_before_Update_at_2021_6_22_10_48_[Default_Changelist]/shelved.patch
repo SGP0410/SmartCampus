@@ -1,0 +1,2564 @@
+Index: app/src/main/java/com/example/smartcampus/fragment/homeFragment/StatisticsFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.homeFragment;\r\n\r\nimport android.graphics.Color;\r\nimport android.util.DisplayMetrics;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport androidx.recyclerview.widget.GridLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport butterknife.BindView;\r\nimport butterknife.ButterKnife;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.activity.FragmentActivity;\r\nimport com.example.smartcampus.adapter.homeAdapter.StatisticsRecyclerViewAdapter;\r\nimport com.example.smartcampus.bean.home.HomeFunction;\r\nimport com.example.smartcampus.fragment.statisticsFragment.Fragment_count;\r\nimport com.example.smartcampus.fragment.statisticsFragment.Fragment_count_student;\r\nimport com.example.smartcampus.fragment.statisticsFragment.Fragment_getAJob;\r\nimport com.example.smartcampus.fragment.statisticsFragment.ProvinceStudentSourceFragment;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Objects;\r\n\r\npublic class StatisticsFragment extends BaseFragment {\r\n\r\n    @BindView(R.id.back)\r\n    ImageView back;\r\n    @BindView(R.id.title)\r\n    TextView title;\r\n    @BindView(R.id.statistics_recycler_view)\r\n    RecyclerView statisticsRecyclerView;\r\n\r\n    private List<HomeFunction> functionList;\r\n\r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.statistics_fragment;\r\n    }\r\n\r\n    @Override\r\n    protected void initView(View view) {\r\n        ButterKnife.bind(this, view);\r\n        title.setText(\"信息统计\");\r\n    }\r\n\r\n    @Override\r\n    protected void initData() {\r\n        setHomeFunction();\r\n        statisticsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),\r\n            getSpanCount(200),\r\n            GridLayoutManager.VERTICAL, false));\r\n        StatisticsRecyclerViewAdapter adapter = new StatisticsRecyclerViewAdapter(\r\n            functionList);\r\n        statisticsRecyclerView.setAdapter(adapter);\r\n        adapter.setOnItemClickListener(position -> {\r\n            switch (functionList.get(position).getName().split(\",\")[0]) {\r\n                case \"学生生源\":\r\n                    ((FragmentActivity) Objects.requireNonNull(getActivity()))\r\n                        .setFragment(new ProvinceStudentSourceFragment());\r\n                    break;\r\n                case \"性别统计\":\r\n                    ((FragmentActivity)getActivity()).setFragment(new Fragment_count());\r\n\r\n                    break;\r\n                case \"学生统计\":\r\n                    ((FragmentActivity)getActivity()).setFragment(new Fragment_count_student());\r\n\r\n                    break;\r\n                case \"消费趋势\":\r\n                    break;\r\n                case \"学霸指数\":\r\n                    break;\r\n                case \"招生信息\":\r\n                    break;\r\n                case \"学生就业\":\r\n                    ((FragmentActivity)getActivity()).setFragment(new Fragment_getAJob());\r\n                    break;\r\n            }\r\n        });\r\n    }\r\n\r\n    /**\r\n     * 获取一行最多显示多少item\r\n     *\r\n     * @param itemWidth item的宽度\r\n     * @return\r\n     */\r\n    private int getSpanCount(int itemWidth) {\r\n        DisplayMetrics dm = new DisplayMetrics();\r\n        Objects.requireNonNull(Objects.requireNonNull(getContext()).getDisplay()).getMetrics(dm);\r\n        //获取屏幕宽度\r\n        int widthPixels = dm.widthPixels;\r\n        //获取设备像素密度\r\n        float density = dm.densityDpi;\r\n        //1dp*像素密度(dpi)/160(dpi) = 实际像素数(px)\r\n        int dp = (int) ((widthPixels * 160) / density);\r\n\r\n        if (itemWidth == 0) {\r\n            return 0;\r\n        }\r\n        //计算出一行显示多少item\r\n\r\n        double spanCount = ((double)dp) / ((double)itemWidth);\r\n\r\n        return (int) Math.round(spanCount);\r\n    }\r\n\r\n    private void setHomeFunction() {\r\n        functionList = new ArrayList<>();\r\n        functionList.add(new HomeFunction(\"学生生源,StudentSource\", Color.parseColor(\"#2C77C5\"),\r\n            R.mipmap.xssy));\r\n        functionList.add(new HomeFunction(\"性别统计,GenderStatistics\", Color.parseColor(\"#14A88B\"),\r\n            R.mipmap.xbtj));\r\n        functionList.add(new HomeFunction(\"学生统计,StudentStatistics\", Color.parseColor(\"#FF7D01\"),\r\n            R.mipmap.xstj));\r\n        functionList.add(new HomeFunction(\"消费趋势,ConsumptionTrend\", Color.parseColor(\"#798EFE\"),\r\n            R.mipmap.xfqs));\r\n        functionList.add(new HomeFunction(\"学霸指数,schoolDomination\", Color.parseColor(\"#F86851\"),\r\n            R.mipmap.xbzs));\r\n        functionList.add(new HomeFunction(\"招生信息,Admissions\", Color.parseColor(\"#14A88B\"), R.mipmap.zsxx));\r\n        functionList.add(new HomeFunction(\"学生就业,Employment\", Color.parseColor(\"#FF7D01\"),\r\n            R.mipmap.xsjy));\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/homeFragment/StatisticsFragment.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/homeFragment/StatisticsFragment.java	(date 1624258490711)
+@@ -17,6 +17,7 @@
+ import com.example.smartcampus.fragment.statisticsFragment.Fragment_count;
+ import com.example.smartcampus.fragment.statisticsFragment.Fragment_count_student;
+ import com.example.smartcampus.fragment.statisticsFragment.Fragment_getAJob;
++import com.example.smartcampus.fragment.statisticsFragment.Fragment_straightAStudent;
+ import com.example.smartcampus.fragment.statisticsFragment.ProvinceStudentSourceFragment;
+ import com.example.smartcampuslibrary.fragment.BaseFragment;
+ import java.util.ArrayList;
+@@ -62,20 +63,19 @@
+                     break;
+                 case "性别统计":
+                     ((FragmentActivity)getActivity()).setFragment(new Fragment_count());
+-
+                     break;
+                 case "学生统计":
+                     ((FragmentActivity)getActivity()).setFragment(new Fragment_count_student());
+-
+                     break;
+                 case "消费趋势":
+                     break;
+                 case "学霸指数":
++                    ((FragmentActivity)getActivity()).setFragment(new Fragment_straightAStudent());
+                     break;
+                 case "招生信息":
+                     break;
+                 case "学生就业":
+-                    ((FragmentActivity)getActivity()).setFragment(new Fragment_getAJob());
++                    ((FragmentActivity) getActivity()).setFragment(new Fragment_getAJob());
+                     break;
+             }
+         });
+Index: app/src/main/res/drawable/lin_bai_r20.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/lin_bai_r20.xml	(date 1624265739014)
++++ app/src/main/res/drawable/lin_bai_r20.xml	(date 1624265739014)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++
++  <solid android:color="#FFFFFF"
++    />
++
++  <corners android:radius="10dp"
++    />
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_straightastudent.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_straightastudent.xml	(date 1624326746756)
++++ app/src/main/res/layout/fragment_straightastudent.xml	(date 1624326746756)
+@@ -0,0 +1,156 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++  android:layout_width="match_parent"
++  android:layout_height="match_parent"
++  android:orientation="vertical"
++  android:background="@color/color_background"
++  >
++
++  <include layout="@layout/title_back_g"/>
++
++  <LinearLayout
++    android:layout_width="match_parent"
++    android:layout_height="0dp"
++    android:layout_weight="1"
++    android:orientation="vertical"
++    >
++
++    <TextView
++      android:layout_width="match_parent"
++      android:layout_height="wrap_content"
++      android:textSize="22dp"
++      android:text="榜上有名"
++      android:gravity="center"
++      android:padding="5dp"
++      android:textColor="@color/color_title"
++      />
++
++    <LinearLayout
++      android:layout_width="match_parent"
++      android:layout_height="wrap_content"
++      android:orientation="horizontal"
++      >
++
++      <TextView
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:textSize="18dp"
++        android:text="排名"
++        android:gravity="center"
++        android:layout_weight="0.8"
++        />
++
++      <TextView
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:textSize="18dp"
++        android:text="姓名"
++        android:gravity="center"
++        android:layout_weight="1"
++        />
++
++      <TextView
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:textSize="18dp"
++        android:text="语文"
++        android:gravity="center"
++        android:layout_weight="1"
++        />
++
++      <TextView
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:textSize="18dp"
++        android:text="数学"
++        android:gravity="center"
++        android:layout_weight="1"
++        />
++
++      <TextView
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:textSize="18dp"
++        android:text="英语"
++        android:gravity="center"
++        android:layout_weight="1"
++        />
++
++      <TextView
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:textSize="18dp"
++        android:text="总分"
++        android:gravity="center"
++        android:layout_weight="1"
++        />
++
++    </LinearLayout>
++
++
++    <androidx.recyclerview.widget.RecyclerView
++      android:layout_width="match_parent"
++      android:layout_height="match_parent"
++      android:padding="4dp"
++      android:id="@+id/recyclerView"
++      />
++
++  </LinearLayout>
++
++  <LinearLayout
++    android:layout_width="match_parent"
++    android:layout_height="0dp"
++    android:layout_weight="1"
++    >
++
++    <com.github.mikephil.charting.charts.BarChart
++      android:layout_width="match_parent"
++      android:layout_height="match_parent"
++      android:id="@+id/barChart"
++      android:padding="10dp"
++      android:layout_margin="10dp"
++      />
++
++
++  </LinearLayout>
++
++  <LinearLayout
++    android:id="@+id/btn_learning_situation"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:padding="10dp"
++    android:layout_marginBottom="4dp"
++    android:background="@drawable/bai_r5"
++    android:orientation="horizontal"
++    >
++
++    <ImageView
++      android:layout_width="40dp"
++      android:layout_height="40dp"
++      android:src="@mipmap/student_tj"
++      />
++
++    <TextView
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:text="学习情况"
++      android:layout_weight="1"
++      android:textSize="20dp"
++      android:textColor="@color/color_title"
++      android:layout_gravity="center"
++      android:layout_marginLeft="10dp"
++      />
++
++    <ImageView
++      android:layout_width="30dp"
++      android:layout_height="40dp"
++      android:src="@mipmap/right"
++      />
++
++
++
++  </LinearLayout>
++
++
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/title_search.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/title_search.xml	(date 1624246114979)
++++ app/src/main/res/layout/title_search.xml	(date 1624246114979)
+@@ -0,0 +1,55 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++  android:layout_width="match_parent"
++  android:layout_height="56dp"
++  android:background="@drawable/title_gradient"
++  android:orientation="horizontal">
++
++  <ImageView
++    android:id="@+id/back"
++    android:layout_width="45dp"
++    android:layout_height="30dp"
++    android:layout_marginLeft="10dp"
++    android:layout_gravity="center"
++    android:onClick="onClick"
++    android:src="@mipmap/back"
++    />
++
++  <LinearLayout
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    android:layout_gravity="center_vertical"
++    >
++
++    <EditText
++      android:id="@+id/ed_search"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:layout_weight="1"
++      android:layout_marginRight="10dp"
++      android:padding="5dp"
++      android:text=""
++      android:layout_gravity="center"
++      android:focusable="true"
++      android:focusableInTouchMode="true"
++      android:imeOptions="actionSearch"
++      android:singleLine="true"
++      android:textSize="20dp"
++      android:background="@drawable/lin_ed_background"
++      />
++
++    <TextView
++      android:id="@+id/cancel"
++      android:layout_width="wrap_content"
++      android:layout_height="wrap_content"
++      android:text="取消"
++      android:layout_gravity="center_vertical"
++      android:textColor="@color/color_msg"
++      android:textSize="20dp"
++      android:layout_marginRight="10dp"
++      />
++
++  </LinearLayout>
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/smartcampus/bean/statistics/GetStraightAStudent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/bean/statistics/GetStraightAStudent.java	(date 1624328825679)
++++ app/src/main/java/com/example/smartcampus/bean/statistics/GetStraightAStudent.java	(date 1624328825679)
+@@ -0,0 +1,160 @@
++package com.example.smartcampus.bean.statistics;
++
++import java.io.Serializable;
++
++public class GetStraightAStudent implements Serializable {
++    
++    
++    /**
++     * expenditure : 1489
++     * shu : 28
++     * povertyStudent : 0
++     * majorId : 13
++     * sex : 男
++     * sum : 183
++     * municipalId : 273
++     * wordNatureId : 3
++     * grade : 2018级
++     * name : 陈强
++     * schoolCard : 10001001
++     * id : 1
++     * yu : 56
++     * wai : 99
++     */
++    
++    private String expenditure;
++    private String shu;
++    private String povertyStudent;
++    private String majorId;
++    private String sex;
++    private int sum;
++    private String municipalId;
++    private String wordNatureId;
++    private String grade;
++    private String name;
++    private String schoolCard;
++    private String id;
++    private String yu;
++    private String wai;
++    private String number;
++    
++    public String getNumber() {
++        return number;
++    }
++    
++    public void setNumber(String number) {
++        this.number = number;
++    }
++    
++    public String getExpenditure() {
++        return expenditure;
++    }
++    
++    public void setExpenditure(String expenditure) {
++        this.expenditure = expenditure;
++    }
++    
++    public String getShu() {
++        return shu;
++    }
++    
++    public void setShu(String shu) {
++        this.shu = shu;
++    }
++    
++    public String getPovertyStudent() {
++        return povertyStudent;
++    }
++    
++    public void setPovertyStudent(String povertyStudent) {
++        this.povertyStudent = povertyStudent;
++    }
++    
++    public String getMajorId() {
++        return majorId;
++    }
++    
++    public void setMajorId(String majorId) {
++        this.majorId = majorId;
++    }
++    
++    public String getSex() {
++        return sex;
++    }
++    
++    public void setSex(String sex) {
++        this.sex = sex;
++    }
++    
++    public int getSum() {
++        return sum;
++    }
++    
++    public void setSum(int sum) {
++        this.sum = sum;
++    }
++    
++    public String getMunicipalId() {
++        return municipalId;
++    }
++    
++    public void setMunicipalId(String municipalId) {
++        this.municipalId = municipalId;
++    }
++    
++    public String getWordNatureId() {
++        return wordNatureId;
++    }
++    
++    public void setWordNatureId(String wordNatureId) {
++        this.wordNatureId = wordNatureId;
++    }
++    
++    public String getGrade() {
++        return grade;
++    }
++    
++    public void setGrade(String grade) {
++        this.grade = grade;
++    }
++    
++    public String getName() {
++        return name;
++    }
++    
++    public void setName(String name) {
++        this.name = name;
++    }
++    
++    public String getSchoolCard() {
++        return schoolCard;
++    }
++    
++    public void setSchoolCard(String schoolCard) {
++        this.schoolCard = schoolCard;
++    }
++    
++    public String getId() {
++        return id;
++    }
++    
++    public void setId(String id) {
++        this.id = id;
++    }
++    
++    public String getYu() {
++        return yu;
++    }
++    
++    public void setYu(String yu) {
++        this.yu = yu;
++    }
++    
++    public String getWai() {
++        return wai;
++    }
++    
++    public void setWai(String wai) {
++        this.wai = wai;
++    }
++}
+Index: app/src/main/res/layout/fragment_count_sex_province.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n  android:layout_width=\"match_parent\"\r\n  android:layout_height=\"match_parent\"\r\n  xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n  android:orientation=\"vertical\"\r\n  android:background=\"@color/color_background\">\r\n\r\n  <include layout=\"@layout/title_back_g\"/>\r\n\r\n  <LinearLayout\r\n    android:id=\"@+id/btn_next\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:orientation=\"horizontal\"\r\n    android:padding=\"10dp\"\r\n    android:background=\"@drawable/lin_r14\"\r\n    android:layout_margin=\"10dp\"\r\n    android:elevation=\"5dp\"\r\n    >\r\n\r\n    <TextView\r\n      android:id=\"@+id/txt_province\"\r\n      android:layout_width=\"0dp\"\r\n      android:layout_height=\"wrap_content\"\r\n      android:layout_weight=\"0.8\"\r\n      android:text=\"山东省\"\r\n      android:textAppearance=\"@style/TextAppearance.AppCompat.Body1\"\r\n      android:textColor=\"@color/color_title\"\r\n      android:lines=\"1\"\r\n      android:ellipsize=\"end\"\r\n      android:textSize=\"20dp\" />\r\n\r\n    <LinearLayout\r\n      android:layout_width=\"0dp\"\r\n      android:layout_height=\"match_parent\"\r\n      android:layout_weight=\"1.3\"\r\n      android:gravity=\"center\"\r\n      >\r\n\r\n      <ImageView\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_weight=\"1\"\r\n        android:src=\"@mipmap/man\"\r\n        />\r\n      <TextView\r\n        android:id=\"@+id/item_man\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_weight=\"1\"\r\n        android:text=\"34%\"\r\n        android:gravity=\"center\"\r\n        android:layout_gravity=\"center\"\r\n        android:textSize=\"20dp\"\r\n        android:textColor=\"#20D5CE\"\r\n        android:textStyle=\"bold\"\r\n        />\r\n      <ImageView\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_weight=\"1\"\r\n        android:src=\"@mipmap/woman\"\r\n        />\r\n\r\n\r\n      <TextView\r\n        android:id=\"@+id/item_woman\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_weight=\"1\"\r\n        android:text=\"34%\"\r\n        android:gravity=\"center\"\r\n        android:textSize=\"20dp\"\r\n        android:textColor=\"#F39445\"\r\n        android:layout_gravity=\"center\"\r\n        android:textStyle=\"bold\"\r\n        />\r\n\r\n      <ImageView\r\n        android:layout_width=\"25dp\"\r\n        android:layout_height=\"30dp\"\r\n        android:src=\"@mipmap/right\"\r\n        />\r\n\r\n\r\n\r\n    </LinearLayout>\r\n\r\n  </LinearLayout>\r\n\r\n\r\n    <LinearLayout\r\n      android:layout_width=\"match_parent\"\r\n      android:layout_height=\"match_parent\"\r\n      android:orientation=\"vertical\"\r\n      android:layout_marginLeft=\"10dp\"\r\n      android:layout_marginRight=\"10dp\"\r\n      >\r\n\r\n      <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"1\"\r\n        android:orientation=\"horizontal\"\r\n        >\r\n\r\n        <LinearLayout\r\n          android:layout_width=\"0dp\"\r\n          android:layout_height=\"match_parent\"\r\n          android:layout_weight=\"1\"\r\n          >\r\n          <com.github.mikephil.charting.charts.BarChart\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:id=\"@+id/barChart\"\r\n            android:background=\"#BAFFFFFF\"\r\n            android:elevation=\"10dp\"\r\n            android:padding=\"2dp\"\r\n            />\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n          android:layout_width=\"0dp\"\r\n          android:layout_height=\"match_parent\"\r\n          android:layout_weight=\"1\"\r\n          >\r\n\r\n          <com.github.mikephil.charting.charts.LineChart\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:id=\"@+id/lineChart\"\r\n            android:background=\"#BAFFFFFF\"\r\n            android:elevation=\"10dp\"\r\n            android:padding=\"2dp\"\r\n            />\r\n\r\n        </LinearLayout>\r\n\r\n      </LinearLayout>\r\n\r\n      <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"1\"\r\n        android:orientation=\"horizontal\"\r\n        android:layout_marginTop=\"30dp\"\r\n        >\r\n\r\n        <LinearLayout\r\n          android:layout_width=\"0dp\"\r\n          android:layout_height=\"match_parent\"\r\n          android:layout_weight=\"1\"\r\n          >\r\n          <com.github.mikephil.charting.charts.BarChart\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:id=\"@+id/barChart_pileUp\"\r\n            android:background=\"#BAFFFFFF\"\r\n            android:elevation=\"10dp\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            />\r\n\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n          android:layout_width=\"0dp\"\r\n          android:layout_height=\"match_parent\"\r\n          android:layout_weight=\"1\"\r\n          >\r\n          <com.github.mikephil.charting.charts.PieChart\r\n            android:id=\"@+id/chart1\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_above=\"@+id/seekBar1\"\r\n            android:background=\"#BAFFFFFF\"\r\n            android:elevation=\"10dp\"\r\n            />\r\n\r\n\r\n\r\n        </LinearLayout>\r\n\r\n      </LinearLayout>\r\n\r\n      <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"1\"\r\n        android:orientation=\"vertical\"\r\n        >\r\n\r\n        <com.github.mikephil.charting.charts.PieChart\r\n          android:id=\"@+id/pieChart\"\r\n          android:layout_width=\"match_parent\"\r\n          android:layout_height=\"match_parent\"\r\n          android:layout_marginLeft=\"20dp\"\r\n          android:layout_marginTop=\"30dp\"\r\n          android:layout_marginRight=\"20dp\"\r\n          />\r\n\r\n      </LinearLayout>\r\n\r\n      <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"0.2\"\r\n        >\r\n\r\n      </LinearLayout>\r\n\r\n\r\n\r\n\r\n    </LinearLayout>\r\n\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_count_sex_province.xml	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/res/layout/fragment_count_sex_province.xml	(date 1624246115029)
+@@ -83,13 +83,10 @@
+         android:src="@mipmap/right"
+         />
+ 
+-
+-
+     </LinearLayout>
+ 
+   </LinearLayout>
+ 
+-
+     <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+Index: app/src/main/java/com/example/smartcampus/utils/SearchEditText.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/utils/SearchEditText.java	(date 1624246115012)
++++ app/src/main/java/com/example/smartcampus/utils/SearchEditText.java	(date 1624246115012)
+@@ -0,0 +1,171 @@
++package com.example.smartcampus.utils;
++
++import android.annotation.SuppressLint;
++import android.content.Context;
++import android.graphics.Canvas;
++import android.graphics.Rect;
++import android.graphics.drawable.Drawable;
++import android.text.Editable;
++import android.text.TextUtils;
++import android.text.TextWatcher;
++import android.util.AttributeSet;
++import android.view.MotionEvent;
++import android.view.View;
++import android.widget.EditText;
++import com.example.smartcampus.R;
++
++
++@SuppressLint("AppCompatCustomView")
++public class SearchEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
++    
++    private static final String TAG = "SearchEditText";
++    /**
++     * 删除按钮与右边编辑框之间的paddingRight距离
++     */
++    private int paddingRightValueBetweenRightBorderAndDel = 0;
++    
++    /**
++     * 图标是否默认在左边
++     */
++    private boolean isIconLeft = false;
++    
++    /**
++     * 控件的图片资源
++     */
++    private Drawable[] mDrawables;
++    
++    /**
++     * drawableLeft:搜索图标; drawableDel:删除按钮图标
++     */
++    private Drawable drawableLeft, drawableDel;
++    
++    /**
++     * 记录点击坐标
++     */
++    private int eventX, eventY;
++    
++    /**
++     * 控件区域
++     */
++    private Rect mRect;
++    
++    public SearchEditText(Context context) {
++        super(context);
++        init();
++    }
++    
++    public SearchEditText(Context context, AttributeSet attrs) {
++        super(context, attrs);
++        init();
++    }
++    
++    public SearchEditText(Context context, AttributeSet attrs, int defStyleAttr) {
++        super(context, attrs, defStyleAttr);
++        init();
++    }
++    
++    @SuppressLint("NewApi")
++    public SearchEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
++        super(context, attrs, defStyleAttr, defStyleRes);
++        init();
++    }
++    
++    private void init() {
++        setOnFocusChangeListener(this);
++        addTextChangedListener(this);
++    }
++    
++    @Override
++    protected void onDraw(Canvas canvas) {
++        
++        if (isIconLeft) {
++            if (length() < 1) {
++                drawableDel = null;
++            }
++            this.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableDel,
++                null);  //在edittext的左上右下设置Drawable
++            super.onDraw(canvas);
++        } else {
++            if (mDrawables == null) {
++                mDrawables = getCompoundDrawables(); //返回包含左上右下四个位置的Drawable数组
++            }
++            if (drawableLeft == null) {
++                drawableLeft = mDrawables[0];
++            }
++            float textWidth = getPaint().measureText(getHint().toString());
++            int drawablePadding = getCompoundDrawablePadding();  //返回Drawable和text之间的padding值
++            int drawableWidth = drawableLeft.getIntrinsicWidth();   //获得Drawable的固有宽度
++            float bodyWidth = textWidth + drawablePadding + drawableWidth;
++            canvas.translate((getWidth() - bodyWidth - getPaddingLeft() - getPaddingRight()) / 2, 0);
++            super.onDraw(canvas);
++        }
++    }
++    
++    @Override
++    public boolean onTouchEvent(MotionEvent event) {
++        if (drawableDel != null && event.getAction() == MotionEvent.ACTION_UP) {
++            eventX = (int) event.getRawX();
++            eventY = (int) event.getRawY();
++            if (mRect == null) {
++                mRect = new Rect();
++            }
++            getGlobalVisibleRect(mRect);  // edittext在屏幕中的坐标
++            mRect.left =
++                mRect.right - drawableDel.getIntrinsicWidth() - getPaddingRightValueBetweenRightBorderAndDel();
++            if (mRect.contains(eventX, eventY)) {
++                setText("");
++            }
++        }
++        if (drawableDel != null && event.getAction() == MotionEvent.ACTION_DOWN) {
++            eventX = (int) event.getRawX();
++            eventY = (int) event.getRawY();
++            if (mRect == null) {
++                mRect = new Rect();
++            }
++            getGlobalVisibleRect(mRect);
++            mRect.left = mRect.right - drawableDel.getIntrinsicWidth();
++            if (mRect.contains(eventX, eventY)) {
++                drawableDel = this.getResources().getDrawable(R.mipmap.search);
++            } else {
++                drawableDel = this.getResources().getDrawable(R.mipmap.wrong);
++            }
++        }
++        return super.onTouchEvent(event);
++    }
++    
++    @Override
++    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
++    
++    }
++    
++    @Override
++    public void onTextChanged(CharSequence s, int start, int before, int count) {
++        if (this.length() < 1) {
++            drawableDel = null;
++        } else {
++            drawableDel = this.getResources().getDrawable(R.mipmap.search);
++        }
++    }
++    
++    @Override
++    public void afterTextChanged(Editable s) {
++    
++    }
++    
++    @Override
++    public void onFocusChange(View v, boolean hasFocus) {
++        if (TextUtils.isEmpty(getText().toString())) {
++            isIconLeft = hasFocus;
++        }
++    }
++    
++    public void setPaddingRightValueBetweenRightBorderAndDel(int dimenID) {
++        this.paddingRightValueBetweenRightBorderAndDel = dimenID;
++    }
++    
++    private int getPaddingRightValueBetweenRightBorderAndDel() {
++        return this.getResources().getDimensionPixelOffset(paddingRightValueBetweenRightBorderAndDel);
++    }
++    
++    
++}
+Index: app/src/main/res/layout/adapter_straightastdent.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/adapter_straightastdent.xml	(date 1624328232726)
++++ app/src/main/res/layout/adapter_straightastdent.xml	(date 1624328232726)
+@@ -0,0 +1,81 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++  android:layout_width="match_parent"
++  android:layout_height="wrap_content"
++  android:background="@drawable/lin_lan_r20"
++  android:padding="5dp"
++  android:id="@+id/item_line"
++  android:orientation="horizontal">
++
++
++  <LinearLayout
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    >
++
++    <TextView
++      android:id="@+id/item_No"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="17dp"
++      android:text="排名"
++      android:gravity="center"
++      android:layout_weight="0.8"
++      />
++
++    <TextView
++      android:id="@+id/item_name"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="17dp"
++      android:text="姓名"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++    <TextView
++      android:id="@+id/item_yuwen"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="17dp"
++      android:text="语文"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++    <TextView
++      android:id="@+id/item_shuxue"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="17dp"
++      android:text="数学"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++    <TextView
++      android:id="@+id/item_yingyu"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="17dp"
++      android:text="英语"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++    <TextView
++      android:id="@+id/item_sum"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="17dp"
++      android:text="总分"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++  </LinearLayout>
++
++
++
++</LinearLayout>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/SmartCampuslibrary\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n            <option value=\"$PROJECT_DIR$/gestureviewbinder\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ .idea/gradle.xml	(date 1624246177135)
+@@ -17,6 +17,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/res/layout/adapter_straightastdent_msg.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/adapter_straightastdent_msg.xml	(date 1624329041633)
++++ app/src/main/res/layout/adapter_straightastdent_msg.xml	(date 1624329041633)
+@@ -0,0 +1,119 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++  android:layout_width="match_parent"
++  android:layout_height="match_parent"
++  android:orientation="vertical"
++  android:background="@color/color_background"
++  >
++
++  <include layout="@layout/title_back_g"/>
++
++
++  <LinearLayout
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    >
++
++    <EditText
++      android:id="@+id/ed_search"
++      android:layout_width="0dp"
++      android:layout_weight="1"
++      android:layout_height="wrap_content"
++      android:textSize="20dp"
++      android:background="@drawable/lin_bai_r20"
++      android:layout_marginLeft="20dp"
++      android:layout_marginTop="10dp"
++      android:layout_marginBottom="10dp"
++      android:layout_marginRight="20dp"
++      android:hint="搜索"
++      android:padding="5dp"
++      />
++
++    <TextView
++      android:id="@+id/cancel"
++      android:layout_width="wrap_content"
++      android:layout_height="wrap_content"
++      android:text="取消"
++      android:layout_gravity="center_vertical"
++      android:textColor="@color/color_msg"
++      android:textSize="20dp"
++      android:layout_marginRight="10dp"
++      />
++
++
++  </LinearLayout>
++
++  <LinearLayout
++    android:layout_marginTop="5dp"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    >
++
++    <TextView
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="18dp"
++      android:text="排名"
++      android:gravity="center"
++      android:layout_weight="0.8"
++      />
++
++    <TextView
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="18dp"
++      android:text="姓名"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++    <TextView
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="18dp"
++      android:text="语文"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++    <TextView
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="18dp"
++      android:text="数学"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++    <TextView
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="18dp"
++      android:text="英语"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++    <TextView
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:textSize="18dp"
++      android:text="总分"
++      android:gravity="center"
++      android:layout_weight="1"
++      />
++
++  </LinearLayout>
++
++
++  <androidx.recyclerview.widget.RecyclerView
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:id="@+id/recyclerView"
++    android:padding="4dp"
++    />
++
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_school_sex.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n  android:layout_width=\"match_parent\"\r\n  android:layout_height=\"match_parent\"\r\n  android:background=\"@color/color_background\"\r\n  android:orientation=\"vertical\">\r\n\r\n  <include layout=\"@layout/title_back_g\"/>\r\n\r\n  <androidx.recyclerview.widget.RecyclerView\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:id=\"@+id/recyclerView\"\r\n    android:paddingLeft=\"3dp\"\r\n    />\r\n\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_school_sex.xml	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/res/layout/fragment_school_sex.xml	(date 1624246114996)
+@@ -5,14 +5,13 @@
+   android:background="@color/color_background"
+   android:orientation="vertical">
+ 
+-  <include layout="@layout/title_back_g"/>
++  <include layout="@layout/title_search"/>
+ 
+   <androidx.recyclerview.widget.RecyclerView
++    android:id="@+id/recyclerView"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:id="@+id/recyclerView"
+-    android:paddingLeft="3dp"
+-    />
++    android:paddingLeft="3dp" />
+ 
+ 
+ </LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_count_sex.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n  android:layout_width=\"match_parent\"\r\n  android:layout_height=\"match_parent\"\r\n  android:orientation=\"vertical\"\r\n  android:background=\"#EEE\"\r\n  >\r\n\r\n  <include layout=\"@layout/title_back_g\"/>\r\n\r\n  <androidx.recyclerview.widget.RecyclerView\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:id=\"@+id/recyclerView\"\r\n    android:padding=\"3dp\"\r\n    />\r\n\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_count_sex.xml	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/res/layout/fragment_count_sex.xml	(date 1624246115111)
+@@ -6,7 +6,7 @@
+   android:background="#EEE"
+   >
+ 
+-  <include layout="@layout/title_back_g"/>
++  <include layout="@layout/title_search"/>
+ 
+   <androidx.recyclerview.widget.RecyclerView
+     android:layout_width="match_parent"
+Index: app/src/main/res/layout/fragment_count_student.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n  android:layout_width=\"match_parent\"\r\n  android:layout_height=\"match_parent\"\r\n  xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n  android:orientation=\"vertical\"\r\n  android:background=\"@color/color_background\">\r\n\r\n  <include layout=\"@layout/title_back_g\"/>\r\n\r\n  <ScrollView\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    >\r\n\r\n\r\n  <LinearLayout\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:layout_weight=\"1\"\r\n    android:padding=\"10dp\"\r\n    android:orientation=\"vertical\"\r\n    >\r\n\r\n    <LinearLayout\r\n      android:layout_width=\"match_parent\"\r\n      android:layout_height=\"500dp\"\r\n      >\r\n\r\n      <com.github.mikephil.charting.charts.HorizontalBarChart\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:id=\"@+id/barChart\"\r\n        android:background=\"#BAFFFFFF\"\r\n        android:layout_marginTop=\"10dp\"\r\n        android:elevation=\"10dp\"\r\n        android:padding=\"2dp\"\r\n        />\r\n\r\n    </LinearLayout>\r\n\r\n    <LinearLayout\r\n      android:layout_width=\"match_parent\"\r\n      android:layout_height=\"400dp\"\r\n      >\r\n\r\n      <com.github.mikephil.charting.charts.LineChart\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:id=\"@+id/lineChart\"\r\n        android:background=\"#BAFFFFFF\"\r\n        android:elevation=\"10dp\"\r\n        android:padding=\"2dp\"\r\n        />\r\n\r\n    </LinearLayout>\r\n\r\n    <LinearLayout\r\n      android:layout_width=\"match_parent\"\r\n      android:layout_height=\"400dp\"\r\n      >\r\n\r\n      <com.github.mikephil.charting.charts.BarChart\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:id=\"@+id/barChart_pileUp\"\r\n        android:background=\"#BAFFFFFF\"\r\n        android:elevation=\"10dp\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        />\r\n\r\n    </LinearLayout>\r\n\r\n    <LinearLayout\r\n      android:layout_width=\"match_parent\"\r\n      android:layout_height=\"400dp\"\r\n      >\r\n\r\n      <com.github.mikephil.charting.charts.PieChart\r\n        android:id=\"@+id/chart1\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_above=\"@+id/seekBar1\"\r\n        android:background=\"#BAFFFFFF\"\r\n        android:elevation=\"10dp\"\r\n        />\r\n\r\n\r\n\r\n    </LinearLayout>\r\n\r\n\r\n\r\n  </LinearLayout>\r\n\r\n\r\n  </ScrollView>\r\n\r\n\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_count_student.xml	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/res/layout/fragment_count_student.xml	(date 1624246115038)
+@@ -39,19 +39,22 @@
+ 
+     </LinearLayout>
+ 
++
+     <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="400dp"
+       >
+ 
+-      <com.github.mikephil.charting.charts.LineChart
++      <com.github.mikephil.charting.charts.PieChart
++        android:id="@+id/chart1"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+-        android:id="@+id/lineChart"
++        android:layout_above="@+id/seekBar1"
+         android:background="#BAFFFFFF"
+         android:elevation="10dp"
+-        android:padding="2dp"
+         />
++
++
+ 
+     </LinearLayout>
+ 
+@@ -60,14 +63,13 @@
+       android:layout_height="400dp"
+       >
+ 
+-      <com.github.mikephil.charting.charts.BarChart
++      <com.github.mikephil.charting.charts.LineChart
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+-        android:id="@+id/barChart_pileUp"
++        android:id="@+id/lineChart"
+         android:background="#BAFFFFFF"
+         android:elevation="10dp"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintBottom_toBottomOf="parent"
++        android:padding="2dp"
+         />
+ 
+     </LinearLayout>
+@@ -77,21 +79,22 @@
+       android:layout_height="400dp"
+       >
+ 
+-      <com.github.mikephil.charting.charts.PieChart
+-        android:id="@+id/chart1"
++      <com.github.mikephil.charting.charts.BarChart
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+-        android:layout_above="@+id/seekBar1"
++        android:id="@+id/barChart_pileUp"
+         android:background="#BAFFFFFF"
+         android:elevation="10dp"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"
+         />
+-
+-
+ 
+     </LinearLayout>
+ 
+ 
+ 
++
++
+   </LinearLayout>
+ 
+ 
+Index: app/src/main/java/com/example/smartcampus/adapter/statisticsAdapter/StraightAStudent_adapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/adapter/statisticsAdapter/StraightAStudent_adapter.java	(date 1624328825668)
++++ app/src/main/java/com/example/smartcampus/adapter/statisticsAdapter/StraightAStudent_adapter.java	(date 1624328825668)
+@@ -0,0 +1,64 @@
++package com.example.smartcampus.adapter.statisticsAdapter;
++
++import android.annotation.SuppressLint;
++import android.view.View;
++import android.widget.LinearLayout;
++import android.widget.TextView;
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++import com.example.smartcampus.R;
++import com.example.smartcampus.adapter.statisticsAdapter.StraightAStudent_adapter.ViewHolder;
++import com.example.smartcampus.bean.statistics.GetStraightAStudent;
++import com.example.smartcampuslibrary.adapter.BaseRecyclerViewAdapter;
++import java.util.List;
++
++public class StraightAStudent_adapter extends BaseRecyclerViewAdapter<ViewHolder, GetStraightAStudent> {
++    
++    public StraightAStudent_adapter(List<GetStraightAStudent> getStraightAStudents) {
++        super(getStraightAStudents, R.layout.adapter_straightastdent);
++    }
++    
++    @Override
++    protected ViewHolder getViewHolder(View itemView) {
++        return new ViewHolder(itemView);
++    }
++    
++    @SuppressLint("SetTextI18n")
++    @Override
++    protected void setValues(ViewHolder holder, GetStraightAStudent bean) {
++        int position = getPosition();
++        if (position % 2 == 0) {
++            holder.itemLine.setBackgroundResource(R.drawable.lin_lan_r20);
++        } else {
++            holder.itemLine.setBackgroundResource(R.drawable.lin_bai_r20);
++        }
++        holder.itemNo.setText(bean.getNumber());
++        holder.itemName.setText(bean.getName());
++        holder.itemYuwen.setText(bean.getYu());
++        holder.itemShuxue.setText(bean.getShu());
++        holder.itemYingyu.setText(bean.getWai());
++        holder.itemSum.setText(bean.getSum() + "");
++    }
++    
++    static class ViewHolder extends RecyclerView.ViewHolder {
++        
++        private LinearLayout itemLine;
++        private TextView itemNo;
++        private TextView itemName;
++        private TextView itemYuwen;
++        private TextView itemShuxue;
++        private TextView itemYingyu;
++        private TextView itemSum;
++        
++        public ViewHolder(@NonNull View itemView) {
++            super(itemView);
++            itemLine = itemView.findViewById(R.id.item_line);
++            itemNo = itemView.findViewById(R.id.item_No);
++            itemName = itemView.findViewById(R.id.item_name);
++            itemYuwen = itemView.findViewById(R.id.item_yuwen);
++            itemShuxue = itemView.findViewById(R.id.item_shuxue);
++            itemYingyu = itemView.findViewById(R.id.item_yingyu);
++            itemSum = itemView.findViewById(R.id.item_sum);
++        }
++    }
++}
+Index: app/src/main/res/layout/fragment_getajob.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n  android:layout_width=\"match_parent\"\r\n  android:layout_height=\"match_parent\"\r\n  android:orientation=\"vertical\"\r\n  android:background=\"@color/color_background\"\r\n  >\r\n\r\n  <include layout=\"@layout/title_back_g\"/>\r\n\r\n\r\n\r\n  <com.github.mikephil.charting.charts.PieChart\r\n    android:id=\"@+id/chart1\"\r\n    android:layout_width=\"230dp\"\r\n    android:layout_height=\"180dp\"\r\n    android:layout_above=\"@+id/seekBar1\"\r\n    />\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_getajob.xml	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/res/layout/fragment_getajob.xml	(date 1624246115004)
+@@ -1,20 +1,14 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++  xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:background="@color/color_background"
+   >
+ 
+-  <include layout="@layout/title_back_g"/>
++  <include layout="@layout/title_search"/>
+ 
+ 
+ 
+-  <com.github.mikephil.charting.charts.PieChart
+-    android:id="@+id/chart1"
+-    android:layout_width="230dp"
+-    android:layout_height="180dp"
+-    android:layout_above="@+id/seekBar1"
+-    />
+-
+ </LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_count_sex_city.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n  android:layout_width=\"match_parent\"\r\n  android:layout_height=\"match_parent\"\r\n  android:background=\"@color/color_background\"\r\n  android:orientation=\"vertical\">\r\n\r\n  <include layout=\"@layout/title_back_g\"/>\r\n\r\n  <androidx.recyclerview.widget.RecyclerView\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:id=\"@+id/recyclerView\"\r\n    android:padding=\"3dp\"\r\n    />\r\n\r\n\r\n\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_count_sex_city.xml	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/res/layout/fragment_count_sex_city.xml	(date 1624246115124)
+@@ -5,7 +5,7 @@
+   android:background="@color/color_background"
+   android:orientation="vertical">
+ 
+-  <include layout="@layout/title_back_g"/>
++  <include layout="@layout/title_search"/>
+ 
+   <androidx.recyclerview.widget.RecyclerView
+     android:layout_width="match_parent"
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <!-- Base application theme. -->\r\n    <style name=\"AppTheme\" parent=\"Theme.AppCompat.Light.NoActionBar\">\r\n        <!-- Customize your theme here. -->\r\n        <item name=\"colorPrimary\">@color/colorPrimary</item>\r\n        <item name=\"colorPrimaryDark\">@color/colorPrimaryDark</item>\r\n        <item name=\"colorAccent\">@color/colorAccent</item>\r\n    </style>\r\n\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/res/values/styles.xml	(date 1624246115118)
+@@ -1,10 +1,11 @@
+ <resources>
+-    <!-- Base application theme. -->
+-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+-        <!-- Customize your theme here. -->
+-        <item name="colorPrimary">@color/colorPrimary</item>
+-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+-        <item name="colorAccent">@color/colorAccent</item>
+-    </style>
++  <!-- Base application theme. -->
++  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
++    <!-- Customize your theme here. -->
++    <item name="colorPrimary">@color/colorPrimary</item>
++    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
++    <item name="colorAccent">@color/colorAccent</item>
++  </style>
+ 
++
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/drawable/lin_lan_r20.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/lin_lan_r20.xml	(date 1624264592941)
++++ app/src/main/res/drawable/lin_lan_r20.xml	(date 1624264592941)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++
++  <solid android:color="#433377FF"
++    />
++
++  <corners android:radius="10dp"
++    />
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/res/drawable/lin_ed_background.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/lin_ed_background.xml	(date 1624246115021)
++++ app/src/main/res/drawable/lin_ed_background.xml	(date 1624246115021)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++
++  <solid android:color="#FAFAFA"
++    />
++
++  <corners android:radius="10dp"
++    />
++
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.TextView;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.activity.FragmentActivity;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\n\r\npublic class Fragment_count extends BaseFragment {\r\n    \r\n    private ImageView back;\r\n    private TextView title;\r\n    private RecyclerView recyclerView;\r\n    private LinearLayout btnArea;\r\n    private LinearLayout btnCollege;\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_count;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        recyclerView = view.findViewById(R.id.recyclerView);\r\n        btnArea = view.findViewById(R.id.btn_area);\r\n        btnCollege = view.findViewById(R.id.btn_college);\r\n    }\r\n    \r\n    @Override\r\n    protected void initData() {\r\n        title.setText(\"性别统计\");\r\n        btnArea.setOnClickListener(v -> {\r\n            ((FragmentActivity) getActivity()).setFragment(new Fragment_count_sex());\r\n        });\r\n        \r\n        btnCollege.setOnClickListener(v -> {\r\n            ((FragmentActivity) getActivity()).setFragment(new Fragment_school_sex());\r\n        });\r\n        \r\n    }\r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count.java	(date 1624246114965)
+@@ -13,7 +13,6 @@
+     
+     private ImageView back;
+     private TextView title;
+-    private RecyclerView recyclerView;
+     private LinearLayout btnArea;
+     private LinearLayout btnCollege;
+     
+@@ -26,7 +25,6 @@
+     protected void initView(View view) {
+         back = view.findViewById(R.id.back);
+         title = view.findViewById(R.id.title);
+-        recyclerView = view.findViewById(R.id.recyclerView);
+         btnArea = view.findViewById(R.id.btn_area);
+         btnCollege = view.findViewById(R.id.btn_college);
+     }
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/ProvinceStudentSourceFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.content.res.ColorStateList;\r\nimport android.graphics.Color;\r\nimport android.graphics.drawable.Drawable;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.TextView;\r\nimport android.widget.ViewFlipper;\r\nimport androidx.core.graphics.drawable.DrawableCompat;\r\nimport butterknife.BindView;\r\nimport butterknife.ButterKnife;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.bean.statistics.Province;\r\nimport com.example.smartcampus.bean.statistics.ProvinceStudentSource;\r\nimport com.example.smartcampus.utils.MapView;\r\nimport com.example.smartcampus.utils.destureviewbinder.GestureViewBinder;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.example.smartcampuslibrary.net.OkHttpLo;\r\nimport com.example.smartcampuslibrary.net.OkHttpTo;\r\nimport com.github.mikephil.charting.charts.BarChart;\r\nimport com.github.mikephil.charting.components.XAxis;\r\nimport com.github.mikephil.charting.components.XAxis.XAxisPosition;\r\nimport com.github.mikephil.charting.components.YAxis;\r\nimport com.github.mikephil.charting.data.BarData;\r\nimport com.github.mikephil.charting.data.BarDataSet;\r\nimport com.github.mikephil.charting.data.BarEntry;\r\nimport com.github.mikephil.charting.formatter.IndexAxisValueFormatter;\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.reflect.TypeToken;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.Collections;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\nimport org.json.JSONObject;\r\n\r\npublic class ProvinceStudentSourceFragment extends BaseFragment {\r\n\r\n    @BindView(R.id.back)\r\n    ImageView back;\r\n    @BindView(R.id.title)\r\n    TextView title;\r\n    @BindView(R.id.map_view)\r\n    MapView mapView;\r\n    @BindView(R.id.group_view)\r\n    LinearLayout groupView;\r\n    @BindView(R.id.view_flipper)\r\n    ViewFlipper viewFlipper;\r\n    @BindView(R.id.layout1)\r\n    LinearLayout layout1;\r\n    @BindView(R.id.you_xiu)\r\n    LinearLayout youXiu;\r\n    @BindView(R.id.pin_kun)\r\n    LinearLayout pinKun;\r\n    @BindView(R.id.you_xiu_image)\r\n    ImageView youXiuImage;\r\n    @BindView(R.id.you_xiu_text)\r\n    TextView youXiuText;\r\n    @BindView(R.id.pin_kun_image)\r\n    ImageView pinKunImage;\r\n    @BindView(R.id.pin_kun_text)\r\n    TextView pinKunText;\r\n\r\n\r\n    private List<Province> provinceList;\r\n    private List<ProvinceStudentSource> provinceStudentSourceList1;\r\n    private List<ProvinceStudentSource> provinceStudentSourceList2;\r\n    private List<String> names;\r\n    private BarChart barChart1;\r\n    private BarChart barChart2;\r\n    private List<Integer> colorList1;\r\n    private List<Integer> colorList2;\r\n\r\n\r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.student_source_fragment;\r\n    }\r\n\r\n    @Override\r\n    protected void initView(View view) {\r\n        ButterKnife.bind(this, view);\r\n        title.setText(\"省生源\");\r\n        youXiu.setOnClickListener(this::onClick);\r\n        pinKun.setOnClickListener(this::onClick);\r\n        setColor(youXiuImage , youXiuText , Color.parseColor(\"#4B5CC5\"));\r\n        setColor(pinKunImage , pinKunText , Color.parseColor(\"#333333\"));\r\n    }\r\n\r\n    @Override\r\n    protected void initData() {\r\n        GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);\r\n        binder.setFullGroup(true);\r\n        mapView.setOnMapViewClickListener(name -> {\r\n            Log.i(\"aaaaa\", \"--------\" + name);\r\n//            ((FragmentActivity) getActivity())\r\n//                .setFragment(new MunicipalStudentSourceFragment(name));\r\n        });\r\n\r\n        province_query_all();\r\n\r\n    }\r\n\r\n    private void province_query_all() {\r\n        new OkHttpTo().setUrl(\"province_query_all\")\r\n            .setRequestType(\"get\")\r\n            .setOkHttpLo(new OkHttpLo() {\r\n                @Override\r\n                public void onResponse(JSONObject jsonObject) {\r\n                    provinceList = new Gson().fromJson(jsonObject.optJSONArray(\r\n                        \"data\").toString(), new TypeToken<List<Province>>() {\r\n                    }.getType());\r\n                    if (provinceList != null) {\r\n                        getProvinceStudentSource();\r\n                    }\r\n                }\r\n\r\n                @Override\r\n                public void onFailure(IOException e) {\r\n\r\n                }\r\n            }).start();\r\n    }\r\n\r\n    private void getProvinceStudentSource() {\r\n        provinceStudentSourceList1 = new ArrayList<>();\r\n        OkHttpTo okHttpTo;\r\n        for (Province province : provinceList) {\r\n            okHttpTo = new OkHttpTo();\r\n            if (province == provinceList.get(provinceList.size() - 1)) {\r\n                okHttpTo.setDialog(getContext());\r\n            }\r\n            okHttpTo\r\n                .setUrl(\"GetProvinceStudentSource?provinceName=\" + province.getProvinceName())\r\n                .setRequestType(\"get\")\r\n                .setOkHttpLo(new OkHttpLo() {\r\n                    @Override\r\n                    public void onResponse(JSONObject jsonObject) {\r\n                        provinceStudentSourceList1.add(new Gson().fromJson(jsonObject.toString(),\r\n                            ProvinceStudentSource.class));\r\n\r\n                        if (provinceStudentSourceList1.size() == provinceList.size()) {\r\n                            showData();\r\n                        }\r\n                    }\r\n\r\n                    @Override\r\n                    public void onFailure(IOException e) {\r\n\r\n                    }\r\n                }).start();\r\n        }\r\n    }\r\n\r\n    private void showData() {\r\n        provinceStudentSourceList2 = new ArrayList<>();\r\n        provinceStudentSourceList2.addAll(provinceStudentSourceList1);\r\n\r\n        Collections.sort(provinceStudentSourceList1, ((o1, o2) -> {\r\n            return o2.getEliteStudent() - o1.getEliteStudent();\r\n        }));\r\n\r\n        Collections.sort(provinceStudentSourceList2, ((o1, o2) -> {\r\n            return o2.getPoorStudent() - o1.getPoorStudent();\r\n        }));\r\n\r\n        setView();\r\n    }\r\n\r\n    private void setView() {\r\n\r\n        for (int i = 0; i < 2; i++) {\r\n            BarChart barChart = new BarChart(getContext());\r\n            setBarChart(barChart, i);\r\n            viewFlipper.addView(barChart);\r\n        }\r\n\r\n        showMap(colorList1, provinceStudentSourceList1);\r\n    }\r\n\r\n    private void showMap(List<Integer> colorList,\r\n        List<ProvinceStudentSource> provinceStudentSourceList) {\r\n\r\n        Map<String, Integer> colorMap = new HashMap<>();\r\n        for (int i = 0; i < colorList.size(); i++) {\r\n            colorMap.put(provinceStudentSourceList.get(i).getProvinceName(), colorList.get(i));\r\n        }\r\n        mapView.setColors(colorMap);\r\n        mapView.setMapResId(R.raw.china);\r\n    }\r\n\r\n\r\n    private void setBarChart(BarChart barChart, int i) {\r\n        barChart.getLegend().setEnabled(false);\r\n        barChart.setDescription(null);\r\n        setBarChartData(barChart, i);\r\n    }\r\n\r\n    private void setBarChartData(BarChart barChart, int i) {\r\n        List<BarEntry> barEntryList = new ArrayList<>();\r\n        BarDataSet barDataSet = null;\r\n        BarData barData = null;\r\n\r\n        names = new ArrayList<>();\r\n        names.add(\"\");\r\n\r\n        String[] colors1 = {\"#f4a235\", \"#f8b751\", \"#ebba46\", \"#efc800\", \"#f1cc3e\",\r\n            \"#f5e84c\", \"#f5e84c\"};\r\n        String[] colors2 = {\"#e21c13\", \"#a71e32\", \"#46b797\", \"#63be9d\", \"#a0d4bd\",\r\n            \"#bee0d0\", \"#bee0d0\"};\r\n        //优秀\r\n        if (i == 0) {\r\n            barChart1 = barChart;\r\n            for (int i1 = 0; i1 < provinceStudentSourceList1.size(); i1++) {\r\n                barEntryList\r\n                    .add(new BarEntry(i1 + 1,\r\n                        provinceStudentSourceList1.get(i1).getEliteStudent()));\r\n                names.add(provinceStudentSourceList1.get(i1).getProvinceName());\r\n            }\r\n            barDataSet = new BarDataSet(barEntryList, \"优秀学子\");\r\n\r\n            colorList1 = new ArrayList<>();\r\n            for (int j = 0; j < provinceStudentSourceList1.size(); j++) {\r\n                colorList1.add(Color.parseColor(colors1[j / colors1.length]));\r\n            }\r\n\r\n            barDataSet.setColors(colorList1);\r\n        }\r\n        //贫困\r\n        if (i == 1) {\r\n            barChart2 = barChart;\r\n            for (int i1 = 0; i1 < provinceStudentSourceList2.size(); i1++) {\r\n                barEntryList\r\n                    .add(new BarEntry(i1 + 1,\r\n                        provinceStudentSourceList2.get(i1).getPoorStudent()));\r\n                names.add(provinceStudentSourceList2.get(i1).getProvinceName());\r\n            }\r\n            barDataSet = new BarDataSet(barEntryList, \"贫困学子\");\r\n\r\n            colorList2 = new ArrayList<>();\r\n            for (int j = 0; j < provinceStudentSourceList2.size(); j++) {\r\n                colorList2.add(Color.parseColor(colors2[j / colors2.length]));\r\n            }\r\n\r\n            barDataSet.setColors(colorList2);\r\n        }\r\n\r\n        setAxis(barChart);\r\n\r\n        barData = new BarData(barDataSet);\r\n        barData.setBarWidth(0.5f);\r\n\r\n        barChart.setData(barData);\r\n        barChart.animateXY(0, 2000);\r\n    }\r\n\r\n    private void setAxis(BarChart barChart) {\r\n\r\n        XAxis xAxis = barChart.getXAxis();\r\n        xAxis.setPosition(XAxisPosition.BOTTOM);\r\n        xAxis.setLabelCount(provinceStudentSourceList1.size());\r\n        xAxis.setDrawGridLines(false);\r\n        xAxis.setValueFormatter(new IndexAxisValueFormatter(names));\r\n        xAxis.setLabelRotationAngle(90);\r\n\r\n        YAxis yAxis = barChart.getAxisLeft();\r\n        yAxis.setAxisMinimum(0f);\r\n        yAxis.setLabelCount(10);\r\n\r\n        YAxis yAxis1 = barChart.getAxisRight();\r\n        yAxis1.setEnabled(false);\r\n        yAxis1.setAxisMinimum(0f);\r\n        yAxis1.setLabelCount(10);\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n        switch (v.getId()) {\r\n            //        holder.imageView.setImageDrawable(tintDrawable(holder.imageView.getDrawable() ,\r\n            //            ColorStateList.valueOf(bean.getColor())));\r\n            case R.id.you_xiu:\r\n                viewFlipper.setDisplayedChild(0);\r\n                barChart1.animateXY(0, 2000);\r\n                showMap(colorList1, provinceStudentSourceList1);\r\n                setColor(youXiuImage , youXiuText , Color.parseColor(\"#4B5CC5\"));\r\n                setColor(pinKunImage , pinKunText , Color.parseColor(\"#333333\"));\r\n                break;\r\n            case R.id.pin_kun:\r\n                viewFlipper.setDisplayedChild(1);\r\n                barChart2.animateXY(0, 2000);\r\n                showMap(colorList2, provinceStudentSourceList2);\r\n                setColor(youXiuImage , youXiuText , Color.parseColor(\"#333333\"));\r\n                setColor(pinKunImage , pinKunText , Color.parseColor(\"#4B5CC5\"));\r\n                break;\r\n        }\r\n    }\r\n\r\n    private void setColor(ImageView imageView, TextView textView, int color) {\r\n        Drawable wrap = DrawableCompat.wrap(imageView.getDrawable());\r\n        DrawableCompat.setTintList(wrap, ColorStateList.valueOf(color));\r\n        imageView.setImageDrawable(wrap);\r\n        textView.setTextColor(color);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/ProvinceStudentSourceFragment.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/ProvinceStudentSourceFragment.java	(date 1624260901405)
+@@ -118,7 +118,7 @@
+                         getProvinceStudentSource();
+                     }
+                 }
+-
++                
+                 @Override
+                 public void onFailure(IOException e) {
+ 
+@@ -180,11 +180,11 @@
+         }
+ 
+         showMap(colorList1, provinceStudentSourceList1);
++        
+     }
+ 
+     private void showMap(List<Integer> colorList,
+         List<ProvinceStudentSource> provinceStudentSourceList) {
+-
+         Map<String, Integer> colorMap = new HashMap<>();
+         for (int i = 0; i < colorList.size(); i++) {
+             colorMap.put(provinceStudentSourceList.get(i).getProvinceName(), colorList.get(i));
+@@ -208,10 +208,8 @@
+         names = new ArrayList<>();
+         names.add("");
+ 
+-        String[] colors1 = {"#f4a235", "#f8b751", "#ebba46", "#efc800", "#f1cc3e",
+-            "#f5e84c", "#f5e84c"};
+-        String[] colors2 = {"#e21c13", "#a71e32", "#46b797", "#63be9d", "#a0d4bd",
+-            "#bee0d0", "#bee0d0"};
++        String[] colors1 = {"#f4a235", "#f8b751", "#ebba46", "#efc800", "#f1cc3e", "#f5e84c", "#f5e84c"};
++        String[] colors2 = {"#e21c13", "#a71e32", "#46b797", "#63be9d", "#a0d4bd", "#bee0d0", "#bee0d0"};
+         //优秀
+         if (i == 0) {
+             barChart1 = barChart;
+@@ -222,12 +220,10 @@
+                 names.add(provinceStudentSourceList1.get(i1).getProvinceName());
+             }
+             barDataSet = new BarDataSet(barEntryList, "优秀学子");
+-
+             colorList1 = new ArrayList<>();
+             for (int j = 0; j < provinceStudentSourceList1.size(); j++) {
+                 colorList1.add(Color.parseColor(colors1[j / colors1.length]));
+             }
+-
+             barDataSet.setColors(colorList1);
+         }
+         //贫困
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_getAJob.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.graphics.Color;\r\nimport android.graphics.Typeface;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.github.mikephil.charting.animation.Easing;\r\nimport com.github.mikephil.charting.charts.PieChart;\r\nimport com.github.mikephil.charting.components.Legend;\r\nimport com.github.mikephil.charting.components.Legend.LegendVerticalAlignment;\r\nimport com.github.mikephil.charting.data.PieData;\r\nimport com.github.mikephil.charting.data.PieDataSet;\r\nimport com.github.mikephil.charting.data.PieEntry;\r\nimport com.github.mikephil.charting.formatter.PercentFormatter;\r\nimport com.github.mikephil.charting.utils.ColorTemplate;\r\nimport java.util.ArrayList;\r\n\r\npublic class Fragment_getAJob extends BaseFragment {\r\n    \r\n    private ImageView back;\r\n    private TextView title;\r\n    private PieChart chart;\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_getajob;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        chart = view.findViewById(R.id.chart1);\r\n    }\r\n    \r\n    @Override\r\n    protected void initData() {\r\n    \r\n        setData();\r\n        \r\n        chart.setUsePercentValues(true);\r\n        chart.getDescription().setEnabled(false);\r\n        chart.setExtraOffsets(5, 10, 5, 5);\r\n        chart.setDragDecelerationFrictionCoef(0.95f);\r\n        \r\n        chart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);\r\n    \r\n        chart.setDrawHoleEnabled(true);\r\n        chart.setHoleColor(Color.parseColor(\"#EEEEEE\"));\r\n        chart.setCenterTextSize(20);\r\n    \r\n        chart.setTransparentCircleColor(Color.parseColor(\"#EEEEEE\"));\r\n        chart.setTransparentCircleAlpha(110);\r\n    \r\n        chart.setHoleRadius(58f);\r\n        chart.setTransparentCircleRadius(61f);\r\n    \r\n        chart.setDrawCenterText(true);\r\n    \r\n        chart.setRotationAngle(0);\r\n        // enable rotation of the chart by touch\r\n        chart.setRotationEnabled(true);\r\n        chart.setHighlightPerTapEnabled(true);\r\n    \r\n        Legend l = chart.getLegend();\r\n        l.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);\r\n        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);\r\n        l.setOrientation(Legend.LegendOrientation.VERTICAL);\r\n        l.setDrawInside(false);\r\n        l.setEnabled(false);\r\n        \r\n        chart.invalidate();\r\n        \r\n        \r\n    }\r\n    \r\n    \r\n    private void setData() {\r\n        \r\n        ArrayList<PieEntry> entries = new ArrayList<>();\r\n        \r\n        entries.add(new PieEntry((float) (20), \"男\"));\r\n        entries.add(new PieEntry((float) (80), \"女\"));\r\n        \r\n        PieDataSet dataSet = new PieDataSet(entries, \"Election Results\");\r\n        dataSet.setSliceSpace(3f);\r\n        dataSet.setSelectionShift(5f);\r\n        ArrayList<Integer> colors = new ArrayList<>();\r\n        colors.add(Color.parseColor(\"#22D5CE\"));\r\n        colors.add(Color.parseColor(\"#F39444\"));\r\n        colors.add(ColorTemplate.getHoloBlue());\r\n        dataSet.setColors(colors);\r\n        dataSet.setValueLinePart1OffsetPercentage(80.f);\r\n        dataSet.setValueLinePart1Length(0.2f);\r\n        dataSet.setValueLinePart2Length(0.4f);\r\n        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);\r\n        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);\r\n        \r\n        PieData data = new PieData(dataSet);\r\n        data.setValueFormatter(new PercentFormatter());\r\n        data.setValueTextSize(11f);\r\n        data.setValueTextColor(Color.BLACK);\r\n        data.setValueTextSize(13);\r\n        chart.setData(data);\r\n        \r\n        // undo all highlights\r\n        chart.highlightValues(null);\r\n        \r\n        chart.invalidate();\r\n    }\r\n    \r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_getAJob.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_getAJob.java	(date 1624246115047)
+@@ -20,9 +20,6 @@
+ 
+ public class Fragment_getAJob extends BaseFragment {
+     
+-    private ImageView back;
+-    private TextView title;
+-    private PieChart chart;
+     
+     @Override
+     protected int layoutResId() {
+@@ -31,85 +28,12 @@
+     
+     @Override
+     protected void initView(View view) {
+-        back = view.findViewById(R.id.back);
+-        title = view.findViewById(R.id.title);
+-        chart = view.findViewById(R.id.chart1);
++  
+     }
+     
+     @Override
+     protected void initData() {
+     
+-        setData();
+-        
+-        chart.setUsePercentValues(true);
+-        chart.getDescription().setEnabled(false);
+-        chart.setExtraOffsets(5, 10, 5, 5);
+-        chart.setDragDecelerationFrictionCoef(0.95f);
+-        
+-        chart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
+-    
+-        chart.setDrawHoleEnabled(true);
+-        chart.setHoleColor(Color.parseColor("#EEEEEE"));
+-        chart.setCenterTextSize(20);
+-    
+-        chart.setTransparentCircleColor(Color.parseColor("#EEEEEE"));
+-        chart.setTransparentCircleAlpha(110);
+-    
+-        chart.setHoleRadius(58f);
+-        chart.setTransparentCircleRadius(61f);
+-    
+-        chart.setDrawCenterText(true);
+-    
+-        chart.setRotationAngle(0);
+-        // enable rotation of the chart by touch
+-        chart.setRotationEnabled(true);
+-        chart.setHighlightPerTapEnabled(true);
+-    
+-        Legend l = chart.getLegend();
+-        l.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);
+-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+-        l.setDrawInside(false);
+-        l.setEnabled(false);
+-        
+-        chart.invalidate();
+-        
+-        
+-    }
+-    
+-    
+-    private void setData() {
+-        
+-        ArrayList<PieEntry> entries = new ArrayList<>();
+-        
+-        entries.add(new PieEntry((float) (20), "男"));
+-        entries.add(new PieEntry((float) (80), "女"));
+-        
+-        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
+-        dataSet.setSliceSpace(3f);
+-        dataSet.setSelectionShift(5f);
+-        ArrayList<Integer> colors = new ArrayList<>();
+-        colors.add(Color.parseColor("#22D5CE"));
+-        colors.add(Color.parseColor("#F39444"));
+-        colors.add(ColorTemplate.getHoloBlue());
+-        dataSet.setColors(colors);
+-        dataSet.setValueLinePart1OffsetPercentage(80.f);
+-        dataSet.setValueLinePart1Length(0.2f);
+-        dataSet.setValueLinePart2Length(0.4f);
+-        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+-        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+-        
+-        PieData data = new PieData(dataSet);
+-        data.setValueFormatter(new PercentFormatter());
+-        data.setValueTextSize(11f);
+-        data.setValueTextColor(Color.BLACK);
+-        data.setValueTextSize(13);
+-        chart.setData(data);
+-        
+-        // undo all highlights
+-        chart.highlightValues(null);
+-        
+-        chart.invalidate();
+     }
+     
+     
+Index: app/src/main/res/drawable/search_background.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/search_background.xml	(date 1624246114988)
++++ app/src/main/res/drawable/search_background.xml	(date 1624246114988)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++
++  <solid android:color="#fff"
++    />
++
++
++  <corners android:radius="20dp"
++    />
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/res/drawable/bai_r5.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/bai_r5.xml	(date 1624262310594)
++++ app/src/main/res/drawable/bai_r5.xml	(date 1624262310594)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++
++  <solid android:color="#77FFFFFF"
++    />
++
++  <corners android:radius="10dp"
++    />
++</shape>
+\ No newline at end of file
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_student.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.graphics.Color;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.bean.statistics.GetCollegeMenAndWomenNumberAll;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.example.smartcampuslibrary.net.OkHttpLo;\r\nimport com.example.smartcampuslibrary.net.OkHttpTo;\r\nimport com.github.mikephil.charting.charts.BarChart;\r\nimport com.github.mikephil.charting.charts.LineChart;\r\nimport com.github.mikephil.charting.charts.PieChart;\r\nimport com.github.mikephil.charting.components.AxisBase;\r\nimport com.github.mikephil.charting.components.Legend;\r\nimport com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment;\r\nimport com.github.mikephil.charting.components.Legend.LegendOrientation;\r\nimport com.github.mikephil.charting.components.Legend.LegendVerticalAlignment;\r\nimport com.github.mikephil.charting.components.XAxis;\r\nimport com.github.mikephil.charting.components.XAxis.XAxisPosition;\r\nimport com.github.mikephil.charting.components.YAxis;\r\nimport com.github.mikephil.charting.data.BarData;\r\nimport com.github.mikephil.charting.data.BarDataSet;\r\nimport com.github.mikephil.charting.data.BarEntry;\r\nimport com.github.mikephil.charting.data.Entry;\r\nimport com.github.mikephil.charting.data.LineData;\r\nimport com.github.mikephil.charting.data.LineDataSet;\r\nimport com.github.mikephil.charting.data.PieData;\r\nimport com.github.mikephil.charting.data.PieDataSet;\r\nimport com.github.mikephil.charting.data.PieEntry;\r\nimport com.github.mikephil.charting.formatter.IAxisValueFormatter;\r\nimport com.github.mikephil.charting.formatter.IValueFormatter;\r\nimport com.github.mikephil.charting.formatter.IndexAxisValueFormatter;\r\nimport com.github.mikephil.charting.formatter.PercentFormatter;\r\nimport com.github.mikephil.charting.interfaces.datasets.IBarDataSet;\r\nimport com.github.mikephil.charting.utils.ColorTemplate;\r\nimport com.github.mikephil.charting.utils.ViewPortHandler;\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.reflect.TypeToken;\r\nimport java.io.IOException;\r\nimport java.text.DecimalFormat;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport org.json.JSONObject;\r\n\r\npublic class Fragment_count_student extends BaseFragment {\r\n    \r\n    private ImageView back;\r\n    private TextView title;\r\n    private BarChart barChart;\r\n    private LineChart lineChart;\r\n    private BarChart barChartPileUp;\r\n    private PieChart chart;\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_count_student;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        barChart = view.findViewById(R.id.barChart);\r\n        lineChart = view.findViewById(R.id.lineChart);\r\n        barChartPileUp = view.findViewById(R.id.barChart_pileUp);\r\n        chart = view.findViewById(R.id.chart1);\r\n    }\r\n    \r\n    @Override\r\n    protected void initData() {\r\n        title.setText(\"学生统计\");\r\n        getOkHttp();\r\n    }\r\n    \r\n    private List<GetCollegeMenAndWomenNumberAll> getCollegeMenAndWomenNumberAlls;\r\n    \r\n    private void getOkHttp() {\r\n        if (getCollegeMenAndWomenNumberAlls == null) {\r\n            getCollegeMenAndWomenNumberAlls = new ArrayList<>();\r\n        } else {\r\n            getCollegeMenAndWomenNumberAlls.clear();\r\n        }\r\n        new OkHttpTo()\r\n            .setUrl(\"GetCollegeMenAndWomenNumberAll\")\r\n            .setRequestType(\"GET\")\r\n            .setDialog(getContext())\r\n            .setOkHttpLo(new OkHttpLo() {\r\n                @Override\r\n                public void onResponse(JSONObject jsonObject) {\r\n                    getCollegeMenAndWomenNumberAlls\r\n                        .addAll(new Gson().fromJson(jsonObject.optJSONArray(\"rows\").toString(),\r\n                            new TypeToken<List<GetCollegeMenAndWomenNumberAll>>() {\r\n                            }.getType()));\r\n                    getShow();\r\n                }\r\n                \r\n                @Override\r\n                public void onFailure(IOException e) {\r\n                \r\n                }\r\n            }).start();\r\n    }\r\n    \r\n    private void getShow() {\r\n        getBarChart();\r\n        getLineChart();\r\n        getBarChart_PileUp();\r\n        getPieChart1();\r\n    }\r\n    \r\n    private void getPieChart1() {\r\n        \r\n        ArrayList<PieEntry> entries = new ArrayList<>();\r\n    \r\n        for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {\r\n            int s =\r\n                getCollegeMenAndWomenNumberAlls.get(i).getMan()+getCollegeMenAndWomenNumberAlls.get(i).getWoman();\r\n            entries.add(new PieEntry((float) (s), getCollegeMenAndWomenNumberAlls.get(i).getCollegeName()));\r\n        }\r\n        PieDataSet dataSet = new PieDataSet(entries, \"Election Results\");\r\n        dataSet.setSliceSpace(3f);\r\n        dataSet.setSelectionShift(5f);\r\n        ArrayList<Integer> colors = new ArrayList<>();\r\n        colors.add(Color.parseColor(\"#3CBBFF\"));\r\n        colors.add(Color.parseColor(\"#FFB81C\"));\r\n        colors.add(Color.parseColor(\"#3AEFC3\"));\r\n        colors.add(Color.parseColor(\"#FFA9B3\"));\r\n        colors.add(Color.parseColor(\"#A139FD\"));\r\n        colors.add(Color.parseColor(\"#4DCCED\"));\r\n        colors.add(Color.parseColor(\"#25B576\"));\r\n        colors.add(Color.parseColor(\"#84CBFA\"));\r\n        dataSet.setColors(colors);\r\n        dataSet.setValueLinePart1OffsetPercentage(80.f);\r\n        dataSet.setValueLinePart1Length(0.2f);\r\n        dataSet.setValueLinePart2Length(0.4f);\r\n        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);\r\n        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);\r\n        \r\n        PieData data = new PieData(dataSet);\r\n        data.setValueFormatter(new PercentFormatter());\r\n        data.setValueTextSize(11f);\r\n        data.setValueTextColor(Color.BLACK);\r\n        data.setValueTextSize(13);\r\n        chart.setData(data);\r\n        \r\n        // undo all highlights\r\n        chart.highlightValues(null);\r\n        \r\n        chart.invalidate();\r\n        chart.setUsePercentValues(true);\r\n        chart.getDescription().setEnabled(false);\r\n        chart.setExtraOffsets(5, 10, 5, 5);\r\n        chart.setDragDecelerationFrictionCoef(0.95f);\r\n        \r\n        chart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);\r\n        \r\n        chart.setDrawHoleEnabled(true);\r\n        chart.setHoleColor(Color.parseColor(\"#EEEEEE\"));\r\n        chart.setCenterTextSize(20);\r\n        \r\n        chart.setTransparentCircleColor(Color.parseColor(\"#EEEEEE\"));\r\n        chart.setTransparentCircleAlpha(110);\r\n        \r\n        chart.setHoleRadius(58f);\r\n        chart.setTransparentCircleRadius(61f);\r\n        \r\n        chart.setDrawCenterText(true);\r\n        \r\n        chart.setRotationAngle(0);\r\n        // enable rotation of the chart by touch\r\n        chart.setRotationEnabled(true);\r\n        chart.setHighlightPerTapEnabled(true);\r\n        \r\n        Legend  l = chart.getLegend();\r\n        l.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);\r\n        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);\r\n        l.setOrientation(Legend.LegendOrientation.VERTICAL);\r\n        l.setDrawInside(false);\r\n        l.setEnabled(false);\r\n        chart.animateXY(0, 2000);\r\n        chart.invalidate();\r\n    }\r\n    \r\n    private void getBarChart_PileUp() {\r\n        barChartPileUp.getDescription().setEnabled(false);        //不展示图表描述信息\r\n        //所有值均绘制在其条形顶部上方\r\n        barChartPileUp.setDrawValueAboveBar(false);\r\n        //纵坐标不显示网格线\r\n        barChartPileUp.getXAxis().setDrawGridLines(false);\r\n        //不支持图表缩放\r\n        barChartPileUp.setScaleEnabled(false);\r\n        //设置点击图表时的标记，可以自定义布局\r\n//        barChartPileUp.setMarker(new MyMarkView(context);\r\n        \r\n        // 改变y标签的位置\r\n        YAxis leftAxis = barChartPileUp.getAxisLeft();\r\n        leftAxis.setAxisMinimum(0);\r\n        leftAxis.setMaxWidth(1000);\r\n        //右y轴不显示\r\n        barChartPileUp.getAxisRight().setEnabled(false);\r\n        leftAxis.setDrawAxisLine(false);\r\n        //获取x坐标轴\r\n        XAxis xLabels = barChartPileUp.getXAxis();\r\n        //设置x坐标轴显示位置在下方\r\n        xLabels.setPosition(XAxisPosition.BOTTOM);\r\n        //转换x坐标轴显示内容\r\n        xLabels.setValueFormatter(new IAxisValueFormatter() {\r\n            @Override\r\n            public String getFormattedValue(float value, AxisBase axis) {\r\n                return \"\";\r\n            }\r\n        });\r\n        \r\n        YAxis yAxis = barChartPileUp.getAxisLeft();\r\n        yAxis.setMaxWidth(1000);\r\n        yAxis.setMinWidth(0);\r\n        \r\n        ArrayList<BarEntry> yValues = new ArrayList<>();\r\n        \r\n        List<Integer> integers = new ArrayList<>();\r\n        for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {\r\n            integers.add(getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i).getWoman());\r\n        }\r\n    \r\n        for (int i = 0; i < integers.size(); i++) {\r\n            yValues.add(new BarEntry(0,new float[]{integers.get(i)}));\r\n        }\r\n        \r\n        BarDataSet set1;\r\n        \r\n        if (barChartPileUp.getData() != null && barChartPileUp.getData().getDataSetCount() > 0) {\r\n            set1 = (BarDataSet) barChartPileUp.getData().getDataSetByIndex(0);\r\n            set1.setValues(yValues);\r\n            barChartPileUp.getData().notifyDataChanged();\r\n            barChartPileUp.notifyDataSetChanged();\r\n        } else {\r\n            set1 = new BarDataSet(yValues, \"\");\r\n            set1.setValueTextSize(20);\r\n            set1.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n                DecimalFormat format = new DecimalFormat(\"0\");\r\n                return format.format(value);\r\n            });\r\n            //设置图例的颜色和名称\r\n            set1.setColors(new int[]{R.color.drawing_nv, R.color.drawing_man}, getContext());\r\n    \r\n            for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {\r\n                set1.setStackLabels(new String[]{getCollegeMenAndWomenNumberAlls.get(i).getCollegeName()});\r\n            }\r\n            \r\n            ArrayList<IBarDataSet> dataSets = new ArrayList<>();\r\n            dataSets.add(set1);\r\n            BarData data = new BarData(dataSets);\r\n            data.setValueTextColor(Color.WHITE);\r\n            barChartPileUp.setData(data);\r\n        }\r\n        barChartPileUp.animateXY(0, 2000);\r\n        barChartPileUp.setFitBars(true);\r\n        barChartPileUp.setTouchEnabled(false);                   //禁用触摸\r\n        barChartPileUp.invalidate();\r\n        \r\n        \r\n    }\r\n    \r\n    private List<Entry> entries;\r\n    private List<String> stringLine;\r\n    \r\n    private void getLineChart() {\r\n        if (entries == null) {\r\n            entries = new ArrayList<>();\r\n            stringLine = new ArrayList<>();\r\n        } else {\r\n            entries.clear();\r\n            stringLine.clear();\r\n        }\r\n        \r\n        \r\n        for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {\r\n            int s = getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i).getWoman();\r\n            entries.add(new BarEntry(i, s));\r\n            String string = getCollegeMenAndWomenNumberAlls.get(i).getCollegeName().substring(0,3);\r\n            stringLine.add(string);\r\n        }\r\n        \r\n        LineDataSet dataSet = new LineDataSet(entries, \"\");  //单数据存入\r\n        \r\n        dataSet.setCircleColor(Color.parseColor(\"#F44848\"));                 //设置外圈颜色\r\n        dataSet.setCircleHoleRadius(18f);                    //内圈半径\r\n        dataSet.setColor(Color.parseColor(\"#20D5CE\"));                       //绘制线条颜色\r\n        //设置外圈颜色\r\n        dataSet.setValueTextSize(20);                       //显示数字大小\r\n        dataSet.setLineWidth(4f);                           //线条宽度\r\n        dataSet.setDrawValues(false);                       //关闭图中显示数字\r\n        dataSet.setDrawCircleHole(false);                   //关闭标识线，垂直显示的\r\n        dataSet.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n            DecimalFormat format = new DecimalFormat(\"0\");\r\n            return format.format(value) + \"%\";\r\n        });\r\n        \r\n        LineData lineData = new LineData(dataSet);\r\n        \r\n        YAxis yAxis = lineChart.getAxisLeft();\r\n        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线\r\n        yAxis.setAxisMinimum(0);                        //最小值\r\n        \r\n        XAxis xAxis = lineChart.getXAxis();\r\n        xAxis.setPosition(XAxisPosition.BOTTOM);      //X轴在底部显示\r\n        xAxis.setValueFormatter(new IndexAxisValueFormatter(stringLine));    //将每秒显示的数据放到X轴\r\n        xAxis.setLabelCount(stringLine.size());            //标签个数\r\n        xAxis.setGranularity(1f);\r\n        xAxis.setTextSize(15);\r\n        //两个数之间的间距\r\n        xAxis.setDrawGridLines(false);                    //关闭网格线\r\n        \r\n        lineChart.setData(lineData);\r\n        lineChart.getLegend().setEnabled(false);\r\n        lineChart.animateXY(1500, 1000);                    //动画效果\r\n        lineChart.getDescription().setEnabled(false);       //说明关闭\r\n        lineChart.setTouchEnabled(false);                   //禁用触摸\r\n        lineChart.invalidate();                             //刷新\r\n        \r\n    }\r\n    \r\n    private List<BarEntry> barEntries;\r\n    private List<String> string_Bar;\r\n    \r\n    private void getBarChart() {\r\n        if (barEntries == null) {\r\n            barEntries = new ArrayList<>();\r\n            string_Bar = new ArrayList<>();\r\n        } else {\r\n            string_Bar.clear();\r\n            barEntries.clear();\r\n        }\r\n        \r\n        for (int i = 0; i < getCollegeMenAndWomenNumberAlls.size(); i++) {\r\n            int s = getCollegeMenAndWomenNumberAlls.get(i).getMan() + getCollegeMenAndWomenNumberAlls.get(i).getWoman();\r\n            barEntries.add(new BarEntry(i, s));\r\n            String string = getCollegeMenAndWomenNumberAlls.get(i).getCollegeName().substring(0,5);\r\n            string_Bar.add(string);\r\n        }\r\n    \r\n        BarDataSet barDataSet = new BarDataSet(barEntries, \"\");\r\n        barDataSet.setColor(Color.parseColor(\"#20D5CE\"));\r\n        BarData data = new BarData(barDataSet);\r\n        barDataSet.setValueTextSize(18);            //设置大小\r\n        barDataSet.setValueTextColor(Color.parseColor(\"#404040\"));\r\n        barDataSet.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n            DecimalFormat format = new DecimalFormat(\"0\");\r\n            return format.format(value);\r\n        });\r\n        \r\n        data.setBarWidth(0.5f);\r\n    \r\n        barChart.getLegend().setEnabled(false);\r\n    \r\n        YAxis yAxis = barChart.getAxisLeft();\r\n        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线\r\n        yAxis.setAxisMinimum(0);                        //最小值\r\n    \r\n        XAxis xAxis = barChart.getXAxis();\r\n        xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示\r\n        xAxis.setValueFormatter(new IndexAxisValueFormatter(string_Bar));    //将每秒显示的数据放到X轴\r\n        xAxis.setLabelCount(string_Bar.size());            //标签个数\r\n        xAxis.setGranularity(1f);\r\n        xAxis.setTextSize(15);\r\n        //两个数之间的间距\r\n        xAxis.setDrawGridLines(false);                    //关闭网格线\r\n    \r\n        barDataSet.setColors(Color.parseColor(\"#22D5CE\"), Color.parseColor(\"#F39444\"));\r\n    \r\n        barChart.animateXY(0, 2000);\r\n        barChart.setFitBars(true);\r\n        barChart.getAxisRight().setEnabled(false);         //关闭右边线和数据\r\n        barChart.setData(data);                            //数据集合\r\n        barChart.setTouchEnabled(false);                   //禁用触摸\r\n        barChart.getDescription().setEnabled(false);       //关闭右下角\r\n        barChart.invalidate();\r\n        \r\n    }\r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_student.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_student.java	(date 1624246115060)
+@@ -192,6 +192,8 @@
+         //不支持图表缩放
+         barChartPileUp.setScaleEnabled(false);
+         //设置点击图表时的标记，可以自定义布局
++        
++        
+ //        barChartPileUp.setMarker(new MyMarkView(context);
+         
+         // 改变y标签的位置
+@@ -213,10 +215,7 @@
+             }
+         });
+         
+-        YAxis yAxis = barChartPileUp.getAxisLeft();
+-        yAxis.setMaxWidth(1000);
+-        yAxis.setMinWidth(0);
+-        
++
+         ArrayList<BarEntry> yValues = new ArrayList<>();
+         
+         List<Integer> integers = new ArrayList<>();
+@@ -255,6 +254,12 @@
+             data.setValueTextColor(Color.WHITE);
+             barChartPileUp.setData(data);
+         }
++    
++        YAxis yAxis = barChartPileUp.getAxisLeft();
++        yAxis.setMaxWidth(1000);
++        yAxis.setMinWidth(0);
++        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
++    
+         barChartPileUp.animateXY(0, 2000);
+         barChartPileUp.setFitBars(true);
+         barChartPileUp.setTouchEnabled(false);                   //禁用触摸
+@@ -302,7 +307,7 @@
+         
+         YAxis yAxis = lineChart.getAxisLeft();
+         yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
+-        yAxis.setAxisMinimum(0);                        //最小值
++        yAxis.setAxisMinimum(100);                        //最小值
+         
+         XAxis xAxis = lineChart.getXAxis();
+         xAxis.setPosition(XAxisPosition.BOTTOM);      //X轴在底部显示
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_straightAStudent_msg.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_straightAStudent_msg.java	(date 1624329304317)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_straightAStudent_msg.java	(date 1624329304317)
+@@ -0,0 +1,113 @@
++package com.example.smartcampus.fragment.statisticsFragment;
++
++import android.content.Context;
++import android.text.Editable;
++import android.text.TextWatcher;
++import android.view.View;
++import android.view.inputmethod.InputMethodManager;
++import android.widget.EditText;
++import android.widget.ImageView;
++import android.widget.TextView;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++import com.example.smartcampus.R;
++import com.example.smartcampus.adapter.statisticsAdapter.StraightAStudent_adapter;
++import com.example.smartcampus.bean.statistics.GetStraightAStudent;
++import com.example.smartcampuslibrary.fragment.BaseFragment;
++import java.util.ArrayList;
++import java.util.List;
++
++public class Fragment_straightAStudent_msg extends BaseFragment {
++    
++    private final List<GetStraightAStudent> getStraightAStudentList;
++    private List<GetStraightAStudent> seeklist = new ArrayList<>();
++    private ImageView back;
++    private TextView title;
++    private RecyclerView recyclerView;
++    private EditText edSearch;
++    private TextView cancel;
++    private InputMethodManager imm;
++    
++    public Fragment_straightAStudent_msg(List<GetStraightAStudent> getStraightAStudents) {
++        this.getStraightAStudentList = getStraightAStudents;
++    }
++    
++    @Override
++    protected int layoutResId() {
++        return R.layout.adapter_straightastdent_msg;
++    }
++    
++    @Override
++    protected void initView(View view) {
++        back = view.findViewById(R.id.back);
++        title = view.findViewById(R.id.title);
++        recyclerView = view.findViewById(R.id.recyclerView);
++        edSearch = view.findViewById(R.id.ed_search);
++        cancel = view.findViewById(R.id.cancel);
++    }
++    
++    @Override
++    protected void initData() {
++        title.setText("学习情况");
++        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
++        seeklist.addAll(getStraightAStudentList);
++        
++        StraightAStudent_adapter adapter = new StraightAStudent_adapter(seeklist);
++        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
++        recyclerView.setAdapter(adapter);
++        
++        cancel.setOnClickListener(v -> {
++            if (imm != null) {
++                imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
++            }
++            edSearch.setText("");
++        });
++        
++        edSearch.addTextChangedListener(new TextWatcher() {
++            @Override
++            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
++            
++            }
++            
++            @Override
++            public void onTextChanged(CharSequence s, int start, int before, int count) {
++                String msg = edSearch.getText().toString();
++                if (msg.equals("")) {
++                    if (imm != null) {
++                        imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
++                    }
++                    seeklist.clear();
++                    for (GetStraightAStudent getProvinceMenAndWomenNumberAll : getStraightAStudentList) {
++                        seeklist.add(getProvinceMenAndWomenNumberAll);
++                    }
++                    adapter.notifyDataSetChanged();
++                } else {
++                    for (GetStraightAStudent getProvinceMenAndWomenNumberAll : getStraightAStudentList) {
++                        if (getProvinceMenAndWomenNumberAll.getName().contains(msg)) {
++                            seeklist.clear();
++                            for (GetStraightAStudent provinceMenAndWomenNumberAll : getStraightAStudentList) {
++                                if (provinceMenAndWomenNumberAll.getName().contains(msg)) {
++                                    seeklist.add(provinceMenAndWomenNumberAll);
++                                    adapter.notifyDataSetChanged();
++                                }
++                            }
++                            break;
++                        }
++                    }
++                }
++                
++            }
++            
++            @Override
++            public void afterTextChanged(Editable s) {
++            
++            }
++        });
++        
++    }
++    
++    @Override
++    public void onClick(View v) {
++    
++    }
++}
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport androidx.recyclerview.widget.GridLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.activity.FragmentActivity;\r\nimport com.example.smartcampus.adapter.statisticsAdapter.Count_sex_adapter;\r\nimport com.example.smartcampus.bean.statistics.GetMunicipalMenAndWomenNumberAll;\r\nimport com.example.smartcampus.bean.statistics.GetProvinceMenAndWomenNumberAll;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.example.smartcampuslibrary.net.OkHttpLo;\r\nimport com.example.smartcampuslibrary.net.OkHttpTo;\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.reflect.TypeToken;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport org.json.JSONObject;\r\n\r\npublic class Fragment_count_sex extends BaseFragment {\r\n    \r\n    private TextView title;\r\n    private RecyclerView recyclerView;\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_count_sex;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        ImageView back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        recyclerView = view.findViewById(R.id.recyclerView);\r\n    }\r\n    \r\n    @Override\r\n    protected void initData() {\r\n        title.setText(\"性别统计\");\r\n        \r\n        getOkHttp();\r\n        \r\n    }\r\n    \r\n    private List<GetProvinceMenAndWomenNumberAll> getProvinceMenAndWomenNumberAlls;\r\n    \r\n    private void getOkHttp() {\r\n        if (getProvinceMenAndWomenNumberAlls == null) {\r\n            getProvinceMenAndWomenNumberAlls = new ArrayList<>();\r\n        } else {\r\n            getProvinceMenAndWomenNumberAlls.clear();\r\n        }\r\n        new OkHttpTo()\r\n            .setUrl(\"GetProvinceMenAndWomenNumberAll\")\r\n            .setRequestType(\"GET\")\r\n            .setDialog(getContext())\r\n            .setOkHttpLo(new OkHttpLo() {\r\n                @Override\r\n                public void onResponse(JSONObject jsonObject) {\r\n                    getProvinceMenAndWomenNumberAlls.addAll(new Gson().fromJson(jsonObject.optJSONArray(\"rows\").toString(),\r\n                            new TypeToken<List<GetProvinceMenAndWomenNumberAll>>() {\r\n                            }.getType()));\r\n                    show();\r\n                }\r\n                \r\n                @Override\r\n                public void onFailure(IOException e) {\r\n                \r\n                }\r\n            }).start();\r\n        \r\n    }\r\n    \r\n    private void show() {\r\n        Count_sex_adapter adapter = new Count_sex_adapter(getProvinceMenAndWomenNumberAlls);\r\n        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));\r\n        recyclerView.setAdapter(adapter);\r\n        adapter.setOnItemClickListener(position -> {\r\n            ((FragmentActivity)getActivity()).setFragment(new Fragment_count_sex_province(getProvinceMenAndWomenNumberAlls.get(position)));\r\n        });\r\n    }\r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex.java	(date 1624246115069)
+@@ -1,15 +1,21 @@
+ package com.example.smartcampus.fragment.statisticsFragment;
+ 
++import android.text.Editable;
++import android.text.TextWatcher;
++import android.util.DisplayMetrics;
+ import android.util.Log;
++import android.view.KeyEvent;
+ import android.view.View;
++import android.view.inputmethod.EditorInfo;
++import android.widget.EditText;
+ import android.widget.ImageView;
+ import android.widget.TextView;
++import android.widget.Toast;
+ import androidx.recyclerview.widget.GridLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ import com.example.smartcampus.R;
+ import com.example.smartcampus.activity.FragmentActivity;
+ import com.example.smartcampus.adapter.statisticsAdapter.Count_sex_adapter;
+-import com.example.smartcampus.bean.statistics.GetMunicipalMenAndWomenNumberAll;
+ import com.example.smartcampus.bean.statistics.GetProvinceMenAndWomenNumberAll;
+ import com.example.smartcampuslibrary.fragment.BaseFragment;
+ import com.example.smartcampuslibrary.net.OkHttpLo;
+@@ -19,12 +25,15 @@
+ import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.List;
++import java.util.Objects;
+ import org.json.JSONObject;
+ 
+ public class Fragment_count_sex extends BaseFragment {
+     
+-    private TextView title;
+     private RecyclerView recyclerView;
++    private EditText edSearch;
++    private TextView cancel;
++    private Count_sex_adapter adapter;
+     
+     @Override
+     protected int layoutResId() {
+@@ -34,24 +43,98 @@
+     @Override
+     protected void initView(View view) {
+         ImageView back = view.findViewById(R.id.back);
+-        title = view.findViewById(R.id.title);
+         recyclerView = view.findViewById(R.id.recyclerView);
++        edSearch = view.findViewById(R.id.ed_search);
++        cancel = view.findViewById(R.id.cancel);
+     }
+     
+     @Override
+     protected void initData() {
+-        title.setText("性别统计");
++        
++        getSeek();
+         
+         getOkHttp();
+         
+-    }
++        cancel.setOnClickListener(v -> edSearch.setText(""));
++        
++        edSearch.addTextChangedListener(new TextWatcher() {
++            @Override
++            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
++        
++            }
++    
++            @Override
++            public void onTextChanged(CharSequence s, int start, int before, int count) {
++                String msg = edSearch.getText().toString();
++                if (msg.equals("")){
++                    seeklist.clear();
++                    for (GetProvinceMenAndWomenNumberAll getProvinceMenAndWomenNumberAll : getProvinceMenAndWomenNumberAlls) {
++                        seeklist.add(getProvinceMenAndWomenNumberAll);
++                    }
++                    adapter.notifyDataSetChanged();
++                }else {
++                    for (GetProvinceMenAndWomenNumberAll getProvinceMenAndWomenNumberAll : getProvinceMenAndWomenNumberAlls) {
++                        if (getProvinceMenAndWomenNumberAll.getProvinceName().contains(msg)){
++                            seeklist.clear();
++                            for (GetProvinceMenAndWomenNumberAll provinceMenAndWomenNumberAll : getProvinceMenAndWomenNumberAlls) {
++                                if (provinceMenAndWomenNumberAll.getProvinceName().contains(msg)){
++                                    seeklist.add(provinceMenAndWomenNumberAll);
++                                    adapter.notifyDataSetChanged();
++                                }
++                            }
++                            break;
++                        }
++                    }
++                }
++                
++            }
+     
+-    private List<GetProvinceMenAndWomenNumberAll> getProvinceMenAndWomenNumberAlls;
++            @Override
++            public void afterTextChanged(Editable s) {
++        
++            }
++        });
++        
++    }
++    
++    private void getSeek() {
++        edSearch.setOnEditorActionListener((v, actionId, event) -> {
++            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
++
++            }
++            return true;
++        });
++        
++    }
++    
++    private int getSpanCount(int itemWidth) {
++        DisplayMetrics dm = new DisplayMetrics();
++        Objects.requireNonNull(Objects.requireNonNull(getContext()).getDisplay()).getMetrics(dm);
++        //获取屏幕宽度
++        int widthPixels = dm.widthPixels;
++        //获取设备像素密度
++        float density = dm.densityDpi;
++        //1dp*像素密度(dpi)/160(dpi) = 实际像素数(px)
++        int dp = (int) ((widthPixels * 160) / density);
++        
++        if (itemWidth == 0) {
++            return 0;
++        }
++        //计算出一行显示多少item
++        
++        double spanCount = ((double) dp) / ((double) itemWidth);
++        
++        return (int) Math.round(spanCount);
++    }
++    
++    private List<GetProvinceMenAndWomenNumberAll> getProvinceMenAndWomenNumberAlls, seeklist;
+     
+     private void getOkHttp() {
+         if (getProvinceMenAndWomenNumberAlls == null) {
+             getProvinceMenAndWomenNumberAlls = new ArrayList<>();
++            seeklist = new ArrayList<>();
+         } else {
++            seeklist.clear();
+             getProvinceMenAndWomenNumberAlls.clear();
+         }
+         new OkHttpTo()
+@@ -61,9 +144,15 @@
+             .setOkHttpLo(new OkHttpLo() {
+                 @Override
+                 public void onResponse(JSONObject jsonObject) {
+-                    getProvinceMenAndWomenNumberAlls.addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
++                    getProvinceMenAndWomenNumberAlls
++                        .addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
+                             new TypeToken<List<GetProvinceMenAndWomenNumberAll>>() {
+                             }.getType()));
++                    
++                    seeklist.addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
++                        new TypeToken<List<GetProvinceMenAndWomenNumberAll>>() {
++                        }.getType()));
++                    
+                     show();
+                 }
+                 
+@@ -76,11 +165,12 @@
+     }
+     
+     private void show() {
+-        Count_sex_adapter adapter = new Count_sex_adapter(getProvinceMenAndWomenNumberAlls);
+-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
++        adapter = new Count_sex_adapter(seeklist);
++        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), getSpanCount(200)));
+         recyclerView.setAdapter(adapter);
+         adapter.setOnItemClickListener(position -> {
+-            ((FragmentActivity)getActivity()).setFragment(new Fragment_count_sex_province(getProvinceMenAndWomenNumberAlls.get(position)));
++            ((FragmentActivity) getActivity())
++                .setFragment(new Fragment_count_sex_province(seeklist.get(position)));
+         });
+     }
+     
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_city_count.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.annotation.SuppressLint;\r\nimport android.graphics.Color;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.TextView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.bean.statistics.GetMunicipalMenAndWomenNumberAll;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.github.mikephil.charting.charts.BarChart;\r\nimport com.github.mikephil.charting.charts.LineChart;\r\nimport com.github.mikephil.charting.charts.PieChart;\r\nimport com.github.mikephil.charting.components.AxisBase;\r\nimport com.github.mikephil.charting.components.Legend;\r\nimport com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment;\r\nimport com.github.mikephil.charting.components.Legend.LegendOrientation;\r\nimport com.github.mikephil.charting.components.Legend.LegendVerticalAlignment;\r\nimport com.github.mikephil.charting.components.XAxis;\r\nimport com.github.mikephil.charting.components.XAxis.XAxisPosition;\r\nimport com.github.mikephil.charting.components.YAxis;\r\nimport com.github.mikephil.charting.data.BarData;\r\nimport com.github.mikephil.charting.data.BarDataSet;\r\nimport com.github.mikephil.charting.data.BarEntry;\r\nimport com.github.mikephil.charting.data.Entry;\r\nimport com.github.mikephil.charting.data.LineData;\r\nimport com.github.mikephil.charting.data.LineDataSet;\r\nimport com.github.mikephil.charting.data.PieData;\r\nimport com.github.mikephil.charting.data.PieDataSet;\r\nimport com.github.mikephil.charting.data.PieEntry;\r\nimport com.github.mikephil.charting.formatter.IAxisValueFormatter;\r\nimport com.github.mikephil.charting.formatter.IndexAxisValueFormatter;\r\nimport com.github.mikephil.charting.formatter.PercentFormatter;\r\nimport com.github.mikephil.charting.interfaces.datasets.IBarDataSet;\r\nimport com.github.mikephil.charting.utils.ColorTemplate;\r\nimport java.text.DecimalFormat;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Fragment_count_sex_city_count extends BaseFragment {\r\n    \r\n    private GetMunicipalMenAndWomenNumberAll getMunicipalMenAndWomenNumberAll;\r\n    private ImageView back;\r\n    private TextView title;\r\n    private TextView txtProvince;\r\n    private TextView itemMan;\r\n    private TextView itemWoman;\r\n    private BarChart barchart;\r\n    private LineChart lineChart;\r\n    private BarChart barChartPileUp;\r\n    private PieChart chart;\r\n    private PieChart pieChart;\r\n    private int woman1;\r\n    private int man1;\r\n    \r\n    public Fragment_count_sex_city_count(GetMunicipalMenAndWomenNumberAll getMunicipalMenAndWomenNumberAll) {\r\n        this.getMunicipalMenAndWomenNumberAll = getMunicipalMenAndWomenNumberAll;\r\n    }\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_count_sex_city_count;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        txtProvince = view.findViewById(R.id.txt_province);\r\n        itemMan = view.findViewById(R.id.item_man);\r\n        itemWoman = view.findViewById(R.id.item_woman);\r\n        barchart = view.findViewById(R.id.barChart);\r\n        lineChart = view.findViewById(R.id.lineChart);\r\n        barChartPileUp = view.findViewById(R.id.barChart_pileUp);\r\n        chart = view.findViewById(R.id.chart1);\r\n        pieChart = view.findViewById(R.id.pieChart);\r\n    }\r\n    \r\n    @SuppressLint(\"SetTextI18n\")\r\n    @Override\r\n    protected void initData() {\r\n        title.setText(\"性别统计\");\r\n        txtProvince.setText(getMunicipalMenAndWomenNumberAll.getMunicipalName());\r\n        double sum = getMunicipalMenAndWomenNumberAll.getMan() + getMunicipalMenAndWomenNumberAll.getWoman();\r\n        double nv = getMunicipalMenAndWomenNumberAll.getWoman();\r\n        double woman = nv / sum;\r\n        woman1 = (int) (woman * 100);\r\n        man1 = 100 - woman1;\r\n        itemWoman.setText(woman1 + \"%\");\r\n        itemMan.setText(man1 + \"%\");\r\n    \r\n        getBarChart();  //柱状图\r\n    \r\n        getLineChart();\r\n    \r\n        getBarChart_PileUp();\r\n    \r\n        getPieChart1();//平面图\r\n        \r\n        \r\n        \r\n    }\r\n    \r\n    private void getPieChart1() {\r\n        \r\n        ArrayList<PieEntry> entries = new ArrayList<>();\r\n        \r\n        entries.add(new PieEntry((float) (man1), \"男\"));\r\n        entries.add(new PieEntry((float) (woman1), \"女\"));\r\n        \r\n        PieDataSet dataSet = new PieDataSet(entries, \"Election Results\");\r\n        dataSet.setSliceSpace(3f);\r\n        dataSet.setSelectionShift(5f);\r\n        ArrayList<Integer> colors = new ArrayList<>();\r\n        colors.add(Color.parseColor(\"#22D5CE\"));\r\n        colors.add(Color.parseColor(\"#F39444\"));\r\n        colors.add(ColorTemplate.getHoloBlue());\r\n        dataSet.setColors(colors);\r\n        dataSet.setValueLinePart1OffsetPercentage(80.f);\r\n        dataSet.setValueLinePart1Length(0.2f);\r\n        dataSet.setValueLinePart2Length(0.4f);\r\n        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);\r\n        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);\r\n        \r\n        PieData data = new PieData(dataSet);\r\n        data.setValueFormatter(new PercentFormatter());\r\n        data.setValueTextSize(11f);\r\n        data.setValueTextColor(Color.BLACK);\r\n        data.setValueTextSize(13);\r\n        chart.setData(data);\r\n        \r\n        // undo all highlights\r\n        chart.highlightValues(null);\r\n        \r\n        chart.invalidate();\r\n        chart.setUsePercentValues(true);\r\n        chart.getDescription().setEnabled(false);\r\n        chart.setExtraOffsets(5, 10, 5, 5);\r\n        chart.setDragDecelerationFrictionCoef(0.95f);\r\n        \r\n        chart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);\r\n        \r\n        chart.setDrawHoleEnabled(true);\r\n        chart.setHoleColor(Color.parseColor(\"#EEEEEE\"));\r\n        chart.setCenterTextSize(20);\r\n        \r\n        chart.setTransparentCircleColor(Color.parseColor(\"#EEEEEE\"));\r\n        chart.setTransparentCircleAlpha(110);\r\n        \r\n        chart.setHoleRadius(58f);\r\n        chart.setTransparentCircleRadius(61f);\r\n        \r\n        chart.setDrawCenterText(true);\r\n        \r\n        chart.setRotationAngle(0);\r\n        // enable rotation of the chart by touch\r\n        chart.setRotationEnabled(true);\r\n        chart.setHighlightPerTapEnabled(true);\r\n        \r\n        Legend  l = chart.getLegend();\r\n        l.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);\r\n        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);\r\n        l.setOrientation(Legend.LegendOrientation.VERTICAL);\r\n        l.setDrawInside(false);\r\n        l.setEnabled(false);\r\n        chart.animateXY(0, 2000);\r\n        chart.invalidate();\r\n    }\r\n\r\n    private void getBarChart_PileUp() {\r\n        \r\n        barChartPileUp.getDescription().setEnabled(false);        //不展示图表描述信息\r\n        //所有值均绘制在其条形顶部上方\r\n        barChartPileUp.setDrawValueAboveBar(false);\r\n        //纵坐标不显示网格线\r\n        barChartPileUp.getXAxis().setDrawGridLines(false);\r\n        //不支持图表缩放\r\n        barChartPileUp.setScaleEnabled(false);\r\n        //设置点击图表时的标记，可以自定义布局\r\n//        barChartPileUp.setMarker(new MyMarkView(context);\r\n        \r\n        // 改变y标签的位置\r\n        YAxis leftAxis = barChartPileUp.getAxisLeft();\r\n        leftAxis.setAxisMinimum(0f);\r\n        //右y轴不显示\r\n        barChartPileUp.getAxisRight().setEnabled(false);\r\n        leftAxis.setDrawAxisLine(false);\r\n        leftAxis.setMaxWidth(100);\r\n        //获取x坐标轴\r\n        XAxis xLabels = barChartPileUp.getXAxis();\r\n        //设置x坐标轴显示位置在下方\r\n        xLabels.setPosition(XAxisPosition.BOTTOM);\r\n        //转换x坐标轴显示内容\r\n        xLabels.setValueFormatter(new IAxisValueFormatter() {\r\n            @Override\r\n            public String getFormattedValue(float value, AxisBase axis) {\r\n                return \"\";\r\n            }\r\n        });\r\n        \r\n        //获取图表的图例\r\n        Legend l = barChartPileUp.getLegend();\r\n        //图例设置在下方\r\n        l.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);\r\n        //图例设置在中间\r\n        l.setHorizontalAlignment(LegendHorizontalAlignment.CENTER);\r\n        l.setOrientation(LegendOrientation.HORIZONTAL);\r\n        l.setTextSize(18);\r\n        l.setFormSize(18);\r\n        l.setDrawInside(false);\r\n        \r\n        ArrayList<BarEntry> yValues = new ArrayList<>();\r\n        \r\n        yValues.add(new BarEntry(0, new float[]{(float) (woman1), (float) (man1)}));\r\n        \r\n        BarDataSet set1;\r\n        \r\n        if (barChartPileUp.getData() != null && barChartPileUp.getData().getDataSetCount() > 0) {\r\n            set1 = (BarDataSet) barChartPileUp.getData().getDataSetByIndex(0);\r\n            set1.setValues(yValues);\r\n            barChartPileUp.getData().notifyDataChanged();\r\n            barChartPileUp.notifyDataSetChanged();\r\n        } else {\r\n            set1 = new BarDataSet(yValues, \"\");\r\n            set1.setValueTextSize(20);\r\n            set1.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n                DecimalFormat format = new DecimalFormat(\"0\");\r\n                return format.format(value) + \"%\";\r\n            });\r\n            //设置图例的颜色和名称\r\n            set1.setColors(new int[]{R.color.drawing_nv, R.color.drawing_man}, getContext());\r\n            set1.setStackLabels(new String[]{\"女\", \"男\"});\r\n            \r\n            ArrayList<IBarDataSet> dataSets = new ArrayList<>();\r\n            dataSets.add(set1);\r\n            \r\n            BarData data = new BarData(dataSets);\r\n            data.setValueTextColor(Color.WHITE);\r\n            \r\n            barChartPileUp.setData(data);\r\n        }\r\n        barChartPileUp.animateXY(0, 2000);\r\n        barChartPileUp.setFitBars(true);\r\n        barChartPileUp.setTouchEnabled(false);                   //禁用触摸\r\n        barChartPileUp.invalidate();\r\n        \r\n        \r\n    }\r\n    \r\n    private List<Entry> entries;\r\n    private List<String> stringLine;\r\n    \r\n    private void getLineChart() {\r\n        if (entries == null) {\r\n            entries = new ArrayList<>();\r\n            stringLine = new ArrayList<>();\r\n        } else {\r\n            entries.clear();\r\n            stringLine.clear();\r\n        }\r\n        \r\n        entries.add(new Entry(0, man1));\r\n        entries.add(new Entry(1, woman1));\r\n        stringLine.add(\"男\");\r\n        stringLine.add(\"女\");\r\n        \r\n        LineDataSet dataSet = new LineDataSet(entries, \"\");  //单数据存入\r\n        \r\n        dataSet.setCircleColor(Color.parseColor(\"#F39445\"));                 //设置外圈颜色\r\n        dataSet.setCircleHoleRadius(3f);                    //内圈半径\r\n        dataSet.setColor(Color.parseColor(\"#20D5CE\"));                       //绘制线条颜色\r\n        dataSet.setValueTextSize(20);                       //显示数字大小\r\n        dataSet.setLineWidth(4f);                           //线条宽度\r\n        dataSet.setDrawValues(false);                       //关闭图中显示数字\r\n        dataSet.setDrawCircleHole(false);                   //关闭标识线，垂直显示的\r\n        dataSet.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n            DecimalFormat format = new DecimalFormat(\"0\");\r\n            return format.format(value) + \"%\";\r\n        });\r\n        LineData lineData = new LineData(dataSet);\r\n        \r\n        YAxis yAxis = barchart.getAxisLeft();\r\n        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线\r\n        yAxis.setAxisMinimum(0);                        //最小值\r\n        yAxis.setAxisMaximum(100);                        //最大值\r\n        \r\n        XAxis xAxis = barchart.getXAxis();\r\n        xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示\r\n        xAxis.setValueFormatter(new IndexAxisValueFormatter(stringSex));    //将每秒显示的数据放到X轴\r\n        xAxis.setLabelCount(stringSex.size());            //标签个数\r\n        xAxis.setGranularity(1f);\r\n        xAxis.setTextSize(20);\r\n        //两个数之间的间距\r\n        xAxis.setDrawGridLines(false);                    //关闭网格线\r\n        \r\n        lineChart.setData(lineData);\r\n        lineChart.getLegend().setEnabled(false);\r\n        lineChart.animateXY(1500, 1000);                    //动画效果\r\n        lineChart.getDescription().setEnabled(false);       //说明关闭\r\n        lineChart.getDescription().setText(\"(S)\");          //右下角说明打开\r\n        lineChart.setScaleEnabled(false);                   //禁用缩放比例\r\n        lineChart.setTouchEnabled(false);                   //禁用触摸\r\n        lineChart.invalidate();                             //刷新\r\n        \r\n        \r\n    }\r\n    \r\n    private List<BarEntry> barEntries;\r\n    private List<String> stringSex;\r\n    \r\n    private void getBarChart() {\r\n        if (barEntries == null) {\r\n            barEntries = new ArrayList<>();\r\n            stringSex = new ArrayList<>();\r\n        } else {\r\n            barEntries.clear();\r\n            stringSex.clear();\r\n        }\r\n    \r\n        barEntries.add(new BarEntry(0, man1));\r\n        barEntries.add(new BarEntry(1, woman1));\r\n    \r\n        stringSex.add(\"男\");\r\n        stringSex.add(\"女\");\r\n    \r\n        BarDataSet barDataSet = new BarDataSet(barEntries, \"\");\r\n    \r\n        barDataSet.setColor(Color.parseColor(\"#20D5CE\"));\r\n        BarData data = new BarData(barDataSet);\r\n        barDataSet.setValueTextSize(18);            //设置大小\r\n        barDataSet.setValueTextColor(Color.parseColor(\"#404040\"));\r\n        barDataSet.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n            DecimalFormat format = new DecimalFormat(\"0\");\r\n            return format.format(value) + \"%\";\r\n        });\r\n        data.setBarWidth(0.5f);\r\n    \r\n        barchart.getLegend().setEnabled(false);\r\n    \r\n        YAxis yAxis = barchart.getAxisLeft();\r\n        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线\r\n        yAxis.setAxisMinimum(0);                        //最小值\r\n        yAxis.setAxisMaximum(100);                        //最大值\r\n    \r\n        XAxis xAxis = barchart.getXAxis();\r\n        xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示\r\n        xAxis.setValueFormatter(new IndexAxisValueFormatter(stringSex));    //将每秒显示的数据放到X轴\r\n        xAxis.setLabelCount(stringSex.size());            //标签个数\r\n        xAxis.setGranularity(1f);\r\n        xAxis.setTextSize(20);\r\n        //两个数之间的间距\r\n        xAxis.setDrawGridLines(false);                    //关闭网格线\r\n    \r\n        barDataSet.setColors(Color.parseColor(\"#22D5CE\"), Color.parseColor(\"#F39444\"));\r\n    \r\n        barchart.animateXY(0, 2000);\r\n        barchart.setFitBars(true);\r\n        barchart.getAxisRight().setEnabled(false);         //关闭右边线和数据\r\n        barchart.setData(data);                            //数据集合\r\n        barchart.setTouchEnabled(false);                   //禁用触摸\r\n        barchart.getDescription().setEnabled(false);       //关闭右下角\r\n        barchart.invalidate();\r\n    }\r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_city_count.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_city_count.java	(date 1624246115079)
+@@ -99,7 +99,6 @@
+         getPieChart1();//平面图
+         
+         
+-        
+     }
+     
+     private void getPieChart1() {
+@@ -280,12 +279,12 @@
+         });
+         LineData lineData = new LineData(dataSet);
+         
+-        YAxis yAxis = barchart.getAxisLeft();
++        YAxis yAxis = lineChart.getAxisLeft();
+         yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
+         yAxis.setAxisMinimum(0);                        //最小值
+         yAxis.setAxisMaximum(100);                        //最大值
+         
+-        XAxis xAxis = barchart.getXAxis();
++        XAxis xAxis = lineChart.getXAxis();
+         xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示
+         xAxis.setValueFormatter(new IndexAxisValueFormatter(stringSex));    //将每秒显示的数据放到X轴
+         xAxis.setLabelCount(stringSex.size());            //标签个数
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_school_sex.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport androidx.recyclerview.widget.GridLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.activity.FragmentActivity;\r\nimport com.example.smartcampus.adapter.statisticsAdapter.School_sex_adapter;\r\nimport com.example.smartcampus.bean.statistics.GetCollegeMenAndWomenNumberAll;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.example.smartcampuslibrary.net.OkHttpLo;\r\nimport com.example.smartcampuslibrary.net.OkHttpTo;\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.reflect.TypeToken;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport org.json.JSONObject;\r\n\r\npublic class Fragment_school_sex extends BaseFragment {\r\n    \r\n    private ImageView back;\r\n    private TextView title;\r\n    private RecyclerView recyclerView;\r\n    private List<GetCollegeMenAndWomenNumberAll> getCollegeMenAndWomenNumberAlls;\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_school_sex;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        recyclerView = view.findViewById(R.id.recyclerView);\r\n    }\r\n    \r\n    @Override\r\n    protected void initData() {\r\n        title.setText(\"性别统计\");\r\n        getOkHttp();\r\n        \r\n    }\r\n    \r\n    private void getOkHttp() {\r\n        if (getCollegeMenAndWomenNumberAlls == null){\r\n            getCollegeMenAndWomenNumberAlls = new ArrayList<>();\r\n        }else {\r\n            getCollegeMenAndWomenNumberAlls.clear();\r\n        }\r\n        new OkHttpTo()\r\n            .setUrl(\"GetCollegeMenAndWomenNumberAll\")\r\n            .setRequestType(\"GET\")\r\n            .setDialog(getContext())\r\n            .setOkHttpLo(new OkHttpLo() {\r\n                @Override\r\n                public void onResponse(JSONObject jsonObject) {\r\n                    getCollegeMenAndWomenNumberAlls.addAll(new Gson().fromJson(jsonObject.optJSONArray(\"rows\").toString(),\r\n                        new TypeToken<List<GetCollegeMenAndWomenNumberAll>>(){}.getType()));\r\n                    Show();\r\n                }\r\n    \r\n                @Override\r\n                public void onFailure(IOException e) {\r\n        \r\n                }\r\n            }).start();\r\n    \r\n    \r\n    }\r\n    \r\n    private void Show() {\r\n        School_sex_adapter adapter = new School_sex_adapter(getCollegeMenAndWomenNumberAlls);\r\n        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));\r\n        recyclerView.setAdapter(adapter);\r\n        adapter.setOnItemClickListener(position -> {\r\n            ((FragmentActivity)getActivity()).setFragment(new Fragment_count_school(getCollegeMenAndWomenNumberAlls.get(position)));\r\n        });\r\n    \r\n    }\r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_school_sex.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_school_sex.java	(date 1624246115087)
+@@ -1,14 +1,26 @@
+ package com.example.smartcampus.fragment.statisticsFragment;
+ 
++import android.content.Context;
++import android.text.Editable;
++import android.text.TextWatcher;
++import android.util.DisplayMetrics;
++import android.util.Log;
+ import android.view.View;
++import android.view.inputmethod.InputMethodManager;
++import android.widget.EditText;
+ import android.widget.ImageView;
+ import android.widget.TextView;
++import androidx.annotation.NonNull;
+ import androidx.recyclerview.widget.GridLayoutManager;
++import androidx.recyclerview.widget.ItemTouchHelper;
++import androidx.recyclerview.widget.ItemTouchHelper.Callback;
+ import androidx.recyclerview.widget.RecyclerView;
++import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+ import com.example.smartcampus.R;
+ import com.example.smartcampus.activity.FragmentActivity;
+ import com.example.smartcampus.adapter.statisticsAdapter.School_sex_adapter;
+ import com.example.smartcampus.bean.statistics.GetCollegeMenAndWomenNumberAll;
++import com.example.smartcampus.bean.statistics.GetMunicipalMenAndWomenNumberAll;
+ import com.example.smartcampuslibrary.fragment.BaseFragment;
+ import com.example.smartcampuslibrary.net.OkHttpLo;
+ import com.example.smartcampuslibrary.net.OkHttpTo;
+@@ -16,15 +28,18 @@
+ import com.google.gson.reflect.TypeToken;
+ import java.io.IOException;
+ import java.util.ArrayList;
++import java.util.Collections;
+ import java.util.List;
++import java.util.Objects;
+ import org.json.JSONObject;
+ 
+ public class Fragment_school_sex extends BaseFragment {
+     
+-    private ImageView back;
+-    private TextView title;
+     private RecyclerView recyclerView;
+-    private List<GetCollegeMenAndWomenNumberAll> getCollegeMenAndWomenNumberAlls;
++    private List<GetCollegeMenAndWomenNumberAll> getCollegeMenAndWomenNumberAlls, seeklist;
++    private EditText edSearch;
++    private TextView cancel;
++    private InputMethodManager imm;
+     
+     @Override
+     protected int layoutResId() {
+@@ -33,22 +48,66 @@
+     
+     @Override
+     protected void initView(View view) {
+-        back = view.findViewById(R.id.back);
+-        title = view.findViewById(R.id.title);
+         recyclerView = view.findViewById(R.id.recyclerView);
++        edSearch = view.findViewById(R.id.ed_search);
++        cancel = view.findViewById(R.id.cancel);
+     }
+     
+     @Override
+     protected void initData() {
+-        title.setText("性别统计");
++        
+         getOkHttp();
++    
++        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
++    
++        cancel.setOnClickListener(v -> edSearch.setText(""));
++    
++        edSearch.addTextChangedListener(new TextWatcher() {
++            @Override
++            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
++            
++            }
+         
++            @Override
++            public void onTextChanged(CharSequence s, int start, int before, int count) {
++                String msg = edSearch.getText().toString();
++                if (msg.equals("")) {
++                    if (imm != null) {
++                        imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
++                    }
++                    seeklist.clear();
++                    seeklist.addAll(getCollegeMenAndWomenNumberAlls);
++                    myAdapter.notifyDataSetChanged();
++                } else {
++                    for (GetCollegeMenAndWomenNumberAll getProvinceMenAndWomenNumberAll : getCollegeMenAndWomenNumberAlls) {
++                        if (getProvinceMenAndWomenNumberAll.getCollegeName().contains(msg)) {
++                            seeklist.clear();
++                            for (GetCollegeMenAndWomenNumberAll provinceMenAndWomenNumberAll : getCollegeMenAndWomenNumberAlls) {
++                                if (provinceMenAndWomenNumberAll.getCollegeName().contains(msg)) {
++                                    seeklist.add(provinceMenAndWomenNumberAll);
++                                    myAdapter.notifyDataSetChanged();
++                                }
++                            }
++                            break;
++                        }
++                    }
++                }
++            }
++        
++            @Override
++            public void afterTextChanged(Editable s) {
++            
++            }
++        });
++        
+     }
+     
+     private void getOkHttp() {
+-        if (getCollegeMenAndWomenNumberAlls == null){
++        if (getCollegeMenAndWomenNumberAlls == null) {
+             getCollegeMenAndWomenNumberAlls = new ArrayList<>();
+-        }else {
++            seeklist = new ArrayList<>();
++        } else {
++            seeklist.clear();
+             getCollegeMenAndWomenNumberAlls.clear();
+         }
+         new OkHttpTo()
+@@ -58,28 +117,142 @@
+             .setOkHttpLo(new OkHttpLo() {
+                 @Override
+                 public void onResponse(JSONObject jsonObject) {
+-                    getCollegeMenAndWomenNumberAlls.addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
+-                        new TypeToken<List<GetCollegeMenAndWomenNumberAll>>(){}.getType()));
++                    getCollegeMenAndWomenNumberAlls
++                        .addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
++                            new TypeToken<List<GetCollegeMenAndWomenNumberAll>>() {
++                            }.getType()));
++                    
++                    seeklist.addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
++                        new TypeToken<List<GetCollegeMenAndWomenNumberAll>>() {
++                        }.getType()));
++                    
+                     Show();
+                 }
+-    
++                
+                 @Override
+                 public void onFailure(IOException e) {
+-        
++                
+                 }
+             }).start();
+-    
++        
++    }
+     
++    private int getSpanCount(int itemWidth) {
++        DisplayMetrics dm = new DisplayMetrics();
++        Objects.requireNonNull(Objects.requireNonNull(getContext()).getDisplay()).getMetrics(dm);
++        //获取屏幕宽度
++        int widthPixels = dm.widthPixels;
++        //获取设备像素密度
++        float density = dm.densityDpi;
++        //1dp*像素密度(dpi)/160(dpi) = 实际像素数(px)
++        int dp = (int) ((widthPixels * 160) / density);
++        
++        if (itemWidth == 0) {
++            return 0;
++        }
++        //计算出一行显示多少item
++        
++        double spanCount = ((double) dp) / ((double) itemWidth);
++        
++        return (int) Math.round(spanCount);
++        
++    }
++    
++    private School_sex_adapter myAdapter;
++    private ItemTouchHelper mItemTouchHelper;
++    
++    public class MyItemTouchHelper extends Callback {
++        
++        @Override
++        public int getMovementFlags(@NonNull RecyclerView recyclerView,
++            @NonNull ViewHolder viewHolder) {
++            if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
++                final int dragFlags =
++                    ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
++                final int swipeFlags = 0;
++                return makeMovementFlags(dragFlags, swipeFlags);
++            } else {
++                final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
++                final int swipeFlags = 0;
++                return makeMovementFlags(dragFlags, swipeFlags);
++            }
++        }
++        
++        @Override
++        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull ViewHolder viewHolder,
++            @NonNull ViewHolder target) {
++            //得到当拖拽的viewHolder的Position
++            int fromPosition = viewHolder.getAdapterPosition();
++            //拿到当前拖拽到的item的viewHolder
++            int toPosition = target.getAdapterPosition();
++            if (fromPosition < toPosition) {
++                for (int i = fromPosition; i < toPosition; i++) {
++                    Collections.swap(getCollegeMenAndWomenNumberAlls, i, i + 1);
++                }
++            } else {
++                for (int i = fromPosition; i > toPosition; i--) {
++                    Collections.swap(getCollegeMenAndWomenNumberAlls, i, i - 1);
++                }
++            }
++            myAdapter.notifyItemMoved(fromPosition, toPosition);
++            return true;
++        }
++        
++        @Override
++        public void onSwiped(@NonNull ViewHolder viewHolder, int direction) {
++        
++        }
++        
++        /**
++         * 长按选中Item的时候开始调用
++         *
++         * @param viewHolder
++         * @param actionState
++         */
++        @Override
++        public void onSelectedChanged(ViewHolder viewHolder, int actionState) {
++            if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
++//                viewHolder.itemView.setBackgroundColor(Color.LTGRAY);   拖拽过程中的颜色
++            }
++            super.onSelectedChanged(viewHolder, actionState);
++        }
++        
++        /**
++         * 手指松开的时候还原
++         *
++         * @param recyclerView
++         * @param viewHolder
++         */
++        @Override
++        public void clearView(RecyclerView recyclerView, ViewHolder viewHolder) {
++            super.clearView(recyclerView, viewHolder);
++//            viewHolder.itemView.setBackgroundColor(Color.YELLOW);     拖拽完成后的颜色
++        }
++        
++        /**
++         * 重写拖拽不可用
++         *
++         * @return
++         */
++        @Override
++        public boolean isLongPressDragEnabled() {
++            return true;
++        }
++        
+     }
+     
+     private void Show() {
+-        School_sex_adapter adapter = new School_sex_adapter(getCollegeMenAndWomenNumberAlls);
+-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+-        recyclerView.setAdapter(adapter);
+-        adapter.setOnItemClickListener(position -> {
+-            ((FragmentActivity)getActivity()).setFragment(new Fragment_count_school(getCollegeMenAndWomenNumberAlls.get(position)));
++        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), getSpanCount(200)));
++        recyclerView.setAdapter(myAdapter = new School_sex_adapter(seeklist));
++        mItemTouchHelper = new ItemTouchHelper(new MyItemTouchHelper());
++        mItemTouchHelper.attachToRecyclerView(recyclerView);
++        myAdapter.setOnItemClickListener(position -> {
++            if (imm != null) {
++                imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
++            }
++            ((FragmentActivity) getActivity()).setFragment(new Fragment_count_school(seeklist.get(position)));
+         });
+-    
++        
+     }
+     
+     @Override
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_province.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.annotation.SuppressLint;\r\nimport android.graphics.Color;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.TextView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.activity.FragmentActivity;\r\nimport com.example.smartcampus.bean.statistics.GetProvinceMenAndWomenNumberAll;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.github.mikephil.charting.charts.BarChart;\r\nimport com.github.mikephil.charting.charts.LineChart;\r\nimport com.github.mikephil.charting.charts.PieChart;\r\nimport com.github.mikephil.charting.components.AxisBase;\r\nimport com.github.mikephil.charting.components.Legend;\r\nimport com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment;\r\nimport com.github.mikephil.charting.components.Legend.LegendOrientation;\r\nimport com.github.mikephil.charting.components.Legend.LegendVerticalAlignment;\r\nimport com.github.mikephil.charting.components.XAxis;\r\nimport com.github.mikephil.charting.components.XAxis.XAxisPosition;\r\nimport com.github.mikephil.charting.components.YAxis;\r\nimport com.github.mikephil.charting.data.BarData;\r\nimport com.github.mikephil.charting.data.BarDataSet;\r\nimport com.github.mikephil.charting.data.BarEntry;\r\nimport com.github.mikephil.charting.data.Entry;\r\nimport com.github.mikephil.charting.data.LineData;\r\nimport com.github.mikephil.charting.data.LineDataSet;\r\nimport com.github.mikephil.charting.data.PieData;\r\nimport com.github.mikephil.charting.data.PieDataSet;\r\nimport com.github.mikephil.charting.data.PieEntry;\r\nimport com.github.mikephil.charting.formatter.IAxisValueFormatter;\r\nimport com.github.mikephil.charting.formatter.IndexAxisValueFormatter;\r\nimport com.github.mikephil.charting.formatter.PercentFormatter;\r\nimport com.github.mikephil.charting.interfaces.datasets.IBarDataSet;\r\nimport com.github.mikephil.charting.utils.ColorTemplate;\r\nimport java.text.DecimalFormat;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Fragment_count_sex_province extends BaseFragment {\r\n    \r\n    private final GetProvinceMenAndWomenNumberAll getProvinceMenAndWomenNumberAll;\r\n    private TextView title;\r\n    private TextView txtProvince;\r\n    private TextView itemMan;\r\n    private TextView itemWoman;\r\n    private BarChart barchart;\r\n    private int woman1;\r\n    private int man1;\r\n    private LineChart lineChart;\r\n    private BarChart barChartPileUp;\r\n    private PieChart pieChart;\r\n    private LinearLayout btnNext;\r\n    private PieChart chart;\r\n    \r\n    public Fragment_count_sex_province(GetProvinceMenAndWomenNumberAll getProvinceMenAndWomenNumberAll) {\r\n        this.getProvinceMenAndWomenNumberAll = getProvinceMenAndWomenNumberAll;\r\n    }\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_count_sex_province;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        ImageView back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        txtProvince = view.findViewById(R.id.txt_province);\r\n        itemMan = view.findViewById(R.id.item_man);\r\n        itemWoman = view.findViewById(R.id.item_woman);\r\n        barchart = view.findViewById(R.id.barChart);\r\n        lineChart = view.findViewById(R.id.lineChart);\r\n        barChartPileUp = view.findViewById(R.id.barChart_pileUp);\r\n        pieChart = view.findViewById(R.id.pieChart);\r\n        btnNext = view.findViewById(R.id.btn_next);\r\n        chart = view.findViewById(R.id.chart1);\r\n        btnNext.setOnClickListener(v -> {\r\n            ((FragmentActivity) getActivity())\r\n                .setFragment(new Fragment_count_sex_city(getProvinceMenAndWomenNumberAll));\r\n        });\r\n    }\r\n    \r\n    @SuppressLint(\"SetTextI18n\")\r\n    @Override\r\n    protected void initData() {\r\n        title.setText(\"性别统计\");\r\n        txtProvince.setText(getProvinceMenAndWomenNumberAll.getProvinceName());\r\n        double sum = getProvinceMenAndWomenNumberAll.getMan() + getProvinceMenAndWomenNumberAll.getWoman();\r\n        double nv = getProvinceMenAndWomenNumberAll.getWoman();\r\n        double woman = nv / sum;\r\n        woman1 = (int) (woman * 100);\r\n        man1 = 100 - woman1;\r\n        itemWoman.setText(woman1 + \"%\");\r\n        itemMan.setText(man1 + \"%\");\r\n        \r\n        getBarChart();  //柱状图\r\n        \r\n        getLineChart();\r\n        \r\n        getBarChart_PileUp();\r\n        \r\n        getPieChart1();//平面图\r\n        \r\n        getPieChart();\r\n        \r\n    }\r\n    \r\n    private void getPieChart1() {\r\n        \r\n        ArrayList<PieEntry> entries = new ArrayList<>();\r\n    \r\n        entries.add(new PieEntry((float) (man1), \"男\"));\r\n        entries.add(new PieEntry((float) (woman1), \"女\"));\r\n    \r\n        PieDataSet dataSet = new PieDataSet(entries, \"Election Results\");\r\n        dataSet.setSliceSpace(3f);\r\n        dataSet.setSelectionShift(5f);\r\n        ArrayList<Integer> colors = new ArrayList<>();\r\n        colors.add(Color.parseColor(\"#22D5CE\"));\r\n        colors.add(Color.parseColor(\"#F39444\"));\r\n        colors.add(ColorTemplate.getHoloBlue());\r\n        dataSet.setColors(colors);\r\n        dataSet.setValueLinePart1OffsetPercentage(80.f);\r\n        dataSet.setValueLinePart1Length(0.2f);\r\n        dataSet.setValueLinePart2Length(0.4f);\r\n        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);\r\n        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);\r\n    \r\n        PieData data = new PieData(dataSet);\r\n        data.setValueFormatter(new PercentFormatter());\r\n        data.setValueTextSize(11f);\r\n        data.setValueTextColor(Color.BLACK);\r\n        data.setValueTextSize(13);\r\n        chart.setData(data);\r\n    \r\n        // undo all highlights\r\n        chart.highlightValues(null);\r\n    \r\n        chart.invalidate();\r\n        chart.setUsePercentValues(true);\r\n        chart.getDescription().setEnabled(false);\r\n        chart.setExtraOffsets(5, 10, 5, 5);\r\n        chart.setDragDecelerationFrictionCoef(0.95f);\r\n    \r\n        chart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);\r\n    \r\n        chart.setDrawHoleEnabled(true);\r\n        chart.setHoleColor(Color.parseColor(\"#EEEEEE\"));\r\n        chart.setCenterTextSize(20);\r\n    \r\n        chart.setTransparentCircleColor(Color.parseColor(\"#EEEEEE\"));\r\n        chart.setTransparentCircleAlpha(110);\r\n    \r\n        chart.setHoleRadius(58f);\r\n        chart.setTransparentCircleRadius(61f);\r\n    \r\n        chart.setDrawCenterText(true);\r\n    \r\n        chart.setRotationAngle(0);\r\n        // enable rotation of the chart by touch\r\n        chart.setRotationEnabled(true);\r\n        chart.setHighlightPerTapEnabled(true);\r\n    \r\n        Legend  l = chart.getLegend();\r\n        l.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);\r\n        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);\r\n        l.setOrientation(Legend.LegendOrientation.VERTICAL);\r\n        l.setDrawInside(false);\r\n        l.setEnabled(false);\r\n        chart.animateXY(0, 2000);\r\n        chart.invalidate();\r\n    }\r\n    \r\n    \r\n    private void getPieChart() {\r\n    \r\n    }\r\n    \r\n    private void getBarChart_PileUp() {\r\n        \r\n        barChartPileUp.getDescription().setEnabled(false);        //不展示图表描述信息\r\n        //所有值均绘制在其条形顶部上方\r\n        barChartPileUp.setDrawValueAboveBar(false);\r\n        //纵坐标不显示网格线\r\n        barChartPileUp.getXAxis().setDrawGridLines(false);\r\n        //不支持图表缩放\r\n        barChartPileUp.setScaleEnabled(false);\r\n        //设置点击图表时的标记，可以自定义布局\r\n//        barChartPileUp.setMarker(new MyMarkView(context);\r\n        \r\n        // 改变y标签的位置\r\n        YAxis leftAxis = barChartPileUp.getAxisLeft();\r\n        leftAxis.setAxisMinimum(0f);\r\n        //右y轴不显示\r\n        barChartPileUp.getAxisRight().setEnabled(false);\r\n        leftAxis.setDrawAxisLine(false);\r\n        leftAxis.setMaxWidth(100);\r\n        //获取x坐标轴\r\n        XAxis xLabels = barChartPileUp.getXAxis();\r\n        //设置x坐标轴显示位置在下方\r\n        xLabels.setPosition(XAxisPosition.BOTTOM);\r\n        //转换x坐标轴显示内容\r\n        xLabels.setValueFormatter(new IAxisValueFormatter() {\r\n            @Override\r\n            public String getFormattedValue(float value, AxisBase axis) {\r\n                return \"\";\r\n            }\r\n        });\r\n        \r\n        //获取图表的图例\r\n        Legend l = barChartPileUp.getLegend();\r\n        //图例设置在下方\r\n        l.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);\r\n        //图例设置在中间\r\n        l.setHorizontalAlignment(LegendHorizontalAlignment.CENTER);\r\n        l.setOrientation(LegendOrientation.HORIZONTAL);\r\n        l.setTextSize(18);\r\n        l.setFormSize(18);\r\n        l.setDrawInside(false);\r\n        \r\n        ArrayList<BarEntry> yValues = new ArrayList<>();\r\n        \r\n        yValues.add(new BarEntry(0, new float[]{(float) (woman1), (float) (man1)}));\r\n        \r\n        BarDataSet set1;\r\n        \r\n        if (barChartPileUp.getData() != null && barChartPileUp.getData().getDataSetCount() > 0) {\r\n            set1 = (BarDataSet) barChartPileUp.getData().getDataSetByIndex(0);\r\n            set1.setValues(yValues);\r\n            barChartPileUp.getData().notifyDataChanged();\r\n            barChartPileUp.notifyDataSetChanged();\r\n        } else {\r\n            set1 = new BarDataSet(yValues, \"\");\r\n            set1.setValueTextSize(20);\r\n            set1.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n                DecimalFormat format = new DecimalFormat(\"0\");\r\n                return format.format(value) + \"%\";\r\n            });\r\n            //设置图例的颜色和名称\r\n            set1.setColors(new int[]{R.color.drawing_nv, R.color.drawing_man}, getContext());\r\n            set1.setStackLabels(new String[]{\"女\", \"男\"});\r\n            \r\n            ArrayList<IBarDataSet> dataSets = new ArrayList<>();\r\n            dataSets.add(set1);\r\n            \r\n            BarData data = new BarData(dataSets);\r\n            data.setValueTextColor(Color.WHITE);\r\n            \r\n            barChartPileUp.setData(data);\r\n        }\r\n        barChartPileUp.animateXY(0, 2000);\r\n        barChartPileUp.setFitBars(true);\r\n        barChartPileUp.setTouchEnabled(false);                   //禁用触摸\r\n        barChartPileUp.invalidate();\r\n        \r\n        \r\n    }\r\n    \r\n    private List<Entry> entries;\r\n    private List<String> stringLine;\r\n    \r\n    private void getLineChart() {\r\n        if (entries == null) {\r\n            entries = new ArrayList<>();\r\n            stringLine = new ArrayList<>();\r\n        } else {\r\n            entries.clear();\r\n            stringLine.clear();\r\n        }\r\n        \r\n        entries.add(new Entry(0, man1));\r\n        entries.add(new Entry(1, woman1));\r\n        stringLine.add(\"男\");\r\n        stringLine.add(\"女\");\r\n        \r\n        LineDataSet dataSet = new LineDataSet(entries, \"\");  //单数据存入\r\n        \r\n        dataSet.setCircleColor(Color.parseColor(\"#F39445\"));                 //设置外圈颜色\r\n        dataSet.setCircleHoleRadius(3f);                    //内圈半径\r\n        dataSet.setColor(Color.parseColor(\"#20D5CE\"));                       //绘制线条颜色\r\n        dataSet.setValueTextSize(20);                       //显示数字大小\r\n        dataSet.setLineWidth(4f);                           //线条宽度\r\n        dataSet.setDrawValues(false);                       //关闭图中显示数字\r\n        dataSet.setDrawCircleHole(false);                   //关闭标识线，垂直显示的\r\n        dataSet.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n            DecimalFormat format = new DecimalFormat(\"0\");\r\n            return format.format(value) + \"%\";\r\n        });\r\n        LineData lineData = new LineData(dataSet);\r\n        \r\n        YAxis yAxis = barchart.getAxisLeft();\r\n        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线\r\n        yAxis.setAxisMinimum(0);                        //最小值\r\n        yAxis.setAxisMaximum(100);                        //最大值\r\n        \r\n        XAxis xAxis = barchart.getXAxis();\r\n        xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示\r\n        xAxis.setValueFormatter(new IndexAxisValueFormatter(stringSex));    //将每秒显示的数据放到X轴\r\n        xAxis.setLabelCount(stringSex.size());            //标签个数\r\n        xAxis.setGranularity(1f);\r\n        xAxis.setTextSize(20);\r\n        //两个数之间的间距\r\n        xAxis.setDrawGridLines(false);                    //关闭网格线\r\n        \r\n        lineChart.setData(lineData);\r\n        lineChart.getLegend().setEnabled(false);\r\n        lineChart.animateXY(1500, 1000);                    //动画效果\r\n        lineChart.getDescription().setEnabled(false);       //说明关闭\r\n        lineChart.getDescription().setText(\"(S)\");          //右下角说明打开\r\n        lineChart.setScaleEnabled(false);                   //禁用缩放比例\r\n        lineChart.setTouchEnabled(false);                   //禁用触摸\r\n        lineChart.invalidate();                             //刷新\r\n        \r\n        \r\n    }\r\n    \r\n    private List<BarEntry> barEntries;\r\n    private List<String> stringSex;\r\n    \r\n    private void getBarChart() {\r\n        if (barEntries == null) {\r\n            barEntries = new ArrayList<>();\r\n            stringSex = new ArrayList<>();\r\n        } else {\r\n            barEntries.clear();\r\n            stringSex.clear();\r\n        }\r\n        \r\n        barEntries.add(new BarEntry(0, man1));\r\n        barEntries.add(new BarEntry(1, woman1));\r\n        \r\n        stringSex.add(\"男\");\r\n        stringSex.add(\"女\");\r\n        \r\n        BarDataSet barDataSet = new BarDataSet(barEntries, \"\");\r\n        \r\n        barDataSet.setColor(Color.parseColor(\"#20D5CE\"));\r\n        BarData data = new BarData(barDataSet);\r\n        barDataSet.setValueTextSize(18);            //设置大小\r\n        barDataSet.setValueTextColor(Color.parseColor(\"#404040\"));\r\n        barDataSet.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {\r\n            DecimalFormat format = new DecimalFormat(\"0\");\r\n            return format.format(value) + \"%\";\r\n        });\r\n        data.setBarWidth(0.5f);\r\n        \r\n        barchart.getLegend().setEnabled(false);\r\n        \r\n        YAxis yAxis = barchart.getAxisLeft();\r\n        yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线\r\n        yAxis.setAxisMinimum(0);                        //最小值\r\n        yAxis.setAxisMaximum(100);                        //最大值\r\n        \r\n        XAxis xAxis = barchart.getXAxis();\r\n        xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示\r\n        xAxis.setValueFormatter(new IndexAxisValueFormatter(stringSex));    //将每秒显示的数据放到X轴\r\n        xAxis.setLabelCount(stringSex.size());            //标签个数\r\n        xAxis.setGranularity(1f);\r\n        xAxis.setTextSize(20);\r\n        //两个数之间的间距\r\n        xAxis.setDrawGridLines(false);                    //关闭网格线\r\n        \r\n        barDataSet.setColors(Color.parseColor(\"#22D5CE\"), Color.parseColor(\"#F39444\"));\r\n        \r\n        barchart.animateXY(0, 2000);\r\n        barchart.setFitBars(true);\r\n        barchart.getAxisRight().setEnabled(false);         //关闭右边线和数据\r\n        barchart.setData(data);                            //数据集合\r\n        barchart.setTouchEnabled(false);                   //禁用触摸\r\n        barchart.getDescription().setEnabled(false);       //关闭右下角\r\n        barchart.invalidate();\r\n    }\r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_province.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_province.java	(date 1624246115097)
+@@ -291,12 +291,12 @@
+         });
+         LineData lineData = new LineData(dataSet);
+         
+-        YAxis yAxis = barchart.getAxisLeft();
++        YAxis yAxis = lineChart.getAxisLeft();
+         yAxis.setDrawAxisLine(false);                    //关闭Y轴网格线
+         yAxis.setAxisMinimum(0);                        //最小值
+         yAxis.setAxisMaximum(100);                        //最大值
+         
+-        XAxis xAxis = barchart.getXAxis();
++        XAxis xAxis = lineChart.getXAxis();
+         xAxis.setPosition(XAxisPosition.BOTTOM);    //X轴在底部显示
+         xAxis.setValueFormatter(new IndexAxisValueFormatter(stringSex));    //将每秒显示的数据放到X轴
+         xAxis.setLabelCount(stringSex.size());            //标签个数
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_city.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus.fragment.statisticsFragment;\r\n\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport androidx.recyclerview.widget.GridLayoutManager;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport com.example.smartcampus.R;\r\nimport com.example.smartcampus.activity.FragmentActivity;\r\nimport com.example.smartcampus.adapter.statisticsAdapter.Count_sex_adapter;\r\nimport com.example.smartcampus.adapter.statisticsAdapter.Count_sex_city_adapter;\r\nimport com.example.smartcampus.bean.statistics.GetMunicipalMenAndWomenNumberAll;\r\nimport com.example.smartcampus.bean.statistics.GetProvinceMenAndWomenNumberAll;\r\nimport com.example.smartcampuslibrary.fragment.BaseFragment;\r\nimport com.example.smartcampuslibrary.net.OkHttpLo;\r\nimport com.example.smartcampuslibrary.net.OkHttpTo;\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.reflect.TypeToken;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport org.json.JSONObject;\r\n\r\npublic class Fragment_count_sex_city extends BaseFragment {\r\n    \r\n    private GetProvinceMenAndWomenNumberAll getProvinceMenAndWomenNumberAll;\r\n    private ImageView back;\r\n    private TextView title;\r\n    private RecyclerView recyclerView;\r\n    \r\n    public Fragment_count_sex_city(GetProvinceMenAndWomenNumberAll getProvinceMenAndWomenNumberAll) {\r\n        this.getProvinceMenAndWomenNumberAll = getProvinceMenAndWomenNumberAll;\r\n    }\r\n    \r\n    @Override\r\n    protected int layoutResId() {\r\n        return R.layout.fragment_count_sex_city;\r\n    }\r\n    \r\n    @Override\r\n    protected void initView(View view) {\r\n        back = view.findViewById(R.id.back);\r\n        title = view.findViewById(R.id.title);\r\n        recyclerView = view.findViewById(R.id.recyclerView);\r\n    }\r\n    \r\n    @Override\r\n    protected void initData() {\r\n        title.setText(\"性别统计\");\r\n        getOkHttp();\r\n        \r\n    }\r\n    \r\n    private List<GetMunicipalMenAndWomenNumberAll> getMunicipalMenAndWomenNumberAlls;\r\n    private void getOkHttp() {\r\n        if (getMunicipalMenAndWomenNumberAlls == null){\r\n            getMunicipalMenAndWomenNumberAlls = new ArrayList<>();\r\n        }else {\r\n            getMunicipalMenAndWomenNumberAlls.clear();\r\n        }\r\n        new OkHttpTo()\r\n            .setUrl(\"GetMunicipalMenAndWomenNumberAll?provinceName=\"+getProvinceMenAndWomenNumberAll.getProvinceName())\r\n            .setRequestType(\"GET\")\r\n            .setOkHttpLo(new OkHttpLo() {\r\n                @Override\r\n                public void onResponse(JSONObject jsonObject) {\r\n                    getMunicipalMenAndWomenNumberAlls.addAll(new Gson().fromJson(jsonObject.optJSONArray(\"rows\").toString(),\r\n                        new TypeToken<List<GetMunicipalMenAndWomenNumberAll>>(){}.getType()));\r\n                    show();\r\n                }\r\n    \r\n                @Override\r\n                public void onFailure(IOException e) {\r\n        \r\n                }\r\n            }).start();\r\n        \r\n    \r\n    }\r\n    \r\n    private void show() {\r\n        Count_sex_city_adapter adapter = new Count_sex_city_adapter(getMunicipalMenAndWomenNumberAlls);\r\n        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));\r\n        recyclerView.setAdapter(adapter);\r\n        adapter.setOnItemClickListener(position -> {\r\n            ((FragmentActivity)getActivity()).setFragment(new Fragment_count_sex_city_count(getMunicipalMenAndWomenNumberAlls.get(position)));\r\n        });\r\n    }\r\n    \r\n    @Override\r\n    public void onClick(View v) {\r\n    \r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_city.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_count_sex_city.java	(date 1624328531865)
+@@ -1,14 +1,16 @@
+ package com.example.smartcampus.fragment.statisticsFragment;
+ 
++import android.text.Editable;
++import android.text.TextWatcher;
++import android.util.Log;
+ import android.view.View;
++import android.widget.EditText;
+ import android.widget.ImageView;
+ import android.widget.TextView;
+ import androidx.recyclerview.widget.GridLayoutManager;
+-import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ import com.example.smartcampus.R;
+ import com.example.smartcampus.activity.FragmentActivity;
+-import com.example.smartcampus.adapter.statisticsAdapter.Count_sex_adapter;
+ import com.example.smartcampus.adapter.statisticsAdapter.Count_sex_city_adapter;
+ import com.example.smartcampus.bean.statistics.GetMunicipalMenAndWomenNumberAll;
+ import com.example.smartcampus.bean.statistics.GetProvinceMenAndWomenNumberAll;
+@@ -26,8 +28,10 @@
+     
+     private GetProvinceMenAndWomenNumberAll getProvinceMenAndWomenNumberAll;
+     private ImageView back;
+-    private TextView title;
+     private RecyclerView recyclerView;
++    private EditText edSearch;
++    private TextView cancel;
++    private Count_sex_city_adapter adapter;
+     
+     public Fragment_count_sex_city(GetProvinceMenAndWomenNumberAll getProvinceMenAndWomenNumberAll) {
+         this.getProvinceMenAndWomenNumberAll = getProvinceMenAndWomenNumberAll;
+@@ -41,50 +45,105 @@
+     @Override
+     protected void initView(View view) {
+         back = view.findViewById(R.id.back);
+-        title = view.findViewById(R.id.title);
+         recyclerView = view.findViewById(R.id.recyclerView);
++        edSearch = view.findViewById(R.id.ed_search);
++        cancel = view.findViewById(R.id.cancel);
+     }
++    
++    private static final String TAG = "Fragment_count_sex_city";
++    
+     
+     @Override
+     protected void initData() {
+-        title.setText("性别统计");
++        
+         getOkHttp();
+         
++        cancel.setOnClickListener(v -> edSearch.setText(""));
++        
++        edSearch.addTextChangedListener(new TextWatcher() {
++            @Override
++            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
++            
++            }
++            
++            @Override
++            public void onTextChanged(CharSequence s, int start, int before, int count) {
++                String msg = edSearch.getText().toString();
++                if (msg.equals("")) {
++                    seeklist.clear();
++                    for (GetMunicipalMenAndWomenNumberAll getProvinceMenAndWomenNumberAll : getMunicipalMenAndWomenNumberAlls) {
++                        seeklist.add(getProvinceMenAndWomenNumberAll);
++                    }
++                    adapter.notifyDataSetChanged();
++                } else {
++                    for (GetMunicipalMenAndWomenNumberAll getProvinceMenAndWomenNumberAll : getMunicipalMenAndWomenNumberAlls) {
++                        if (getProvinceMenAndWomenNumberAll.getMunicipalName().contains(msg)) {
++                            seeklist.clear();
++                            for (GetMunicipalMenAndWomenNumberAll provinceMenAndWomenNumberAll : getMunicipalMenAndWomenNumberAlls) {
++                                if (provinceMenAndWomenNumberAll.getMunicipalName().contains(msg)) {
++                                    seeklist.add(provinceMenAndWomenNumberAll);
++                                    Log.i(TAG, "onTextChanged: " + seeklist.size());
++                                    adapter.notifyDataSetChanged();
++                                }
++                            }
++                            break;
++                        }
++                    }
++                }
++                
++            }
++            
++            @Override
++            public void afterTextChanged(Editable s) {
++            
++            }
++        });
++        
+     }
+     
+-    private List<GetMunicipalMenAndWomenNumberAll> getMunicipalMenAndWomenNumberAlls;
++    private List<GetMunicipalMenAndWomenNumberAll> getMunicipalMenAndWomenNumberAlls, seeklist;
++    
+     private void getOkHttp() {
+-        if (getMunicipalMenAndWomenNumberAlls == null){
++        if (getMunicipalMenAndWomenNumberAlls == null) {
+             getMunicipalMenAndWomenNumberAlls = new ArrayList<>();
+-        }else {
++            seeklist = new ArrayList<>();
++        } else {
++            seeklist.clear();
+             getMunicipalMenAndWomenNumberAlls.clear();
+         }
+         new OkHttpTo()
+-            .setUrl("GetMunicipalMenAndWomenNumberAll?provinceName="+getProvinceMenAndWomenNumberAll.getProvinceName())
++            .setUrl("GetMunicipalMenAndWomenNumberAll?provinceName=" + getProvinceMenAndWomenNumberAll
++                .getProvinceName())
+             .setRequestType("GET")
++            .setDialog(getContext())
+             .setOkHttpLo(new OkHttpLo() {
+                 @Override
+                 public void onResponse(JSONObject jsonObject) {
+                     getMunicipalMenAndWomenNumberAlls.addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
+-                        new TypeToken<List<GetMunicipalMenAndWomenNumberAll>>(){}.getType()));
++                            new TypeToken<List<GetMunicipalMenAndWomenNumberAll>>() {
++                            }.getType()));
++                    seeklist.addAll(new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
++                        new TypeToken<List<GetMunicipalMenAndWomenNumberAll>>() {
++                        }.getType()));
+                     show();
+                 }
+-    
++                
+                 @Override
+                 public void onFailure(IOException e) {
+-        
++                
+                 }
+             }).start();
+         
+-    
++        
+     }
+     
+     private void show() {
+-        Count_sex_city_adapter adapter = new Count_sex_city_adapter(getMunicipalMenAndWomenNumberAlls);
+-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
++        adapter = new Count_sex_city_adapter(seeklist);
++        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+         recyclerView.setAdapter(adapter);
+         adapter.setOnItemClickListener(position -> {
+-            ((FragmentActivity)getActivity()).setFragment(new Fragment_count_sex_city_count(getMunicipalMenAndWomenNumberAlls.get(position)));
++            ((FragmentActivity) getActivity())
++                .setFragment(new Fragment_count_sex_city_count(seeklist.get(position)));
+         });
+     }
+     
+Index: app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_straightAStudent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_straightAStudent.java	(date 1624329041626)
++++ app/src/main/java/com/example/smartcampus/fragment/statisticsFragment/Fragment_straightAStudent.java	(date 1624329041626)
+@@ -0,0 +1,222 @@
++package com.example.smartcampus.fragment.statisticsFragment;
++
++import android.graphics.Color;
++import android.view.View;
++import android.widget.ImageView;
++import android.widget.LinearLayout;
++import android.widget.TextView;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++import com.example.smartcampus.R;
++import com.example.smartcampus.activity.FragmentActivity;
++import com.example.smartcampus.adapter.statisticsAdapter.StraightAStudent_adapter;
++import com.example.smartcampus.bean.statistics.GetStraightAStudent;
++import com.example.smartcampuslibrary.fragment.BaseFragment;
++import com.example.smartcampuslibrary.net.OkHttpLo;
++import com.example.smartcampuslibrary.net.OkHttpTo;
++import com.github.mikephil.charting.charts.BarChart;
++import com.github.mikephil.charting.components.XAxis;
++import com.github.mikephil.charting.components.YAxis;
++import com.github.mikephil.charting.data.BarData;
++import com.github.mikephil.charting.data.BarDataSet;
++import com.github.mikephil.charting.data.BarEntry;
++import com.github.mikephil.charting.data.Entry;
++import com.github.mikephil.charting.data.PieEntry;
++import com.github.mikephil.charting.formatter.IValueFormatter;
++import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
++import com.github.mikephil.charting.utils.ViewPortHandler;
++import com.google.gson.Gson;
++import com.google.gson.reflect.TypeToken;
++import java.io.IOException;
++import java.text.DecimalFormat;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.List;
++import org.json.JSONObject;
++
++public class Fragment_straightAStudent extends BaseFragment {
++    
++    private TextView title;
++    private RecyclerView recyclerView;
++    private LinearLayout btnLearningSituation;
++    private BarChart barChart;
++    
++    @Override
++    protected int layoutResId() {
++        return R.layout.fragment_straightastudent;
++    }
++    
++    @Override
++    protected void initView(View view) {
++        ImageView back = view.findViewById(R.id.back);
++        title = view.findViewById(R.id.title);
++        recyclerView = view.findViewById(R.id.recyclerView);
++        btnLearningSituation = view.findViewById(R.id.btn_learning_situation);
++        barChart = view.findViewById(R.id.barChart);
++    }
++    
++    @Override
++    protected void initData() {
++        title.setText("学霸指数");
++        
++        getOkHttp();
++        
++        btnLearningSituation.setOnClickListener(v -> {
++            ((FragmentActivity) getActivity())
++                .setFragment(new Fragment_straightAStudent_msg(getStraightAStudents));
++        });
++    }
++    
++    private List<BarEntry> barEntries;
++    private List<String> strings;
++    private double node250 = 0;
++    private double node200 = 0;
++    private double node150 = 0;
++    private double node100 = 0;
++    private double node0 = 0;
++    
++    private static final String TAG = "Fragment_straightAStude";
++    
++    private void getPieChart() {
++        if (barEntries == null) {
++            barEntries = new ArrayList<>();
++            strings = new ArrayList<>();
++        } else {
++            barEntries.clear();
++            strings.clear();
++        }
++        
++        for (GetStraightAStudent getStraightAStudent : getStraightAStudents) {
++            if (getStraightAStudent.getSum() >= 250) {
++                node250++;
++            } else if (getStraightAStudent.getSum() >= 200) {
++                node200++;
++            } else if (getStraightAStudent.getSum() >= 150) {
++                node150++;
++            } else if (getStraightAStudent.getSum() >= 100) {
++                node100++;
++            } else {
++                node0++;
++            }
++        }
++        
++        int sun = getStraightAStudents.size();
++        
++        int fin250 = (int) Math.ceil(node250 / sun * 100);
++        int fin200 = (int) Math.ceil(node200 / sun * 100);
++        int fin100 = (int) Math.ceil(node100 / sun * 100);
++        int fin0 = (int) Math.ceil(node0 / sun * 100);
++        int fin150 = 100 - fin250 - fin200 - fin100 - fin0;
++        
++        barEntries.add(new BarEntry(0, fin250));
++        barEntries.add(new BarEntry(1, fin200));
++        barEntries.add(new BarEntry(2, fin150));
++        barEntries.add(new BarEntry(3, fin100));
++        barEntries.add(new BarEntry(4, fin0));
++        
++        strings.add("学霸");
++        strings.add("200分以上");
++        strings.add("150分以上");
++        strings.add("100分以上");
++        strings.add("100分以下");
++        
++        BarDataSet barDataSet = new BarDataSet(barEntries, "");
++        
++        barDataSet.setColors(
++            Color.parseColor("#722ED1"),
++            Color.parseColor("#F5212D"),
++            Color.parseColor("#FA531C"),
++            Color.parseColor("#1890FF"),
++            Color.parseColor("#53C41A")
++        );
++    
++    
++        barDataSet.setValueFormatter(new IValueFormatter() {
++            @Override
++            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
++                DecimalFormat format = new DecimalFormat("0");
++                return format.format(value)+"%";
++            }
++        });
++        BarData data = new BarData(barDataSet);
++        data.setValueTextSize(20);
++        barChart.getLegend().setEnabled(false);
++        YAxis yAxis = barChart.getAxisLeft();
++        yAxis.setDrawAxisLine(false);					//关闭Y轴网格线
++        yAxis.setAxisMinimum(0);						//最小值
++        yAxis.setTextSize(20);
++        XAxis xAxis = barChart.getXAxis();
++        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);	//X轴在底部显示
++        xAxis.setValueFormatter(new IndexAxisValueFormatter(strings));	//将每秒显示的数据放到X轴
++        xAxis.setLabelCount(strings.size());			//标签个数
++        xAxis.setGranularity(1f);						//两个数之间的间距
++        xAxis.setTextSize(15);
++        xAxis.setDrawGridLines(false);					//关闭网格线
++        xAxis.setLabelRotationAngle(-35);
++        barChart.getAxisRight().setEnabled(false);		//关闭右边线和数据
++        barChart.animateXY(0, 2000);
++        barChart.setData(data);							//数据集合
++        barChart.setTouchEnabled(false);				//禁用触摸
++        barChart.getDescription().setEnabled(false);        //不展示图表描述信息
++        barChart.invalidate();
++        
++    }
++    
++    private List<GetStraightAStudent> getStraightAStudents, getStraightAStudentList;
++    
++    private void getOkHttp() {
++        if (getStraightAStudents == null) {
++            getStraightAStudents = new ArrayList<>();
++            getStraightAStudentList = new ArrayList<>();
++        } else {
++            getStraightAStudents.clear();
++            getStraightAStudentList.clear();
++        }
++        new OkHttpTo()
++            .setUrl("getStraightAStudent")
++            .setRequestType("GET")
++            .setDialog(getContext())
++            .setOkHttpLo(new OkHttpLo() {
++                @Override
++                public void onResponse(JSONObject jsonObject) {
++                    getStraightAStudents.addAll(new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
++                        new TypeToken<List<GetStraightAStudent>>() {
++                        }.getType()));
++                    getPieChart();
++                    show();
++                }
++                
++                @Override
++                public void onFailure(IOException e) {
++                
++                }
++            }).start();
++        
++    }
++    
++    private void show() {
++        
++        Collections.sort(getStraightAStudents, (o1, o2) -> o2.getSum() - o1.getSum());
++        for (int i = 0; i < 10; i++) {
++            GetStraightAStudent student = getStraightAStudents.get(i);
++            getStraightAStudentList.add(student);
++        }
++    
++        for (int i = 0; i < getStraightAStudents.size(); i++) {
++            GetStraightAStudent student = getStraightAStudents.get(i);
++            student.setNumber(i+1+"");
++        }
++
++        
++        
++        
++        StraightAStudent_adapter adapter = new StraightAStudent_adapter(getStraightAStudentList);
++        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
++        recyclerView.setAdapter(adapter);
++    }
++    
++    @Override
++    public void onClick(View v) {
++    
++    }
++}
+Index: app/src/main/java/com/example/smartcampus/Application.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartcampus;\r\n\r\nimport com.example.smartcampuslibrary.ZhcsConfig;\r\n\r\npublic class Application extends android.app.Application {\r\n    @Override\r\n    public void onCreate() {\r\n        super.onCreate();\r\n        ZhcsConfig.setUrl(\"http://192.168.155.202:8080/Smart_campus/\");\r\n        ZhcsConfig.setContext(getApplicationContext());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/smartcampus/Application.java	(revision 72dbb60bc8d1ec89b1e7de3eb6e041fb7897189d)
++++ app/src/main/java/com/example/smartcampus/Application.java	(date 1624262843957)
+@@ -5,8 +5,8 @@
+ public class Application extends android.app.Application {
+     @Override
+     public void onCreate() {
+-        super.onCreate();
+-        ZhcsConfig.setUrl("http://192.168.155.202:8080/Smart_campus/");
++        super.onCreate();   //http://192.168.155.202:8080/Smart_campus/
++        ZhcsConfig.setUrl("http://192.168.155.208:8080/Smart_campus_war/");
+         ZhcsConfig.setContext(getApplicationContext());
+     }
+ }
+Index: app/src/main/res/drawable/lin_blue_r20.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/lin_blue_r20.xml	(date 1624261597398)
++++ app/src/main/res/drawable/lin_blue_r20.xml	(date 1624261597398)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++
++  <solid android:color="#379EFB"
++    />
++
++
++  <corners android:radius="20dp"
++    />
++
++</shape>
+\ No newline at end of file
