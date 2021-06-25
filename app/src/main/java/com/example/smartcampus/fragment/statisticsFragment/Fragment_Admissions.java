@@ -207,8 +207,7 @@ public class Fragment_Admissions extends BaseFragment {
             set1.setValues(yValues);
             barChartPileUp.getData().notifyDataChanged();
             barChartPileUp.notifyDataSetChanged();
-        
-            Log.i(TAG, "getBarChart_PileUp: ");
+            
         } else {
             set1 = new BarDataSet(yValues, "");
             set1.setValueTextSize(20);
@@ -218,12 +217,12 @@ public class Fragment_Admissions extends BaseFragment {
             });
             //设置图例的颜色和名称
             ArrayList<Integer> colors = new ArrayList<>();
-            colors.add(Color.parseColor("#3CBBFF"));
+            colors.add(Color.parseColor("#E6746A"));
             colors.add(Color.parseColor("#FFB81C"));
         
             set1.setColors(colors);
         
-            set1.setStackLabels(new String[]{"国内学生","留学生"});
+            set1.setStackLabels(new String[]{"国内学生","留学生 "});
         
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             set1.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> "");
@@ -246,15 +245,16 @@ public class Fragment_Admissions extends BaseFragment {
         legend.setHorizontalAlignment(LegendHorizontalAlignment.RIGHT);
         legend.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);
         legend.setOrientation(LegendOrientation.HORIZONTAL);
-    
-    
+        legend.setTextSize(14);
+        legend.setFormSize(15);
+        
         Matrix m = new Matrix();
-        m.postScale(4f, 2f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
+        m.postScale(2.471f, 2f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
         barChartPileUp.getViewPortHandler().refresh(m, barChartPileUp, false);//将图表动画显示之前进行缩放
     
         barChartPileUp.animateXY(0, 2000);
         barChartPileUp.setFitBars(true);
-      
+        
         barChartPileUp.invalidate();
         
     }
