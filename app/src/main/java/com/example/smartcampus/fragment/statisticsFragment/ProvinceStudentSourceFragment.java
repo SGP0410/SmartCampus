@@ -1,6 +1,7 @@
 package com.example.smartcampus.fragment.statisticsFragment;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -93,6 +94,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     private PopupWindow popupWindow;
     private String markerName;
     private Map<String, List<Municipal>> municipalMap;
+    private ProgressDialog progressDialog;
 
     @Override
     protected int layoutResId() {
@@ -124,7 +126,15 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         });
 
         province_query_all();
+        showDialog();
+    }
 
+    private void showDialog(){
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("网络请求中。。。");
+        progressDialog.setTitle("提示");
+        progressDialog.show();
     }
     
     private static final String TAG = "ProvinceStudentSourceFr";
@@ -157,7 +167,9 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
 
         List<View> viewList = new ArrayList<>();
         List<Municipal> municipalList = municipalMap.get(name);
-        assert municipalList != null;
+        if (municipalList == null){
+            return;
+        }
         for (Municipal municipal : municipalList) {
             TextView textView = new TextView(getContext());
             textView.setLayoutParams(
@@ -243,9 +255,6 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         OkHttpTo okHttpTo;
         for (Province province : provinceList) {
             okHttpTo = new OkHttpTo();
-            if (province == provinceList.get(provinceList.size() - 1)) {
-                okHttpTo.setDialog(getContext());
-            }
             okHttpTo
                 .setUrl("GetProvinceStudentSource?provinceName=" + province.getProvinceName())
                 .setRequestType("get")
@@ -296,7 +305,8 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         showMap(colorList1, provinceStudentSourceList1);
     }
 
-    private void showMap(List<Integer> colorList, List<ProvinceStudentSource> provinceStudentSourceList) {
+    private void showMap(List<Integer> colorList,
+        List<ProvinceStudentSource> provinceStudentSourceList) {
 
         Map<String, Integer> colorMap = new HashMap<>();
         for (int i = 0; i < colorList.size(); i++) {
@@ -304,6 +314,11 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         }
         mapView.setColors(colorMap);
         mapView.setMapResId(R.raw.china);
+
+        if (progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+
     }
 
 
@@ -321,10 +336,17 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         names = new ArrayList<>();
         names.add("");
 
-        String[] colors1 = {"#f4a235", "#f8b751", "#ebba46", "#efc800", "#f1cc3e",
-            "#f5e84c", "#f5e84c"};
-        String[] colors2 = {"#a71e32", "#e21c13", "#46b797", "#63be9d", "#a0d4bd",
-            "#bee0d0", "#bee0d0"};
+        String[] colors1 = {"#938c18", "#c2b61e", "#ddcd21", "#fff101", "#fff156",
+            "#fff584", "#fff7aa"};
+//        String[] colors2 = {"#802425", "#a83032", "#bd3638", "#dc3e3d", "#e36a56",
+//            "#e98770", "#efa490"};
+        String[] colors2 = {
+            "#00a09b",
+            "#00adad",
+            "#5cbdb9",
+            "#87cac3",
+            "#bedec9",
+            "#bbe0db"};
         //优秀
         if (i == 0) {
             barChart1 = barChart;
@@ -361,6 +383,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         }
 
         setAxis(barChart);
+        assert barDataSet != null;
         barDataSet.setValueTextSize(16f);
         barDataSet.setValueTextColor(Color.parseColor("#333333"));
 
@@ -375,7 +398,6 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
             }
         });
 
-        assert barDataSet != null;
         StudentSourceMarker marker = new StudentSourceMarker(getContext(),
             barDataSet.getColors());
         barChart.setMarker(marker);
