@@ -12,17 +12,17 @@ public class GetMunicipal_query_all implements Serializable {
      * provinceId : 1
      */
     
-    private String overseasStudentNum;
+    private int overseasStudentNum;
     private String municipalName;
     private String id;
-    private String enrollStudentNum;
+    private int enrollStudentNum;
     private String provinceId;
     
-    public String getOverseasStudentNum() {
+    public int getOverseasStudentNum() {
         return overseasStudentNum;
     }
     
-    public void setOverseasStudentNum(String overseasStudentNum) {
+    public void setOverseasStudentNum(int overseasStudentNum) {
         this.overseasStudentNum = overseasStudentNum;
     }
     
@@ -42,11 +42,11 @@ public class GetMunicipal_query_all implements Serializable {
         this.id = id;
     }
     
-    public String getEnrollStudentNum() {
+    public int getEnrollStudentNum() {
         return enrollStudentNum;
     }
     
-    public void setEnrollStudentNum(String enrollStudentNum) {
+    public void setEnrollStudentNum(int enrollStudentNum) {
         this.enrollStudentNum = enrollStudentNum;
     }
     

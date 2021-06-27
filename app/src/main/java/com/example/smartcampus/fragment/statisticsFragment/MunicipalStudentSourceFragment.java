@@ -81,8 +81,7 @@ public class MunicipalStudentSourceFragment extends BaseFragment {
     private List<Integer> colorList2;
     private String markerName;
 
-    public MunicipalStudentSourceFragment(String name,
-        List<Municipal> municipals) {
+    public MunicipalStudentSourceFragment(String name, List<Municipal> municipals) {
         this.name = name;
         municipalList1 = new ArrayList<>();
         municipalList2 = new ArrayList<>();
