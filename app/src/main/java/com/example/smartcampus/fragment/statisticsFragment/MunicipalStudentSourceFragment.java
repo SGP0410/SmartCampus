@@ -81,8 +81,7 @@ public class MunicipalStudentSourceFragment extends BaseFragment {
     private List<Integer> colorList2;
     private String markerName;
 
-    public MunicipalStudentSourceFragment(String name,
-        List<Municipal> municipals) {
+    public MunicipalStudentSourceFragment(String name, List<Municipal> municipals) {
         this.name = name;
         municipalList1 = new ArrayList<>();
         municipalList2 = new ArrayList<>();
@@ -146,10 +145,30 @@ public class MunicipalStudentSourceFragment extends BaseFragment {
         names = new ArrayList<>();
         names.add("");
 
-        String[] colors1 = {"#f4a235", "#f8b751", "#ebba46", "#efc800", "#f1cc3e",
-            "#f5e84c", "#f5e84c"};
-        String[] colors2 = {"#a71e32", "#e21c13", "#46b797", "#63be9d", "#a0d4bd",
-            "#bee0d0", "#bee0d0"};
+        String[] colors1 = {"#938c18", "#c2b61e", "#ddcd21", "#fff101", "#fff156",
+            "#fff584", "#fff7aa"};
+//        String[] colors2 = {"#802425", "#a83032", "#bd3638", "#dc3e3d", "#e36a56",
+//            "#e98770", "#efa490"};
+
+        String[] colors2 = {
+            "#00a09b",
+            "#00adad",
+            "#5cbdb9",
+            "#87cac3",
+            "#bedec9",
+            "#bbe0db"};
+
+//        String[] colors2 = {
+//            "#291143",
+//            "#3d1e5c",
+//            "#452468",
+//            "#4e2b79",
+//            "#694287",
+//            "#79629c",
+//            "#8a7bac",
+//            "#b5a8c6"
+//        };
+
 
         if (i == 0) {
             barChart1 = barChart;
@@ -183,6 +202,7 @@ public class MunicipalStudentSourceFragment extends BaseFragment {
 
         setAxis(barChart);
 
+        assert barDataSet != null;
         barDataSet.setValueTextSize(16f);
         barDataSet.setValueTextColor(Color.parseColor("#333333"));
 
@@ -204,7 +224,6 @@ public class MunicipalStudentSourceFragment extends BaseFragment {
         barChart.setData(barData);
         barChart.animateXY(0, 2000);
 
-        assert barDataSet != null;
         StudentSourceMarker marker = new StudentSourceMarker(getContext(),
             barDataSet.getColors());
         barChart.setMarker(marker);
@@ -230,7 +249,7 @@ public class MunicipalStudentSourceFragment extends BaseFragment {
 //        xAxis.setLabelCount(names.size());
         xAxis.setAxisMinimum(0);
         xAxis.setAxisMaximum(names.size());
-        Log.d("aaaaaa" , "-----------"+names);
+        Log.d("aaaaaa", "-----------" + names);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(names));
         xAxis.setTextColor(Color.parseColor("#333333"));
         xAxis.setTextSize(12f);
