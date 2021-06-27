@@ -124,7 +124,6 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
         });
 
         province_query_all();
-
     }
     
     private static final String TAG = "ProvinceStudentSourceFr";

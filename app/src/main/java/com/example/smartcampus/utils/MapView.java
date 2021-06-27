@@ -118,6 +118,7 @@ public class MapView extends View {
                 return thread;
             }
         };
+        Log.d("aaaaaaaaaaaaaaaaaaaaa1", "executeLoad: ");
         mThreadPool = new ThreadPoolExecutor(1, 1, 10L, TimeUnit.MINUTES,
             new LinkedBlockingDeque<Runnable>(10), threadFactory,
             new ThreadPoolExecutor.AbortPolicy());
@@ -162,6 +163,7 @@ public class MapView extends View {
         if (mMapResId <= 0) {
             return;
         }
+        Log.d("aaaaaaaaaaaaaaaaaaaaa2", "executeLoad: ");
         mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
