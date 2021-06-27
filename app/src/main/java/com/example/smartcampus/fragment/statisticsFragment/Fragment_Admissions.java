@@ -66,7 +66,7 @@ public class Fragment_Admissions extends BaseFragment {
     private LinearLayout btnForeign;
     private ImageView imgForeign;
     private TextView txtForeign;
-    private ViewFlipper viewFlipper;
+//    private ViewFlipper viewFlipper;
     private TextView txtPlan;
     private TextView txtStudent;
     private BarChart barChartPileUp;
@@ -92,7 +92,7 @@ public class Fragment_Admissions extends BaseFragment {
         txtForeign.setTextColor(Color.parseColor("#414141"));
         imgDomestic.setImageResource(R.mipmap.xs_1_lan);
         txtDomestic.setTextColor(Color.parseColor("#386FE2"));
-        viewFlipper = view.findViewById(R.id.view_flipper);
+//        viewFlipper = view.findViewById(R.id.view_flipper);
         txtStudent = view.findViewById(R.id.txt_student);
         txtPlan = view.findViewById(R.id.txt_plan);
         
@@ -102,8 +102,8 @@ public class Fragment_Admissions extends BaseFragment {
             imgDomestic.setImageResource(R.mipmap.xs_1_lan);
             txtDomestic.setTextColor(Color.parseColor("#386FE2"));
             showData("CH");
-            barChart1.animateXY(0, 2000);
-            viewFlipper.setDisplayedChild(0);
+//            barChart1.animateXY(0, 2000);
+//            viewFlipper.setDisplayedChild(0);
             txtStudent.setText("国内招生");
         });
         btnForeign.setOnClickListener(v -> {
@@ -112,8 +112,8 @@ public class Fragment_Admissions extends BaseFragment {
             imgDomestic.setImageResource(R.mipmap.xs_1_hui);
             txtDomestic.setTextColor(Color.parseColor("#414141"));
             showData("GH");
-            viewFlipper.setDisplayedChild(1);
-            barChart2.animateXY(0, 2000);
+//            viewFlipper.setDisplayedChild(1);
+//            barChart2.animateXY(0, 2000);
             txtStudent.setText("留学生招生");
         });
         
@@ -135,11 +135,8 @@ public class Fragment_Admissions extends BaseFragment {
         GestureViewBinder binder = GestureViewBinder.bind(getContext(), groupView, mapView);
         binder.setFullGroup(true);
         mapView.setOnMapViewClickListener(name -> {
-            Log.i("aaaaa", "--------" + name);
-            
             ((FragmentActivity) getActivity()).setFragment(new Fragment_admissions1(name, getMunicipal_query_alls,
                 getProvinceRecruitStudentNumbers));
-            
             RectF rectF = mapView.getRectF(name);
             initPopWindow((int) rectF.centerX(), (int) rectF.bottom);
         });
@@ -177,7 +174,6 @@ public class Fragment_Admissions extends BaseFragment {
         XAxis xLabels = barChartPileUp.getXAxis();
         //设置x坐标轴显示位置在下方
         xLabels.setPosition(XAxisPosition.BOTTOM);
-
         
         //转换x坐标轴显示内容
         xLabels.setValueFormatter(new IAxisValueFormatter() {
@@ -192,14 +188,45 @@ public class Fragment_Admissions extends BaseFragment {
             GetProvinceRecruitStudentNumber getProvinceRecruitStudentNumber = getProvinceRecruitStudentNumbers.get(i);
             float val1 = (float) getProvinceRecruitStudentNumber.getEnrollStudentNum();
             float val2 = (float) getProvinceRecruitStudentNumber.getOverseasStudentNum();
-            strings.add(getProvinceRecruitStudentNumber.getProvinceName().substring(0,3));
+            String s = getProvinceRecruitStudentNumber.getProvinceName();
+            switch (s){
+                case "山东省":
+                    s = "山 东 省";
+                    break;
+                case "新疆维吾尔自治区":
+                    s = "新  疆";
+                    break;
+                case "广西壮族自治区":
+                    s = "广  西";
+                    break;
+                case "香港特别行政区":
+                    s = "香  港";
+                    break;
+                case "内蒙古自治区":
+                    s = "内蒙古";
+                    break;
+                case "西藏自治区":
+                    s = "西  藏";
+                    break;
+                case "宁夏回族自治区":
+                    s = "宁  夏";
+                    break;
+                case "澳门特别行政区":
+                    s = "澳  门";
+                    break;
+                case "黑龙江省":
+                    s = "黑龙江";
+                    break;
+            }
+            
+            strings.add(s);
             yValues.add(new BarEntry(i+1, new float[]{val1, val2}));
         }
         
         xLabels.setValueFormatter(new IndexAxisValueFormatter(strings));
         xLabels.setLabelCount(strings.size());
         xLabels.setLabelRotationAngle(-90);
-        xLabels.setTextSize(18);
+        xLabels.setTextSize(16);
     
         BarDataSet set1;
         if (barChartPileUp.getData() != null && barChartPileUp.getData().getDataSetCount() > 0) {
@@ -207,7 +234,6 @@ public class Fragment_Admissions extends BaseFragment {
             set1.setValues(yValues);
             barChartPileUp.getData().notifyDataChanged();
             barChartPileUp.notifyDataSetChanged();
-            
         } else {
             set1 = new BarDataSet(yValues, "");
             set1.setValueTextSize(20);
@@ -242,19 +268,17 @@ public class Fragment_Admissions extends BaseFragment {
         yAxis1.setAxisMinimum(0);
         
         Legend legend = barChartPileUp.getLegend();
-        legend.setHorizontalAlignment(LegendHorizontalAlignment.RIGHT);
-        legend.setVerticalAlignment(LegendVerticalAlignment.BOTTOM);
-        legend.setOrientation(LegendOrientation.HORIZONTAL);
+        legend.setHorizontalAlignment(LegendHorizontalAlignment.CENTER);
+        legend.setVerticalAlignment(LegendVerticalAlignment.TOP);
+        legend.setOrientation(LegendOrientation.VERTICAL);
         legend.setTextSize(14);
         legend.setFormSize(15);
-        
+
         Matrix m = new Matrix();
         m.postScale(2.478f, 2f);//两个参数分别是x,y轴的缩放比例。例如：将x轴的数据放大为之前的1.5倍
         barChartPileUp.getViewPortHandler().refresh(m, barChartPileUp, false);//将图表动画显示之前进行缩放
-    
         barChartPileUp.animateXY(0, 2000);
         barChartPileUp.setFitBars(true);
-        
         barChartPileUp.invalidate();
         
     }
@@ -311,8 +335,8 @@ public class Fragment_Admissions extends BaseFragment {
                         new TypeToken<List<GetMunicipal_query_all>>() {
                         }.getType()));
                     
-                    viewFlipper.addView(barChart1);
-                    viewFlipper.addView(barChart2);
+//                    viewFlipper.addView(barChart1);
+//                    viewFlipper.addView(barChart2);
     
                     getBarUp();
                     
@@ -349,7 +373,7 @@ public class Fragment_Admissions extends BaseFragment {
             Collections.sort(getProvinceRecruitStudentNumbers,
                 (o1, o2) -> o2.getEnrollStudentNum() - o1.getEnrollStudentNum());
             
-            setBarChart(ch);
+//            setBarChart(ch);
             
             for (int i = 0; i < getProvinceRecruitStudentNumbers.size(); i++) {
                 if (i == 0) {
@@ -375,7 +399,7 @@ public class Fragment_Admissions extends BaseFragment {
             Collections.sort(getProvinceRecruitStudentNumbers,
                 (o1, o2) -> o2.getOverseasStudentNum() - o1.getOverseasStudentNum());
             
-            setBarChart(ch);
+//            setBarChart(ch);
             
             for (int i = 0; i < getProvinceRecruitStudentNumbers.size(); i++) {
                 if (i == 0) {
