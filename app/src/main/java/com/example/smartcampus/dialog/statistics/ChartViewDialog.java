@@ -71,7 +71,7 @@ public class ChartViewDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.chart_view_dialog, container);
+        return inflater.inflate(R.layout.chart_view_dialog, container , true);
     }
 
     @Override
