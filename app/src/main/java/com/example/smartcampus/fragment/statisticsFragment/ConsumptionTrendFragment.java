@@ -343,13 +343,14 @@ public class ConsumptionTrendFragment extends BaseFragment {
 
 
         LineData lineData = new LineData(lineDataSet);
-        lineData.setValueFormatter(new IValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                DecimalFormat format = new DecimalFormat("0");
-                return format.format(value);
-            }
-        });
+        lineData.setDrawValues(false);
+//        lineData.setValueFormatter(new IValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+//                DecimalFormat format = new DecimalFormat("0");
+//                return format.format(value);
+//            }
+//        });
         lineData.setValueTextColor(Color.parseColor("#333333"));
         lineData.setValueTextSize(12f);
 
@@ -360,9 +361,16 @@ public class ConsumptionTrendFragment extends BaseFragment {
         xAxis.setAxisMinimum(0.5f);
         xAxis.setAxisMaximum(nameList.size() - 0.5f);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(nameList));
-        xAxis.setGranularity(0.5f);
+//        xAxis.setValueFormatter(new IAxisValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//                return value+"";
+//            }
+//        });
+        xAxis.setGranularity(1f);
         xAxis.setTextColor(Color.parseColor("#333333"));
-        xAxis.setTextSize(12f);
+        xAxis.setTextSize(5f);
+//        xAxis.setLabelRotationAngle(90);
 
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setAxisMinimum(0f);

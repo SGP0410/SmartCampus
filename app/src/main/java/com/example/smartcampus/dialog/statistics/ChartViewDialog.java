@@ -1,7 +1,9 @@
 package com.example.smartcampus.dialog.statistics;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +45,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChartViewDialog extends DialogFragment {
 
@@ -74,11 +78,16 @@ public class ChartViewDialog extends DialogFragment {
         return inflater.inflate(R.layout.chart_view_dialog, container , true);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this , view);
-        wh = layout1.getWidth();
+        DisplayMetrics dm = new DisplayMetrics();
+        Objects.requireNonNull(Objects.requireNonNull(getContext()).getDisplay()).getMetrics(dm);
+        //获取屏幕宽度
+        int widthPixels = dm.widthPixels;
+        wh = widthPixels - 100;
         initData();
     }
 
@@ -86,32 +95,77 @@ public class ChartViewDialog extends DialogFragment {
         switch (position){
             case 0:
                 lineChart = new LineChart(getContext());
-                Log.i("aaaaaaa" , "-----------------"+wh);
                 lineChart.setLayoutParams(new LayoutParams(wh , wh));
                 view = lineChart;
-                setLineChart1();
+                switch (lable){
+                    case "各年级消费趋势":
+                        setLineChart1();
+                        break;
+                    case "年级消费总计":
+                    case "性别消费总计":
+                        setLineChart2();
+                        break;
+                    case "省份消费总计":
+                    default:
+                        setLineChart3();
+                }
                 break;
             case 1:
                 barChart = new BarChart(getContext());
                 barChart.setLayoutParams(new LayoutParams(wh , wh));
                 view = barChart;
-                setBarChart1();
+                switch (lable){
+                    case "各年级消费趋势":
+                        setBarChart1();
+                        break;
+                    case "年级消费总计":
+                    case "性别消费总计":
+                        setBarChart2();
+                        break;
+                    case "省份消费总计":
+                    default:
+                        setBarChart3();
+                }
+
                 break;
             case 2:
                 pieChart = new PieChart(getContext());
                 pieChart.setLayoutParams(new LayoutParams(wh , wh));
                 view = pieChart;
-                setPieChart1();
+                switch (lable){
+                    case "各年级消费趋势":
+                        setPieChart1();
+                        break;
+                    case "年级消费总计":
+                    case "性别消费总计":
+                        setPieChart2();
+                        break;
+                    case "省份消费总计":
+                    default:
+                        setPieChart3();
+                }
+
                 break;
             case 3:
                 radarChart = new RadarChart(getContext());
                 radarChart.setLayoutParams(new LayoutParams(wh , wh));
                 view = radarChart;
-                setRadarChart1();
+                switch (lable){
+                    case "各年级消费趋势":
+                        setRadarChart1();
+                        break;
+                    case "年级消费总计":
+                    case "性别消费总计":
+                        setRadarChart2();
+                        break;
+                    case "省份消费总计":
+                    default:
+                        setRadarChart3();
+                }
                 break;
             default:
         }
-//        layout1.addView(view);
+        layout1.addView(view);
     }
 
 
@@ -285,6 +339,383 @@ public class ChartViewDialog extends DialogFragment {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 DecimalFormat format = new DecimalFormat("00%");
+                return format.format(value);
+            }
+        });
+        yAxis.setTextColor(Color.parseColor("#333333"));
+        yAxis.setTextSize(12f);
+
+        YAxis yAxis1 = lineChart.getAxisRight();
+        yAxis1.setEnabled(false);
+        yAxis1.setAxisMinimum(0f);
+        yAxis1.setLabelCount(5);
+
+
+        lineChart.setData(lineData);
+        lineChart.animateXY(0, 2000);
+        lineChart.invalidate();
+    }
+
+    private void setRadarChart2() {
+        radarChart.setDescription(null);
+        radarChart.setTouchEnabled(false);
+
+        List<RadarEntry> radarEntryList = new ArrayList<>();
+        for (Entry entry : entryList) {
+            radarEntryList.add(new RadarEntry(entry.getY(), entry.getData()));
+        }
+
+        RadarDataSet set = new RadarDataSet(radarEntryList, lable);
+        set.setColors(colors);
+
+        //禁用标签
+        set.setDrawValues(false);
+        //设置填充颜色
+        set.setFillColor(Color.BLUE);
+        //设置填充透明度
+        set.setFillAlpha(40);
+        //设置启用填充
+        set.setDrawFilled(true);
+        //设置点击之后标签是否显示圆形外围
+        set.setDrawHighlightCircleEnabled(true);
+        //设置点击之后标签圆形外围的颜色
+        set.setHighlightCircleFillColor(Color.RED);
+        //设置点击之后标签圆形外围的透明度
+        set.setHighlightCircleStrokeAlpha(40);
+        //设置点击之后标签圆形外围的半径
+        set.setHighlightCircleInnerRadius(20f);
+        //设置点击之后标签圆形外围内圆的半径
+        set.setHighlightCircleOuterRadius(10f);
+
+        RadarData radarData = new RadarData(set);
+
+
+        radarChart.setData(radarData);
+        radarChart.animateXY(0, 2000);
+        radarChart.invalidate();
+
+    }
+
+    private void setPieChart2() {
+        pieChart.setDescription(null);
+        pieChart.setTouchEnabled(false);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setDrawEntryLabels(true);
+
+        List<PieEntry> pieEntryList = new ArrayList<>();
+        for (Entry entry : entryList) {
+            pieEntryList.add(new PieEntry(entry.getY(), entry.getData()));
+        }
+
+        PieDataSet pieDataSet = new PieDataSet(pieEntryList, lable);
+        pieDataSet.setColors(colors);
+        pieDataSet.setValueTextColor(Color.parseColor("#333333"));
+        pieDataSet.setValueTextSize(12f);
+        pieDataSet.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                DecimalFormat format = new DecimalFormat("00");
+                return format.format(value) + "(" + entry.getData() + ")";
+            }
+        });
+
+
+        PieData pieData = new PieData(pieDataSet);
+
+        pieChart.setData(pieData);
+        pieChart.animateXY(0, 2000);
+        pieChart.invalidate();
+    }
+
+    private void setBarChart2() {
+        barChart.setDescription(null);
+        barChart.setTouchEnabled(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+
+        List<BarEntry> barEntryList = new ArrayList<>();
+        for (Entry entry : entryList) {
+            barEntryList.add(new BarEntry(entry.getX(), entry.getY(), entry.getData()));
+        }
+
+        BarDataSet barDataSet = new BarDataSet(barEntryList, lable);
+        barDataSet.setColors(colors);
+
+        BarData barData = new BarData(barDataSet);
+        barData.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                DecimalFormat format = new DecimalFormat("00");
+                return format.format(value);
+            }
+        });
+        barData.setValueTextColor(Color.parseColor("#333333"));
+        barData.setValueTextSize(12f);
+
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setAxisMinimum(0.5f);
+        xAxis.setAxisMaximum(nameList.size() - 0.5f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(nameList));
+        xAxis.setGranularity(0.5f);
+        xAxis.setTextColor(Color.parseColor("#333333"));
+        xAxis.setTextSize(12f);
+
+        YAxis yAxis = barChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setLabelCount(5);
+        yAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                DecimalFormat format = new DecimalFormat("0");
+                return format.format(value);
+            }
+        });
+        yAxis.setTextColor(Color.parseColor("#333333"));
+        yAxis.setTextSize(12f);
+
+        YAxis yAxis1 = barChart.getAxisRight();
+        yAxis1.setEnabled(false);
+        yAxis1.setAxisMinimum(0f);
+        yAxis1.setLabelCount(5);
+
+
+        barChart.setData(barData);
+        barChart.animateXY(0, 2000);
+        barChart.invalidate();
+    }
+
+    private void setLineChart2() {
+        lineChart.setDescription(null);
+        lineChart.setTouchEnabled(false);
+        lineChart.setDoubleTapToZoomEnabled(false);
+
+        LineDataSet lineDataSet = new LineDataSet(entryList, lable);
+        lineDataSet.setColors(colors);
+        lineDataSet.setCircleColors(colors);
+        lineDataSet.setDrawCircleHole(false);
+
+
+        LineData lineData = new LineData(lineDataSet);
+        lineData.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                DecimalFormat format = new DecimalFormat("0");
+                return format.format(value);
+            }
+        });
+        lineData.setValueTextColor(Color.parseColor("#333333"));
+        lineData.setValueTextSize(12f);
+
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setAxisMinimum(0.5f);
+        xAxis.setAxisMaximum(nameList.size() - 0.5f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(nameList));
+        xAxis.setGranularity(0.5f);
+        xAxis.setTextColor(Color.parseColor("#333333"));
+        xAxis.setTextSize(12f);
+
+        YAxis yAxis = lineChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setLabelCount(5);
+        yAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                DecimalFormat format = new DecimalFormat("0");
+                return format.format(value);
+            }
+        });
+        yAxis.setTextColor(Color.parseColor("#333333"));
+        yAxis.setTextSize(12f);
+
+        YAxis yAxis1 = lineChart.getAxisRight();
+        yAxis1.setEnabled(false);
+        yAxis1.setAxisMinimum(0f);
+        yAxis1.setLabelCount(5);
+
+
+        lineChart.setData(lineData);
+        lineChart.animateXY(0, 2000);
+        lineChart.invalidate();
+    }
+
+    private void setRadarChart3() {
+        radarChart.setDescription(null);
+        radarChart.setTouchEnabled(false);
+
+        List<RadarEntry> radarEntryList = new ArrayList<>();
+        for (Entry entry : entryList) {
+            radarEntryList.add(new RadarEntry(entry.getY(), entry.getData()));
+        }
+
+        RadarDataSet set = new RadarDataSet(radarEntryList, lable);
+        set.setColors(colors);
+
+        //禁用标签
+        set.setDrawValues(false);
+        //设置填充颜色
+        set.setFillColor(Color.BLUE);
+        //设置填充透明度
+        set.setFillAlpha(40);
+        //设置启用填充
+        set.setDrawFilled(true);
+        //设置点击之后标签是否显示圆形外围
+        set.setDrawHighlightCircleEnabled(true);
+        //设置点击之后标签圆形外围的颜色
+        set.setHighlightCircleFillColor(Color.RED);
+        //设置点击之后标签圆形外围的透明度
+        set.setHighlightCircleStrokeAlpha(40);
+        //设置点击之后标签圆形外围的半径
+        set.setHighlightCircleInnerRadius(20f);
+        //设置点击之后标签圆形外围内圆的半径
+        set.setHighlightCircleOuterRadius(10f);
+
+        RadarData radarData = new RadarData(set);
+
+
+        radarChart.setData(radarData);
+        radarChart.animateXY(0, 2000);
+        radarChart.invalidate();
+
+    }
+
+    private void setPieChart3() {
+        pieChart.setDescription(null);
+        pieChart.setTouchEnabled(false);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setDrawEntryLabels(true);
+
+        List<PieEntry> pieEntryList = new ArrayList<>();
+        for (Entry entry : entryList) {
+            pieEntryList.add(new PieEntry(entry.getY(), entry.getData()));
+        }
+
+        PieDataSet pieDataSet = new PieDataSet(pieEntryList, lable);
+        pieDataSet.setColors(colors);
+        pieDataSet.setValueTextColor(Color.parseColor("#333333"));
+        pieDataSet.setValueTextSize(12f);
+        pieDataSet.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                DecimalFormat format = new DecimalFormat("00");
+                return format.format(value) + "(" + entry.getData() + ")";
+            }
+        });
+
+
+        PieData pieData = new PieData(pieDataSet);
+
+        pieChart.setData(pieData);
+        pieChart.animateXY(0, 2000);
+        pieChart.invalidate();
+    }
+
+    private void setBarChart3() {
+        barChart.setDescription(null);
+        barChart.setTouchEnabled(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+
+        List<BarEntry> barEntryList = new ArrayList<>();
+        for (Entry entry : entryList) {
+            barEntryList.add(new BarEntry(entry.getX(), entry.getY(), entry.getData()));
+        }
+
+        BarDataSet barDataSet = new BarDataSet(barEntryList, lable);
+        barDataSet.setColors(colors);
+
+        BarData barData = new BarData(barDataSet);
+        barData.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                DecimalFormat format = new DecimalFormat("00");
+                return format.format(value);
+            }
+        });
+        barData.setValueTextColor(Color.parseColor("#333333"));
+        barData.setValueTextSize(12f);
+
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setAxisMinimum(0.5f);
+        xAxis.setAxisMaximum(nameList.size() - 0.5f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(nameList));
+        xAxis.setGranularity(0.5f);
+        xAxis.setTextColor(Color.parseColor("#333333"));
+        xAxis.setTextSize(12f);
+
+        YAxis yAxis = barChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setLabelCount(5);
+        yAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                DecimalFormat format = new DecimalFormat("0");
+                return format.format(value);
+            }
+        });
+        yAxis.setTextColor(Color.parseColor("#333333"));
+        yAxis.setTextSize(12f);
+
+        YAxis yAxis1 = barChart.getAxisRight();
+        yAxis1.setEnabled(false);
+        yAxis1.setAxisMinimum(0f);
+        yAxis1.setLabelCount(5);
+
+
+        barChart.setData(barData);
+        barChart.animateXY(0, 2000);
+        barChart.invalidate();
+    }
+
+    private void setLineChart3() {
+        lineChart.setDescription(null);
+        lineChart.setTouchEnabled(false);
+        lineChart.setDoubleTapToZoomEnabled(false);
+
+        LineDataSet lineDataSet = new LineDataSet(entryList, lable);
+        lineDataSet.setColors(colors);
+        lineDataSet.setCircleColors(colors);
+        lineDataSet.setDrawCircleHole(false);
+
+
+        LineData lineData = new LineData(lineDataSet);
+        lineData.setDrawValues(false);
+//        lineData.setValueFormatter(new IValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+//                DecimalFormat format = new DecimalFormat("0");
+//                return format.format(value);
+//            }
+//        });
+        lineData.setValueTextColor(Color.parseColor("#333333"));
+        lineData.setValueTextSize(12f);
+
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setAxisMinimum(0.5f);
+        xAxis.setAxisMaximum(nameList.size() - 0.5f);
+//        xAxis.setValueFormatter(new IndexAxisValueFormatter(nameList));
+        xAxis.setGranularity(0.5f);
+        xAxis.setLabelCount(nameList.size());
+        xAxis.setTextColor(Color.parseColor("#333333"));
+        xAxis.setTextSize(12f);
+        xAxis.setLabelRotationAngle(90);
+
+        YAxis yAxis = lineChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setLabelCount(5);
+        yAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                DecimalFormat format = new DecimalFormat("0");
                 return format.format(value);
             }
         });
