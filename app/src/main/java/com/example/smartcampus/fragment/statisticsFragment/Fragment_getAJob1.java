@@ -2,13 +2,13 @@ package com.example.smartcampus.fragment.statisticsFragment;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.smartcampus.R;
@@ -45,7 +45,6 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.appbar.AppBarLayout;
@@ -66,9 +65,6 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import static com.example.smartcampus.listener.AppBarLayoutStateChangeListener.State.EXPANDED;
 
 public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelectedListener {
     private ImageView back;
@@ -84,14 +80,11 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
     private int currentColor = 0;
     private List<String> list;
     private ProvinceAdapter adapter;
-    private AppBarLayoutStateChangeListener.State appbarState;
 
     private Typeface tf;
     private ChinaMapView chinamapView;
     private ColorView colorView;
     private RecyclerView recycle;
-    private SwipeRefreshLayout swipe;
-    private AppBarLayout appbarLayout;
     private Button btnChange;
 
     private List<Provincequeryall> provincequeryalls;//获取省
@@ -100,6 +93,7 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
     private LineChart chart2;
     private BarChart chart3;
     private BarChart chart4;
+    private LinearLayout swipe;
 
     @Override
     protected int layoutResId() {
@@ -116,13 +110,15 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
         chinamapView = (ChinaMapView) view.findViewById(R.id.chinamap_view);
         colorView = (ColorView) view.findViewById(R.id.color_view);
         recycle = (RecyclerView) view.findViewById(R.id.recycle);
-        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
-        appbarLayout = (AppBarLayout) view.findViewById(R.id.appbar_layout);
+        /*swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);*/
+
         btnChange = (Button) view.findViewById(R.id.btn_change);
 
         chart2 = (LineChart) view.findViewById(R.id.chart2);
         chart3 = (BarChart) view.findViewById(R.id.chart3);
         chart4 = (BarChart) view.findViewById(R.id.chart4);
+
+        swipe = (LinearLayout) view.findViewById(R.id.swipe);
     }
 
     @Override
@@ -155,7 +151,7 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
         });
     }
 
-    private void initSwipRefresh() {
+    /*private void initSwipRefresh() {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -164,11 +160,11 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        String nameString = ColorChangeUtil.nameStrings[++currentColor % ColorChangeUtil.nameStrings.length];
+                     *//*   String nameString = ColorChangeUtil.nameStrings[++currentColor % ColorChangeUtil.nameStrings.length];
                         btnChange.setText(nameString);
                         colorView.setList(colorView_hashmap.get(nameString));
                         //重置map各省份颜色
-                        ColorChangeUtil.changeMapColors(chinaMapModel, nameString);
+                        ColorChangeUtil.changeMapColors(chinaMapModel, nameString);*//*
                         chinamapView.notifyDataChanged();
                         swipe.setRefreshing(false);
                         if (appbarState == EXPANDED) {
@@ -181,32 +177,32 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
 
                         }
                     }
-                }, 2000);
+                }, 1000);
             }
         });
-    }
+    }*/
 
-    private void initAppbarListener() {
+   /* private void initAppbarListener() {
         appbarLayout.addOnOffsetChangedListener(new AppBarLayoutStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 appbarState = state;
                 switch (state) {
                     case EXPANDED:
-                        swipe.setEnabled(true);
+                        *//*  swipe.setEnabled(true);*//*
                         chinamapView.setEnableTouch(true);
                         break;
                     case COLLAPSED:
                     case INTERMEDIATE:
                         chinamapView.setEnableTouch(false);
-                        if (!swipe.isRefreshing()) {
+                      *//*  if (!swipe.isRefreshing()) {
                             swipe.setEnabled(false);
-                        }
+                        }*//*
                         break;
                 }
             }
         });
-    }
+    }*/
 
     private void intMapColor() {
 
@@ -247,6 +243,7 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
         for (int i = 0; i < ColorChangeUtil.province_datas.length; i++) {
             list.add(ColorChangeUtil.province_datas[i]);
         }*/
+
         adapter = new ProvinceAdapter(studentadress, provincequeryalls);
         recycle.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycle.setAdapter(adapter);
@@ -294,28 +291,28 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
                 }
             }
         });
-        chinamapView.setOnPromiseParentTouchListener(new ChinaMapView.onPromiseParentTouchListener() {
-            @Override
-            public void onPromiseTouch(boolean promise) {
-                swipe.setEnabled(promise);
-                banAppBarScroll(promise);
-                Log.v("xixi=", promise + "");
-            }
-        });
+//        chinamapView.setOnPromiseParentTouchListener(new ChinaMapView.onPromiseParentTouchListener() {
+//            @Override
+//            public void onPromiseTouch(boolean promise) {
+//                /* swipe.setEnabled(promise);*/
+//                banAppBarScroll(promise);
+//                Log.v("xixi=", promise + "");
+//            }
+//        });
     }
 
-    private void banAppBarScroll(boolean isScroll) {
-        for (int i = 0; i < appbarLayout.getChildCount(); i++) {
-            View mAppBarChildAt = appbarLayout.getChildAt(i);
-            AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
-            if (isScroll) {
-                mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
-                mAppBarChildAt.setLayoutParams(mAppBarParams);
-            } else {
-                mAppBarParams.setScrollFlags(0);
-            }
-        }
-    }
+//    private void banAppBarScroll(boolean isScroll) {
+//        for (int i = 0; i < appbarLayout.getChildCount(); i++) {
+//            View mAppBarChildAt = appbarLayout.getChildAt(i);
+//            AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
+//            if (isScroll) {
+//                mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
+//                mAppBarChildAt.setLayoutParams(mAppBarParams);
+//            } else {
+//                mAppBarParams.setScrollFlags(0);
+//            }
+//        }
+//    }
 
     private void getStudentqueryalls() {
         new OkHttpTo().setUrl("getStudent_query_all")
@@ -398,8 +395,8 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
                         initRecycleView();
                         //初始化地图颜色
                         intMapColor();
-                        initAppbarListener();
-                        initSwipRefresh();
+                       /* initAppbarListener();*/
+                        /* initSwipRefresh();*/
                     }
 
                     @Override
@@ -490,8 +487,8 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
         ArrayList<BarEntry> yValues = new ArrayList<>();
 
         yValues.add(new BarEntry(0, new float[]{(float) (student1.get(getWorkNatureNamequeryalls.get(0).getWorkNatureName())), (float) (student1.get(getWorkNatureNamequeryalls.get(1).getWorkNatureName()))
-        ,(float) (student1.get(getWorkNatureNamequeryalls.get(2).getWorkNatureName())),(float) (student1.get(getWorkNatureNamequeryalls.get(3).getWorkNatureName()))
-        ,(float) (student1.get(getWorkNatureNamequeryalls.get(4).getWorkNatureName()))}));
+                , (float) (student1.get(getWorkNatureNamequeryalls.get(2).getWorkNatureName())), (float) (student1.get(getWorkNatureNamequeryalls.get(3).getWorkNatureName()))
+                , (float) (student1.get(getWorkNatureNamequeryalls.get(4).getWorkNatureName()))}));
 
         BarDataSet set1;
 
@@ -505,10 +502,10 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
             set1.setValueTextSize(20);
             set1.setValueFormatter((value, entry, dataSetIndex, viewPortHandler) -> {
                 DecimalFormat format = new DecimalFormat("0");
-                return format.format(value) ;
+                return format.format(value);
             });
             //设置图例的颜色和名称
-            set1.setColors(new int[]{R.color.design_default_color_secondary, R.color.drawing_nv,R.color.blue_title,R.color.design_default_color_secondary_variant,R.color.design_default_color_error}, getContext());
+            set1.setColors(new int[]{R.color.design_default_color_secondary, R.color.drawing_nv, R.color.blue_title, R.color.design_default_color_secondary_variant, R.color.design_default_color_error}, getContext());
             set1.setStackLabels(new String[]{getWorkNatureNamequeryalls.get(0).getWorkNatureName(),
                     getWorkNatureNamequeryalls.get(1).getWorkNatureName(),
                     getWorkNatureNamequeryalls.get(2).getWorkNatureName(),
@@ -532,6 +529,7 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
 
     private List<BarEntry> barEntries;
     private List<String> stringSex;
+
     private void setView3() {
         if (barEntries == null) {
             barEntries = new ArrayList<>();
@@ -542,8 +540,8 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
         }
 
 
-        for (int i=0;i<getWorkNatureNamequeryalls.size();i++){
-            GetWorkNatureNamequeryall w= getWorkNatureNamequeryalls.get(i);
+        for (int i = 0; i < getWorkNatureNamequeryalls.size(); i++) {
+            GetWorkNatureNamequeryall w = getWorkNatureNamequeryalls.get(i);
             barEntries.add(new BarEntry(i, student1.get(w.getWorkNatureName())));
             stringSex.add(w.getWorkNatureName());
         }
@@ -600,10 +598,10 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
         }
 
 
-        for (int i=0;i<getWorkNatureNamequeryalls.size();i++){
-            GetWorkNatureNamequeryall w= getWorkNatureNamequeryalls.get(i);
-            entries.add(new Entry(i,student1.get(w.getWorkNatureName())));
-            Log.d("aaaaaaaaaax", "setView2: "+student1.get(w.getWorkNatureName()));
+        for (int i = 0; i < getWorkNatureNamequeryalls.size(); i++) {
+            GetWorkNatureNamequeryall w = getWorkNatureNamequeryalls.get(i);
+            entries.add(new Entry(i, student1.get(w.getWorkNatureName())));
+            Log.d("aaaaaaaaaax", "setView2: " + student1.get(w.getWorkNatureName()));
             stringLine.add(w.getWorkNatureName());
         }
 
@@ -650,12 +648,12 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
     }
 
 
-
-    private final int[] colors = new int[] {
+    private final int[] colors = new int[]{
             ColorTemplate.VORDIPLOM_COLORS[0],
             ColorTemplate.VORDIPLOM_COLORS[1],
             ColorTemplate.VORDIPLOM_COLORS[2]
     };
+
     private void getWorkNatureName_query_all() {
         new OkHttpTo().setUrl("getWorkNatureName_query_all")
                 .setRequestType("get")
@@ -775,6 +773,7 @@ public class Fragment_getAJob1 extends BaseFragment implements OnChartValueSelec
         data.setValueTypeface(tf);
         chart1.setData(data);
 
+        chart1.animateXY(1500, 1000);
         //undo all highlights
         //撤销所有高亮
         chart1.highlightValues(null);

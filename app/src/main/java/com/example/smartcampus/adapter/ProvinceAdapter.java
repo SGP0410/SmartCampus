@@ -1,6 +1,7 @@
 package com.example.smartcampus.adapter;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,16 +38,23 @@ public class ProvinceAdapter extends RecyclerView.Adapter<ProvinceAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Provincequeryall provincequeryall=provincequeryalls.get(position);
         if (holder.getAdapterPosition()==0){
-            holder.provinceName.setTextColor(Color.RED);
+            holder.provinceName.setTextColor(Color.BLACK);
+            holder.provinceName.setTextSize(17);
+            holder.provinceElecRise.setTextSize(17);
         }else {
             holder.provinceName.setTextColor(Color.BLACK);
+            holder.provinceName.setTextSize(13);
+            holder.provinceElecRise.setTextSize(13);
         }
         holder.provinceName.setText(provincequeryall.getProvinceName());
+
         if (studentAdress.get(provincequeryall.getProvinceName())==null){
 
         }else {
             holder.provinceElecRise.setText((studentAdress.get(provincequeryall.getProvinceName())*100)+"%");
+            Log.d("eeeeeeeee", "onBindViewHolder: "+provincequeryall.getProvinceName()+"/"+(studentAdress.get(provincequeryall.getProvinceName())*100)+"%");
         }
+
 
     }
 
