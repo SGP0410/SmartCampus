@@ -6,7 +6,7 @@
     android:background="#EEE"
     >
 
-    <include layout="@layout/title_g" />
+    <include layout="@layout/title_back_g" />
 
     <LinearLayout
         android:layout_width="match_parent"

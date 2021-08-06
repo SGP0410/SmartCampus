@@ -1,12 +1,11 @@
 package com.example.smartcampus.fragment.homeScreenFragment;
 
 import android.content.Intent;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +14,8 @@ import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.activity.LoginActivity;
-import com.example.smartcampus.adapter.OnClickListener;
 import com.example.smartcampus.adapter.wodeeAdapter.WodeAdapter;
 import com.example.smartcampus.bean.User;
-import com.example.smartcampus.fragment.statisticsFragment.Fragment_admissions1;
-import com.example.smartcampuslibrary.adapter.BaseRecyclerViewAdapter;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import com.example.smartcampuslibrary.utils.myView.ImageViewOval;
 
@@ -100,21 +96,11 @@ public class WoDeFragment extends BaseFragment {
             }else {
                 adapter.notifyDataSetChanged();
             }
-            adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
-                @Override
-                public void onClick(int position) {
-                    String s = list.get(position);
-                    switch (s){
-                        case "我的成绩":
-                            getFragment(new FragmentWoDeScore());
-                            break;
-                        case "个人资料":
-                            getFragment(new FragmentWoDeGerenziliao());
-                            break;
-                        default:
-                            break;
-                    }
-                }
+            adapter.setOnItemClickListener(position -> {
+                String s = list.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("name" , s);
+                toClass(getContext() , FragmentActivity.class , bundle);
             });
         }
     }

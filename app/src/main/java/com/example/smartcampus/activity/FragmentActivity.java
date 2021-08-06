@@ -8,6 +8,8 @@ import com.example.smartcampus.R;
 import com.example.smartcampus.fragment.homeFragment.ClassTodayFragment;
 import com.example.smartcampus.fragment.homeFragment.StatisticsFragment;
 import com.example.smartcampus.fragment.applyFragment.Fragment_schoolCard;
+import com.example.smartcampus.fragment.homeScreenFragment.FragmentWoDeGerenziliao;
+import com.example.smartcampus.fragment.homeScreenFragment.FragmentWoDeScore;
 import com.example.smartcampuslibrary.activity.BaseFragmentActivity;
 
 
@@ -47,6 +49,12 @@ public class FragmentActivity extends BaseFragmentActivity {
                 break;
             case "校园卡":
                 setFragment(new Fragment_schoolCard());
+                break;
+            case "我的成绩":
+                setFragment(new FragmentWoDeScore());
+                break;
+            case "个人资料":
+                setFragment(new FragmentWoDeGerenziliao());
                 break;
         }
     }

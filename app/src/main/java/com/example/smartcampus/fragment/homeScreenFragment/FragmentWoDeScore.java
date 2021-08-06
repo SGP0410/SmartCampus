@@ -40,4 +40,6 @@ public class FragmentWoDeScore extends BaseFragment {
     public void onClick(View view) {
 
     }
+
+
 }
