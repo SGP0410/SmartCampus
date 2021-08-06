@@ -1,7 +1,9 @@
 package com.example.smartcampus.fragment.homeFragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeAdapter.StatisticsRecyclerViewAdapter;
@@ -22,6 +28,12 @@ import com.example.smartcampus.fragment.statisticsFragment.Fragment_getAJob1;
 import com.example.smartcampus.fragment.statisticsFragment.Fragment_straightAStudent;
 import com.example.smartcampus.fragment.statisticsFragment.ProvinceStudentSourceFragment;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
+import com.example.smartcampuslibrary.net.OkHttpLo;
+import com.example.smartcampuslibrary.net.OkHttpTo;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,11 +53,27 @@ public class StatisticsFragment extends BaseFragment {
     protected int layoutResId() {
         return R.layout.statistics_fragment;
     }
-    
+
+    private static final String TAG = "StatisticsFragment";
+
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
         title.setText("信息统计");
+        new OkHttpTo()
+                .setUrl("getStraightAStudent")
+                .setRequestType("get")
+                .setOkHttpLo(new OkHttpLo() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        Log.d(TAG, "onResponse: "+jsonObject.toString());
+                    }
+
+                    @Override
+                    public void onFailure(IOException e) {
+
+                    }
+                }).start();
     }
     
     @Override
@@ -91,6 +119,7 @@ public class StatisticsFragment extends BaseFragment {
      * @param itemWidth item的宽度
      * @return
      */
+    @SuppressLint("NewApi")
     private int getSpanCount(int itemWidth) {
         DisplayMetrics dm = new DisplayMetrics();
         Objects.requireNonNull(Objects.requireNonNull(getContext()).getDisplay()).getMetrics(dm);

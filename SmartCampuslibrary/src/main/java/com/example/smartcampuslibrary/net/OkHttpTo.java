@@ -36,12 +36,14 @@ public class OkHttpTo extends Thread {
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
-            if (progressDialog != null && progressDialog.isShowing())
+            if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
-            if (msg.what == 1)
+            }
+            if (msg.what == 1) {
                 okHttpLo.onResponse((JSONObject) msg.obj);
-            else if (msg.what == 2)
+            } else if (msg.what == 2) {
                 okHttpLo.onFailure((IOException) msg.obj);
+            }
             return false;
         }
     });
@@ -152,10 +154,11 @@ public class OkHttpTo extends Thread {
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     message.what = 2;
                     message.obj = e;
-                    if (progressDialog != null)
+                    if (progressDialog != null) {
                         handler.sendMessageDelayed(message, 1000);
-                    else
+                    } else {
                         handler.sendMessage(message);
+                    }
                 }
 
                 @Override
@@ -167,10 +170,11 @@ public class OkHttpTo extends Thread {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if (progressDialog != null)
+                    if (progressDialog != null) {
                         handler.sendMessageDelayed(message, 1000);
-                    else
+                    } else {
                         handler.sendMessage(message);
+                    }
                 }
             });
 

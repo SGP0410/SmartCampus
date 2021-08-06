@@ -482,8 +482,12 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
     //获取每个省各个市的信息
     private void setMunicipalMap() {
         municipalMap = new HashMap<>();
-        for (Province province : provinceList) {
 
+        for (Province province : provinceList) {
+            Log.i(TAG, "setMunicipalMap: "+province.getProvinceName());
+        }
+
+        for (Province province : provinceList) {
             new OkHttpTo().setUrl("GetMunicipalStudentSourceByProvinceName?provinceName=" + province
                 .getProvinceName())
                 .setRequestType("get")
@@ -491,7 +495,7 @@ public class ProvinceStudentSourceFragment extends BaseFragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         List<Municipal> municipalList =
-                            new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
+                            new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
                                 new TypeToken<List<Municipal>>() {
                                 }.getType());
                         if (municipalList != null) {

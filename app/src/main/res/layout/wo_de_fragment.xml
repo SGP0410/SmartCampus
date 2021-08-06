@@ -36,6 +36,7 @@
         <com.example.smartcampuslibrary.utils.myView.ImageViewOval
           android:layout_width="80dp"
           android:layout_height="80dp"
+            android:id="@+id/img_user"
           android:src="@drawable/ic_launcher_background"
           android:layout_gravity="center"
           android:layout_marginLeft="10dp"
@@ -67,8 +68,20 @@
             android:gravity="center|left"
             android:textColor="#404040"
             android:layout_marginLeft="20dp"
-            android:layout_weight="0.6"
+            android:layout_weight="0.3"
             />
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="所在系：计算机信息技术工程系"
+              android:id="@+id/department"
+              android:gravity="center|left"
+              android:textColor="#404040"
+              android:layout_marginLeft="20dp"
+              android:layout_weight="0.3"
+              />
+
         </LinearLayout>
 
       </LinearLayout>
@@ -174,74 +187,13 @@
       android:orientation="vertical"
       >
 
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#EDF0F7"
-        android:padding="10dp"
-        android:layout_marginTop="50dp"
-        >
-
-        <TextView
-          android:layout_width="0dp"
-          android:layout_weight="1"
+      <androidx.recyclerview.widget.RecyclerView
+          android:layout_marginTop="@dimen/dp_40"
+          android:padding="3dp"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="个人信息"
-          android:textSize="18dp"
-          android:layout_gravity="center"
-          android:layout_marginLeft="20dp"
-          />
-
-        <ImageView
-          android:layout_width="30dp"
-          android:layout_height="30dp"
-          android:src="@mipmap/right_arrow"
-          android:layout_gravity="center"
-          android:layout_marginRight="10dp"
-          />
-
-      </LinearLayout>
-      <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#D0D1D6"
+          android:id="@+id/recyclerView"
         />
-
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#F1F4FB"
-        android:padding="10dp"
-        >
-
-        <TextView
-          android:layout_width="0dp"
-          android:layout_weight="1"
-          android:layout_height="wrap_content"
-          android:text="个人信息"
-          android:textSize="18dp"
-          android:layout_gravity="center"
-          android:layout_marginLeft="20dp"
-          />
-
-        <ImageView
-          android:layout_width="30dp"
-          android:layout_height="30dp"
-          android:src="@mipmap/right_arrow"
-          android:layout_gravity="center"
-          android:layout_marginRight="10dp"
-          />
-
-      </LinearLayout>
-      <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#D0D1D6"
-        />
-
-
 
     </LinearLayout>
 
