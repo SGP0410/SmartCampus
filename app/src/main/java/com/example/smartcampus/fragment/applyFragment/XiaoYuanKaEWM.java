@@ -21,7 +21,6 @@ import java.util.Map;
 
 public class XiaoYuanKaEWM extends BaseFragment {
 
-
     private ImageView back;
     private TextView title;
     private Button souKuan;

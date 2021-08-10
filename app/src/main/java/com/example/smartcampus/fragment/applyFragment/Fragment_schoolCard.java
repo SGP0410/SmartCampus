@@ -178,6 +178,8 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
             if (data != null) {
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
 //                test_edit_id.setText(content+"");
+                Log.i("aaaaaa" , "------------"+content);
+                ((FragmentActivity)getActivity()).setFragment(new XiaoYuanKaWebFragment(content));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
