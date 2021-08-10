@@ -1,7 +1,6 @@
 package com.example.smartcampus.activity;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,11 +20,9 @@ import com.example.smartcampuslibrary.net.OkHttpTo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -65,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, "onResponse: "+jsonObject.toString());
                         majors = new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
                                 new TypeToken<List<Major>>(){}.getType());
+                        Application.setMajors(majors);
                     }
 
                     @Override
@@ -80,9 +78,9 @@ public class LoginActivity extends AppCompatActivity {
                 .setOkHttpLo(new OkHttpLo() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        Log.d(TAG, "onResponse: "+jsonObject.toString());
                         colleges = new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
                                 new TypeToken<List<College>>(){}.getType());
+                        Application.setColleges(colleges);
                     }
 
                     @Override

@@ -1,12 +1,12 @@
 package com.example.smartcampus.fragment.homeScreenFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +32,7 @@ public class WoDeFragment extends BaseFragment {
     private List<String> list = new ArrayList<>();
     private RecyclerView recyclerView;
     private WodeAdapter adapter;
+    private LinearLayout btnCourse;
 
     @Override
     protected int layoutResId() {
@@ -46,13 +47,22 @@ public class WoDeFragment extends BaseFragment {
         department = view.findViewById(R.id.department);
         imgUser = view.findViewById(R.id.img_user);
         recyclerView = view.findViewById(R.id.recyclerView);
+        btnCourse = view.findViewById(R.id.btn_course);
     }
-
 
     @Override
     protected void initData() {
         title.setText("我的");
         login();
+        btn();
+    }
+
+    private void btn() {
+        btnCourse.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("name", "课程表");
+            toClass(getContext(), FragmentActivity.class, bundle);
+        });
     }
 
     @Override
@@ -61,6 +71,7 @@ public class WoDeFragment extends BaseFragment {
         getData();
     }
 
+    @SuppressLint("SetTextI18n")
     private void getData() {
         User user = Application.getUser();
         if (user != null) {
@@ -74,43 +85,35 @@ public class WoDeFragment extends BaseFragment {
             } else if ("老师".equals(user.getStatus())) {
                 imgUser.setImageResource(R.mipmap.user6);
                 list.clear();
-                list.add("我的成绩");
                 list.add("个人资料");
-                list.add("学生成绩");
+                list.add("成绩管理");
                 list.add("问题反馈");
             } else {
                 imgUser.setImageResource(R.mipmap.user5);
                 list.clear();
                 list.add("个人资料");
-                list.add("学生成绩");
+                list.add("成绩管理");
                 list.add("查看认证");
                 list.add("问题反馈");
             }
             name.setText(user.getName());
             studentId.setText("学号：" + user.getSchoolCard());
             department.setText("所在系：" + user.getCollegName());
-            if (adapter == null){
+            if (adapter == null) {
                 adapter = new WodeAdapter(list);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(adapter);
-            }else {
+            } else {
                 adapter.notifyDataSetChanged();
             }
             adapter.setOnItemClickListener(position -> {
                 String s = list.get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("name" , s);
-                toClass(getContext() , FragmentActivity.class , bundle);
+                bundle.putString("name", s);
+                toClass(getContext(), FragmentActivity.class, bundle);
             });
         }
     }
-
-    private void getFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout,fragment).commit();
-    }
-
-    private static final String TAG = "WoDeFragment";
 
     private void login() {
         name.setOnClickListener(view -> {

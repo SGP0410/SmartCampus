@@ -1,6 +1,7 @@
 package com.example.smartcampus.bean;
 
 
+
 public class User {
 
     /**
@@ -31,11 +32,15 @@ public class User {
     private String yu;
     private String shu;
     private String wai;
+    private String majorId;
+    private String grade;
+    private String clas;
+    private String classid;
 
     public User() {
     }
 
-    public User(String name, String schoolCard, String password, String status, String sex, String collegName, String idCard, String address, String dateOfBirth, String nationality, String age, String face, String yu, String shu, String wai) {
+    public User(String name, String schoolCard, String password, String status, String sex, String collegName, String idCard, String address, String dateOfBirth, String nationality, String age, String face, String yu, String shu, String wai, String majorId, String grade, String clas, String classid) {
         this.name = name;
         this.schoolCard = schoolCard;
         this.password = password;
@@ -51,6 +56,10 @@ public class User {
         this.yu = yu;
         this.shu = shu;
         this.wai = wai;
+        this.majorId = majorId;
+        this.grade = grade;
+        this.clas = clas;
+        this.classid = classid;
     }
 
     public String getName() {
@@ -173,6 +182,38 @@ public class User {
         this.wai = wai;
     }
 
+    public String getMajorId() {
+        return majorId;
+    }
+
+    public void setMajorId(String majorId) {
+        this.majorId = majorId;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getClas() {
+        return clas;
+    }
+
+    public void setClas(String clas) {
+        this.clas = clas;
+    }
+
+    public String getClassid() {
+        return classid;
+    }
+
+    public void setClassid(String classid) {
+        this.classid = classid;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -191,6 +232,10 @@ public class User {
                 ", yu='" + yu + '\'' +
                 ", shu='" + shu + '\'' +
                 ", wai='" + wai + '\'' +
+                ", majorId='" + majorId + '\'' +
+                ", grade='" + grade + '\'' +
+                ", clas='" + clas + '\'' +
+                ", classid='" + classid + '\'' +
                 '}';
     }
 }

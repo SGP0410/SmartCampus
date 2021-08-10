@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_back_g"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@mipmap/feedback"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="反馈类型"
+        android:id="@+id/ed_feedback"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bai_r10_yin"
+        android:textSize="18dp"
+        android:padding="15dp"
+        android:elevation="@dimen/dp_10"
+        />
+
+    <EditText
+        android:id="@+id/ed_msg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/bai_r10_yin"
+        android:elevation="5dp"
+        android:hint="您好，我是智慧城市维修部门经理，欢迎您给我们提出
+产品的使用感受和建议，我们将尽快处理您提交
+的宝贵意见，感谢您的支持！"
+        android:gravity="left"
+        android:padding="@dimen/dp_10"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_save"
+        android:background="@drawable/btn_hui_r20"
+        android:textColor="#FFF"
+        android:text="确认提交"
+        android:textSize="18dp"
+        android:layout_margin="@dimen/dp_10"
+        />
+
+
+</LinearLayout>
