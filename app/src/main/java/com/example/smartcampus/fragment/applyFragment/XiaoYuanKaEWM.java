@@ -48,7 +48,8 @@ public class XiaoYuanKaEWM extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        content.setText("收款二维码");
+        showEWM("收款二维码");
     }
 
     @SuppressLint("NonConstantResourceId")
