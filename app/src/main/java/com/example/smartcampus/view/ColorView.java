@@ -36,7 +36,9 @@ public void setList(List<MycolorArea> list){
 }
     @Override
     protected void onDraw(Canvas canvas) {
-        if (list==null)return;
+        if (list==null) {
+            return;
+        }
         if (list.size()>0){
             int width_average=getWidth()/list.size();
             for (int i=0;i<list.size();i++){

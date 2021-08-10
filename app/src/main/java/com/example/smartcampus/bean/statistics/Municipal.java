@@ -2,7 +2,6 @@ package com.example.smartcampus.bean.statistics;
 
 public class Municipal {
 
-
     /**
      * overseasStudentNum : 1
      * poorStudent : 1

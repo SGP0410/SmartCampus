@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include layout="@layout/title_back_g"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dp_10"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学号"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_schoolcard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2000121233"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="姓名"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="陈珏雪"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="性别"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="女"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年龄"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="身份证"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_carid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="所在系"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_college"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="计算机系"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:id="@+id/lin_zhuanye"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="专业"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/major"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="计算机应用技术"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:id="@+id/lin_class"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="班级"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="出生日期"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2001-10-13"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+        <LinearLayout
+            android:id="@+id/lin_grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="入学年份"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_grade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2019"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="民族"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_nation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="汉族"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="政治面膜"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_face"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="共青团员"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地址"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="四川省凉山彝族自治州西昌市"
+                android:textSize="17dp"
+                android:gravity="right|center"
+                android:textColor="#A8919191"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"
+            />
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
