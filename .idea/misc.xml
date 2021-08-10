@@ -4,13 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/chart_view_dialog.xml" value="0.15925925925925927" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/consumption_trend_fragment.xml" value="0.18032786885245902" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/fragment_schoolcarid.xml" value="0.1814814814814815" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/statistics_fragment.xml" value="0.22546296296296298" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/title_back_g.xml" value="0.22546296296296298" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/trading_record_item.xml" value="0.22237442922374429" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/trading_record_xq.xml" value="0.264" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/menu/xiao_yuan_ka.xml" value="0.22546296296296298" />
       </map>
     </option>
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

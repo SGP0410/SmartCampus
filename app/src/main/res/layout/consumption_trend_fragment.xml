@@ -36,11 +36,10 @@
         android:layout_weight="3"
         android:orientation="vertical">
 
-        <GridView
-            android:id="@+id/grid_view"
+        <cn.youngkaaa.yviewpager.YViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="15dp"/>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
