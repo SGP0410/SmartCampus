@@ -2,6 +2,7 @@ package com.example.smartcampus.activity;
 
 import android.os.Bundle;
 
+import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
 import com.example.smartcampus.fragment.My.FragmentApplyForCertification;
 import com.example.smartcampus.fragment.My.FragmentFeedback;
@@ -12,6 +13,7 @@ import com.example.smartcampus.fragment.homeFragment.StatisticsFragment;
 import com.example.smartcampus.fragment.homeScreenFragment.FragmentWoDeGerenziliao;
 import com.example.smartcampus.fragment.homeScreenFragment.FragmentWoDeScore;
 import com.example.smartcampuslibrary.activity.BaseFragmentActivity;
+import com.example.smartcampuslibrary.utils.Utils;
 
 
 /**
@@ -49,7 +51,11 @@ public class FragmentActivity extends BaseFragmentActivity {
                 setFragment(new StatisticsFragment());
                 break;
             case "校园卡":
-                setFragment(new Fragment_schoolCard());
+                if (Application.getUser() == null){
+                    Utils.showToast("请先登录");
+                }else {
+                    setFragment(new Fragment_schoolCard());
+                }
                 break;
             case "我的成绩":
                 setFragment(new FragmentWoDeScore());

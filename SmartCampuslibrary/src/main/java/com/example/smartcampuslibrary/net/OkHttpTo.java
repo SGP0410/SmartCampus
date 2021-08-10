@@ -69,6 +69,11 @@ public class OkHttpTo extends Thread {
         return this;
     }
 
+    public OkHttpTo setUrlTest(String url) {
+        this.url = url;
+        return this;
+    }
+
     public OkHttpTo setJSONObject(String bean) {
         try {
             jsonObject = new JSONObject(bean);

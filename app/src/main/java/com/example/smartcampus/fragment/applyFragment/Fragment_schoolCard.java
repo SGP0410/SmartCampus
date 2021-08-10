@@ -1,7 +1,11 @@
 package com.example.smartcampus.fragment.applyFragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,9 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.apply.TradingRecordRecyclerViewAdapter;
@@ -25,6 +32,8 @@ import com.example.smartcampuslibrary.net.OkHttpTo;
 import com.example.smartcampuslibrary.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
 import org.json.JSONObject;
 
@@ -61,7 +70,7 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
     }
 
     private void getTradingRecordBySchoolCardId() {
-        new OkHttpTo().setUrl("GetTradingRecordBySchoolCardId?schoolCardId=10001001")
+        new OkHttpTo().setUrl("GetTradingRecordBySchoolCardId?schoolCardId="+ Application.getUser().getSchoolCard())
                 .setRequestType("GET")
                 .setOkHttpLo(new OkHttpLo() {
                     @Override
@@ -146,10 +155,32 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sys:
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                    //Toast.makeText(MainActivity.this,"您申请了动态权限",Toast.LENGTH_SHORT).show();
+                    Intent intent2 = new Intent(getActivity(), CaptureActivity.class);
+                    startActivityForResult(intent2,1111);
+                }else{
+                    //否则去请求相机权限
+                    ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},100);
+                }
                 break;
             case R.id.ewm:
+                ((FragmentActivity)getActivity()).setFragment(new XiaoYuanKaEWM());
                 break;
         }
         return false;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if (requestCode == 1111) {
+            if (data != null) {
+                String content = data.getStringExtra(Constant.CODED_CONTENT);
+//                test_edit_id.setText(content+"");
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }
