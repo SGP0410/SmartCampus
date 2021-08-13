@@ -16,7 +16,7 @@ public class User {
      *             "id": "1",                              "status": "辅导员"
      *             "municipalId": "273",
      */
-
+    private String id;
     private String name;
     private String schoolCard;
     private String password;
@@ -60,6 +60,14 @@ public class User {
         this.grade = grade;
         this.clas = clas;
         this.classid = classid;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
