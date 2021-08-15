@@ -2,16 +2,15 @@ package com.example.smartcampus.fragment.applyFragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuPopupHelper;
@@ -29,7 +28,6 @@ import com.example.smartcampus.bean.apply.TradingRecord;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import com.example.smartcampuslibrary.net.OkHttpLo;
 import com.example.smartcampuslibrary.net.OkHttpTo;
-import com.example.smartcampuslibrary.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yzq.zxinglibrary.android.CaptureActivity;
@@ -48,6 +46,9 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
     private ImageView jiaHao;
     private RecyclerView recyclerView;
     private List<TradingRecord> tradingRecordList;
+    private TextView yuE;
+    private ProgressDialog progressDialog;
+    private int yE;
 
     @Override
     protected int layoutResId() {
@@ -62,6 +63,7 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
         jiaHao = (ImageView) view.findViewById(R.id.jia_hao);
         jiaHao.setOnClickListener(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        yuE = view.findViewById(R.id.yu_e);
     }
 
     @Override
@@ -70,14 +72,16 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
     }
 
     private void getTradingRecordBySchoolCardId() {
-        new OkHttpTo().setUrl("GetTradingRecordBySchoolCardId?schoolCardId="+ Application.getUser().getSchoolCard())
+        showDialog();
+        new OkHttpTo().setUrl("GetTradingRecordBySchoolCardId?schoolCardId=" + Application.getUser().getSchoolCard())
                 .setRequestType("GET")
                 .setOkHttpLo(new OkHttpLo() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        tradingRecordList = new Gson().fromJson(jsonObject.optJSONArray("rows").toString() ,
-                                new TypeToken<List<TradingRecord>>(){}.getType());
-                        if (tradingRecordList != null){
+                        tradingRecordList = new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
+                                new TypeToken<List<TradingRecord>>() {
+                                }.getType());
+                        if (tradingRecordList != null) {
                             getTradingSiteById();
                         }
                     }
@@ -90,18 +94,27 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
     }
 
     private int y = 0;
+
     private void getTradingSiteById() {
         for (int i = 0; i < tradingRecordList.size(); i++) {
             final int x = i;
-            new OkHttpTo().setUrl("GetTradingSiteById?tradingSiteId="+tradingRecordList.get(i).getTradingSiteId())
+            new OkHttpTo().setUrl("GetTradingSiteById?tradingSiteId=" + tradingRecordList.get(i).getTradingSiteId())
                     .setRequestType("get")
                     .setOkHttpLo(new OkHttpLo() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onResponse(JSONObject jsonObject) {
                             tradingRecordList.get(x).setTradingSite(jsonObject.optString("site"));
                             y++;
-                            if (y == tradingRecordList.size()){
+                            if (tradingRecordList.get(x).getTradingType().contains("转入") || tradingRecordList.get(x).getTradingType().contains("充值")){
+                                yE += Integer.parseInt(tradingRecordList.get(x).getTradingAmount());
+                            }else {
+                                yE -= Integer.parseInt(tradingRecordList.get(x).getTradingAmount());
+                            }
+                            if (y == tradingRecordList.size()) {
                                 showData();
+                                progressDialog.dismiss();
+                                yuE.setText("余额："+yE);
                             }
                         }
 
@@ -113,12 +126,20 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
         }
     }
 
+    private void showDialog(){
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("网络请求中。。。");
+        progressDialog.setTitle("提示");
+        progressDialog.show();
+    }
+
     private void showData() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext() , LinearLayoutManager.VERTICAL , false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         TradingRecordRecyclerViewAdapter adapter = new TradingRecordRecyclerViewAdapter(tradingRecordList);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
-            ((FragmentActivity)getActivity()).setFragment(new TradingRecordXQ(tradingRecordList.get(position)));
+            ((FragmentActivity) getActivity()).setFragment(new TradingRecordXQ(tradingRecordList.get(position)));
         });
     }
 
@@ -155,17 +176,17 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sys:
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     //Toast.makeText(MainActivity.this,"您申请了动态权限",Toast.LENGTH_SHORT).show();
                     Intent intent2 = new Intent(getActivity(), CaptureActivity.class);
-                    startActivityForResult(intent2,1111);
-                }else{
+                    startActivityForResult(intent2, 1111);
+                } else {
                     //否则去请求相机权限
-                    ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},100);
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 100);
                 }
                 break;
             case R.id.ewm:
-                ((FragmentActivity)getActivity()).setFragment(new XiaoYuanKaEWM());
+                ((FragmentActivity) getActivity()).setFragment(new XiaoYuanKaEWM());
                 break;
         }
         return false;
@@ -178,8 +199,8 @@ public class Fragment_schoolCard extends BaseFragment implements PopupMenu.OnMen
             if (data != null) {
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
 //                test_edit_id.setText(content+"");
-                Log.i("aaaaaa" , "------------"+content);
-                ((FragmentActivity)getActivity()).setFragment(new XiaoYuanKaWebFragment(content));
+                Log.i("aaaaaa", "------------" + content);
+                ((FragmentActivity) getActivity()).setFragment(new XiaoYuanKaWebFragment(content));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
