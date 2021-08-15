@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         getOkHttp();
         radio();
         login();
-
     }
 
     private void getOkHttp() {
@@ -118,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                         String msg = jsonObject.optString("msg");
                         if ("操作成功".equals(msg)){
                             if (pass.equals(jsonObject.optString("password"))){
+                                Log.d(TAG, "onResponse: "+jsonObject.toString());
                                 User user = new Gson().fromJson(jsonObject.toString(),User.class);
                                 String collegeId = jsonObject.optString("collegeId");
                                 for (College college : colleges) {
@@ -126,8 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d(TAG, "onResponse: "+line);
                                     }
                                 }
-                                user.setStatus("老师");
                                 user.setCollegName(line);
+                                Log.d(TAG, "onResponse: ===="+user.getCourse());
                                 Application.setUser(user);
                                 finish();
                             }else {

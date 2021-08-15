@@ -1,5 +1,6 @@
 package com.example.smartcampus.fragment.My;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -69,27 +70,15 @@ public class FragmentApply_Employment extends BaseFragment {
         String str = simpleDateFormat.format(date);
 
         new OkHttpTo()
-                .setUrl("GetApproveSetEmployment")
+                .setUrl("StudentSetWordNatureId")
                 .setRequestType("post")
                 .setJSONObject("schoolCard",user.getSchoolCard())
-                .setJSONObject("title","就业认证")
-                .setJSONObject("grade",user.getGrade())
-                .setJSONObject("time",str)
-                .setJSONObject("clas",user.getClas())
-                .setJSONObject("msg",workname)
-                .setJSONObject("state","审核中")
-                .setJSONObject("majorId",user.getMajorId())
-                .setJSONObject("clas",user.getClas())
+                .setJSONObject("wordNatureId",workname)
                 .setOkHttpLo(new OkHttpLo() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        String alarm = jsonObject.optString("alarm");
-                        if ("修改成功".equals(alarm)){
-                            Toast.makeText(getContext(),"修改成功",Toast.LENGTH_SHORT).show();
-                        }else {
-                            Toast.makeText(getContext(),"提交成功",Toast.LENGTH_SHORT).show();
-                        }
-
+                        Log.d(TAG, "onResponse: "+jsonObject.toString());
+                        Toast.makeText(getContext(),"操作成功",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -97,6 +86,36 @@ public class FragmentApply_Employment extends BaseFragment {
 
                     }
                 }).start();
+
+//        new OkHttpTo()
+//                .setUrl("GetApproveSetEmployment")
+//                .setRequestType("post")
+//                .setJSONObject("schoolCard",user.getSchoolCard())
+//                .setJSONObject("title","就业认证")
+//                .setJSONObject("grade",user.getName())
+//                .setJSONObject("time",str)
+//                .setJSONObject("clas",user.getClassid())
+//                .setJSONObject("msg",workname)
+//                .setJSONObject("state","审核中")
+//                .setJSONObject("majorId",user.getMajorId())
+//                .setJSONObject("clas",user.getClas())
+//                .setOkHttpLo(new OkHttpLo() {
+//                    @Override
+//                    public void onResponse(JSONObject jsonObject) {
+//                        String alarm = jsonObject.optString("alarm");
+//                        if ("修改成功".equals(alarm)){
+//                            Toast.makeText(getContext(),"修改成功",Toast.LENGTH_SHORT).show();
+//                        }else {
+//                            Toast.makeText(getContext(),"提交成功",Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(IOException e) {
+//
+//                    }
+//                }).start();
 
     }
 
@@ -106,7 +125,7 @@ public class FragmentApply_Employment extends BaseFragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                workname = list.get(i).getWorkNatureName();
+                workname = list.get(i).getId();
             }
 
             @Override

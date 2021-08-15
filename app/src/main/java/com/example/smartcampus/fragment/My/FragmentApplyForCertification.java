@@ -15,6 +15,7 @@ public class FragmentApplyForCertification extends BaseFragment {
     private TextView title;
     private LinearLayout btnPoor;
     private LinearLayout btnEmployment;
+    private LinearLayout btnCertificate;
 
     @Override
     protected int layoutResId() {
@@ -26,6 +27,7 @@ public class FragmentApplyForCertification extends BaseFragment {
         title = view.findViewById(R.id.title);
         btnPoor = view.findViewById(R.id.btn_poor);
         btnEmployment = view.findViewById(R.id.btn_employment);
+        btnCertificate = view.findViewById(R.id.btn_certificate);
     }
 
     @Override
@@ -38,11 +40,15 @@ public class FragmentApplyForCertification extends BaseFragment {
     private void btn() {
 
         btnPoor.setOnClickListener(view -> {
-            ((FragmentActivity)getActivity()).setFragment(new FragmentApplyPorr());
+            ((FragmentActivity) getActivity()).setFragment(new FragmentApplyPorr());
         });
 
         btnEmployment.setOnClickListener(view -> {
-            ((FragmentActivity)getActivity()).setFragment(new FragmentApply_Employment());
+            ((FragmentActivity) getActivity()).setFragment(new FragmentApply_Employment());
+        });
+
+        btnCertificate.setOnClickListener(v -> {
+            ((FragmentActivity)getActivity()).setFragment(new FragmentCertificate());
         });
 
     }

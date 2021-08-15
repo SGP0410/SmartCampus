@@ -4,19 +4,7 @@ package com.example.smartcampus.bean;
 
 public class User {
 
-    /**
-     *             "wordNatureId": "3",                    "msg": "操作成功",
-     *             "shu": "28",                            "password": "123345",
-     *             "povertyStudent": "0",                  "code": "200",
-     *             "majorId": "13",                        "sex": "男",
-     *             "sex": "男",                             "collegeId": "8",
-     *             "grade": "2018级",                       "name": "戚家兴",
-     *             "name": "陈强",                          "schoolCard": "1000101012",
-     *             "schoolCard": "10001001",               "id": "3",
-     *             "id": "1",                              "status": "辅导员"
-     *             "municipalId": "273",
-     */
-
+    private String id;
     private String name;
     private String schoolCard;
     private String password;
@@ -36,11 +24,13 @@ public class User {
     private String grade;
     private String clas;
     private String classid;
+    private String course;
 
     public User() {
     }
 
-    public User(String name, String schoolCard, String password, String status, String sex, String collegName, String idCard, String address, String dateOfBirth, String nationality, String age, String face, String yu, String shu, String wai, String majorId, String grade, String clas, String classid) {
+    public User(String id, String name, String schoolCard, String password, String status, String sex, String collegName, String idCard, String address, String dateOfBirth, String nationality, String age, String face, String yu, String shu, String wai, String majorId, String grade, String clas, String classid, String course) {
+        this.id = id;
         this.name = name;
         this.schoolCard = schoolCard;
         this.password = password;
@@ -60,6 +50,42 @@ public class User {
         this.grade = grade;
         this.clas = clas;
         this.classid = classid;
+        this.course = course;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", schoolCard='" + schoolCard + '\'' +
+                ", password='" + password + '\'' +
+                ", status='" + status + '\'' +
+                ", sex='" + sex + '\'' +
+                ", collegName='" + collegName + '\'' +
+                ", idCard='" + idCard + '\'' +
+                ", address='" + address + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", age='" + age + '\'' +
+                ", face='" + face + '\'' +
+                ", yu='" + yu + '\'' +
+                ", shu='" + shu + '\'' +
+                ", wai='" + wai + '\'' +
+                ", majorId='" + majorId + '\'' +
+                ", grade='" + grade + '\'' +
+                ", clas='" + clas + '\'' +
+                ", classid='" + classid + '\'' +
+                ", course='" + course + '\'' +
+                '}';
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -214,28 +240,11 @@ public class User {
         this.classid = classid;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", schoolCard='" + schoolCard + '\'' +
-                ", password='" + password + '\'' +
-                ", status='" + status + '\'' +
-                ", sex='" + sex + '\'' +
-                ", collegName='" + collegName + '\'' +
-                ", idCard='" + idCard + '\'' +
-                ", address='" + address + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", nationality='" + nationality + '\'' +
-                ", age='" + age + '\'' +
-                ", face='" + face + '\'' +
-                ", yu='" + yu + '\'' +
-                ", shu='" + shu + '\'' +
-                ", wai='" + wai + '\'' +
-                ", majorId='" + majorId + '\'' +
-                ", grade='" + grade + '\'' +
-                ", clas='" + clas + '\'' +
-                ", classid='" + classid + '\'' +
-                '}';
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 }

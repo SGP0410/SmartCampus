@@ -13,10 +13,10 @@ public class Application extends android.app.Application {
 
     private static Context context;
     public static String name;
-    public static String card;
     public static String type;
     public static List<Major> majors;
     public static List<College> colleges;
+    public static User user;
 
     public static List<College> getColleges() {
         return colleges;
@@ -34,7 +34,6 @@ public class Application extends android.app.Application {
         Application.majors = majors;
     }
 
-
     public static User getUser() {
         return user;
     }
@@ -43,14 +42,11 @@ public class Application extends android.app.Application {
         Application.user = user;
     }
 
-    public static User user;
-
-
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        ZhcsConfig.setUrl("http://10.0.0.8:8080/Smart_campus_war/");
+        ZhcsConfig.setUrl("http://192.168.101.7:8080/Smart_campus_war/");
         ZhcsConfig.setContext(getApplicationContext());
     }
 

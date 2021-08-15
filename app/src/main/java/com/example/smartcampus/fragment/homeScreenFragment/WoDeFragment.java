@@ -3,6 +3,7 @@ package com.example.smartcampus.fragment.homeScreenFragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ public class WoDeFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private WodeAdapter adapter;
     private LinearLayout btnCourse;
+    private LinearLayout btnProof;
+    private TextView txtProof;
 
     @Override
     protected int layoutResId() {
@@ -48,6 +51,8 @@ public class WoDeFragment extends BaseFragment {
         imgUser = view.findViewById(R.id.img_user);
         recyclerView = view.findViewById(R.id.recyclerView);
         btnCourse = view.findViewById(R.id.btn_course);
+        btnProof = view.findViewById(R.id.btn_proof);
+        txtProof = view.findViewById(R.id.txt_proof);
     }
 
     @Override
@@ -63,6 +68,11 @@ public class WoDeFragment extends BaseFragment {
             bundle.putString("name", "课程表");
             toClass(getContext(), FragmentActivity.class, bundle);
         });
+        btnProof.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("name", "证书");
+            toClass(getContext(), FragmentActivity.class, bundle);
+        });
     }
 
     @Override
@@ -70,6 +80,8 @@ public class WoDeFragment extends BaseFragment {
         super.onResume();
         getData();
     }
+
+    private static final String TAG = "WoDeFragment";
 
     @SuppressLint("SetTextI18n")
     private void getData() {
@@ -95,6 +107,7 @@ public class WoDeFragment extends BaseFragment {
                 list.add("成绩管理");
                 list.add("查看认证");
                 list.add("问题反馈");
+                Log.d(TAG, "getData: " + user.getCourse());
             }
             name.setText(user.getName());
             studentId.setText("学号：" + user.getSchoolCard());
