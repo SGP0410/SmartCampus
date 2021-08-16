@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/lin_bai_r20_1"
+    android:orientation="vertical"
+    android:elevation="10dp"
+    android:padding="8dp"
+    android:id="@+id/item_lin"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="16dp"
+            android:layout_height="wrap_content"
+            android:text="姓名："
+            />
+
+        <TextView
+            android:id="@+id/item_level"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="申请等级：国家级"
+            android:paddingRight="10dp"
+            android:textSize="16dp"
+            android:gravity="right"
+            />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="电子上大师"
+            android:textColor="#FF3D00"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/item_type"
+            android:layout_width="wrap_content"
+            android:textSize="15dp"
+            android:layout_height="wrap_content"
+            android:text="状态：已通过"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:textColor="#FFF"
+            android:background="@drawable/red_r10"
+            />
+
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="申请等级：国家级"
+            android:paddingRight="10dp"
+            android:textSize="16dp"
+            android:gravity="right"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

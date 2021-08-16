@@ -42,17 +42,20 @@ public class FragmentWoDeviewCertification extends BaseFragment {
         List<String> strings = new ArrayList<>();
         strings.add("贫困生认证");
         strings.add("就业认证");
+        strings.add("证书认证");
 
         WoDeviewCertificationAdapter adapter = new WoDeviewCertificationAdapter(strings);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
             String s = strings.get(position);
-            if ("贫困生认证".equals(s)){
-                ((FragmentActivity)getActivity()).setFragment(new FragmentWoDeviewCertificationPoor());
-            }else if ("就业认证".equals(s)){
-                ((FragmentActivity)getActivity()).setFragment(new FragmentWoDeviewCertificationgetAJob());
-            }else {
+            if ("贫困生认证".equals(s)) {
+                ((FragmentActivity) getActivity()).setFragment(new FragmentWoDeviewCertificationPoor());
+            } else if ("就业认证".equals(s)) {
+                ((FragmentActivity) getActivity()).setFragment(new FragmentWoDeviewCertificationgetAJob());
+            } else if ("证书认证".equals(s)) {
+                ((FragmentActivity) getActivity()).setFragment(new FragmentWoDeCertificateRZ());
+            } else {
                 return;
             }
 

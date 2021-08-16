@@ -8,7 +8,7 @@ public class User {
     private String name;
     private String schoolCard;
     private String password;
-    private String status;
+    private String status;  //学生
     private String sex;
     private String collegName;
     private String idCard;

@@ -4,15 +4,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
+import com.example.smartcampus.adapter.wodeeAdapter.WoDecertificateAdapter;
 import com.example.smartcampus.bean.User;
 import com.example.smartcampus.bean.statistics.Certificate;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import com.example.smartcampuslibrary.net.OkHttpLo;
 import com.example.smartcampuslibrary.net.OkHttpTo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -51,6 +55,7 @@ public class FragmentWoDecertificate extends BaseFragment {
 
     @Override
     protected void initData() {
+        title.setText("我的证书");
         if ("学生".equals(status)) {
             User user = Application.getUser();
             if (certificateList==null){
@@ -65,7 +70,14 @@ public class FragmentWoDecertificate extends BaseFragment {
                      .setOkHttpLo(new OkHttpLo() {
                          @Override
                          public void onResponse(JSONObject jsonObject) {
+                             certificateList.addAll(new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
+                                     new TypeToken<List<Certificate>>(){}.getType()));
+                             if (certificateList.size()==0){
 
+                             }else {
+                                 txtNO.setVisibility(View.GONE);
+                                 show();
+                             }
                          }
 
                          @Override
@@ -75,6 +87,12 @@ public class FragmentWoDecertificate extends BaseFragment {
                      }).start();
         }
 
+    }
+
+    private void show() {
+        WoDecertificateAdapter adapter = new WoDecertificateAdapter(certificateList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

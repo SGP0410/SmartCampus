@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.smartcampus.R;
 import com.example.smartcampus.fragment.homeScreenFragment.HomeFragment;
-import com.example.smartcampus.fragment.homeScreenFragment.WoDeFragment;
+import com.example.smartcampus.fragment.My.WoDeFragment;
 import com.example.smartcampus.fragment.homeScreenFragment.YinYongFragment;
 import com.example.smartcampuslibrary.activity.BaseHomeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
