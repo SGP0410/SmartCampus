@@ -69,6 +69,11 @@ public class OkHttpTo extends Thread {
         return this;
     }
 
+    public OkHttpTo setUrlTest(String url) {
+        this.url = url;
+        return this;
+    }
+
     public OkHttpTo setJSONObject(String bean) {
         try {
             jsonObject = new JSONObject(bean);
@@ -119,8 +124,8 @@ public class OkHttpTo extends Thread {
     @Override
     public void run() {
     
-        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(60000, TimeUnit.MILLISECONDS)
-            .readTimeout(60000, TimeUnit.MILLISECONDS)
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(6000000, TimeUnit.MILLISECONDS)
+            .readTimeout(6000000, TimeUnit.MILLISECONDS)
             .build();
         do {
 

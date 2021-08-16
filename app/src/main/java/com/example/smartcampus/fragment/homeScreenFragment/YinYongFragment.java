@@ -57,6 +57,6 @@ public class YinYongFragment extends BaseFragment {
     
     @Override
     public void onClick(View v) {
-    
+
     }
 }

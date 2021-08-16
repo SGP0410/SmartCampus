@@ -1,6 +1,8 @@
 package com.example.smartcampus.fragment.homeScreenFragment;
 
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,7 +12,13 @@ import com.example.smartcampus.R;
 import com.example.smartcampus.bean.User;
 import com.example.smartcampus.bean.statistics.Major;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
+import com.example.smartcampuslibrary.net.OkHttpLo;
+import com.example.smartcampuslibrary.net.OkHttpTo;
+import com.example.smartcampuslibrary.utils.Utils;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 
 public class FragmentWoDeGerenziliao extends BaseFragment {
@@ -26,13 +34,14 @@ public class FragmentWoDeGerenziliao extends BaseFragment {
     private TextView txtGrade;
     private TextView txtNation;
     private TextView txtFace;
-    private TextView address;
+    private EditText address;
     private ImageView back;
     private TextView txtCarid;
     private LinearLayout linZhuanye;
     private LinearLayout linGrade;
     private LinearLayout linClass;
     private TextView txtClass;
+    private Button btnSave;
 
     @Override
     protected int layoutResId() {
@@ -58,6 +67,8 @@ public class FragmentWoDeGerenziliao extends BaseFragment {
         linGrade = view.findViewById(R.id.lin_grade);
         linClass = view.findViewById(R.id.lin_class);
         txtClass = view.findViewById(R.id.txt_class);
+        btnSave = view.findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(this);
     }
 
     private static final String TAG = "FragmentWoDeGerenziliao";
@@ -89,7 +100,7 @@ public class FragmentWoDeGerenziliao extends BaseFragment {
             }
             txtGrade.setText(user.getGrade());
             major.setText(grade);
-            txtClass.setText(grade+user.getClas());
+            txtClass.setText(grade + user.getClas());
         } else {
             linClass.setVisibility(View.GONE);
             linGrade.setVisibility(View.GONE);
@@ -101,6 +112,23 @@ public class FragmentWoDeGerenziliao extends BaseFragment {
 
     @Override
     public void onClick(View view) {
+        new OkHttpTo().setUrl("UpdateStudentAddress")
+                .setRequestType("post")
+                .setJSONObject("address" , address.getText().toString())
+                .setJSONObject("id" , Application.getUser().getId())
+                .setOkHttpLo(new OkHttpLo() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        if (jsonObject.optString("code").equals("200")){
+                            Utils.showToast("修改成功");
+                            Application.getUser().setAddress(address.getText().toString());
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(IOException e) {
+
+                    }
+                }).start();
     }
 }

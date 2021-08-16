@@ -4,6 +4,7 @@ import static com.example.smartcampus.R.id.spinner2;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,22 +18,23 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.youngkaaa.yviewpager.YPagerAdapter;
+import cn.youngkaaa.yviewpager.YViewPager;
 
 import com.example.smartcampus.R;
 import com.example.smartcampus.bean.statistics.GradeSexExpenseSum;
 import com.example.smartcampus.bean.statistics.ProvinceMunicipalExpenseSum;
-import com.example.smartcampus.dialog.statistics.ChartViewDialog;
-import com.example.smartcampus.utils.Utils;
-import com.example.smartcampus.dialog.statistics.ChartViewDialog;
 import com.example.smartcampus.utils.Utils;
 import com.example.smartcampuslibrary.adapter.BaseSpinnerAdapter;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import com.example.smartcampuslibrary.net.OkHttpLo;
 import com.example.smartcampuslibrary.net.OkHttpTo;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -77,8 +79,8 @@ public class ConsumptionTrendFragment extends BaseFragment {
     Spinner spinner1;
     @BindView(R.id.spinner2)
     Spinner spinner2;
-    @BindView(R.id.grid_view)
-    GridView gridView;
+    @BindView(R.id.view_pager)
+    YViewPager viewPager;
     private List<GradeSexExpenseSum> gradeSexExpenseSumList;
     private List<ProvinceMunicipalExpenseSum> provinceMunicipalExpenseSumList;
     private ProgressDialog progressDialog;
@@ -198,7 +200,6 @@ public class ConsumptionTrendFragment extends BaseFragment {
         setBarChart3();
         setPieChart3();
         setRadarChart3();
-
     }
 
     private void setRadarChart3() {
@@ -274,7 +275,7 @@ public class ConsumptionTrendFragment extends BaseFragment {
 
     private void setBarChart3() {
         barChart.setDescription(null);
-        barChart.setTouchEnabled(false);
+        barChart.setTouchEnabled(true);
         barChart.setDoubleTapToZoomEnabled(false);
 
         List<BarEntry> barEntryList = new ArrayList<>();
@@ -326,6 +327,11 @@ public class ConsumptionTrendFragment extends BaseFragment {
         yAxis1.setLabelCount(5);
 
 
+        Matrix matrix = new Matrix();
+//1f代表不缩放
+        matrix.postScale((float) nameList.size() / 8, 1f);
+        barChart.getViewPortHandler().refresh(matrix, barChart, false);
+
         barChart.setData(barData);
         barChart.animateXY(0, 2000);
         barChart.invalidate();
@@ -333,7 +339,7 @@ public class ConsumptionTrendFragment extends BaseFragment {
 
     private void setLineChart3() {
         lineChart.setDescription(null);
-        lineChart.setTouchEnabled(false);
+        lineChart.setTouchEnabled(true);
         lineChart.setDoubleTapToZoomEnabled(false);
 
         LineDataSet lineDataSet = new LineDataSet(entryList, lable);
@@ -344,13 +350,6 @@ public class ConsumptionTrendFragment extends BaseFragment {
 
         LineData lineData = new LineData(lineDataSet);
         lineData.setDrawValues(false);
-//        lineData.setValueFormatter(new IValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-//                DecimalFormat format = new DecimalFormat("0");
-//                return format.format(value);
-//            }
-//        });
         lineData.setValueTextColor(Color.parseColor("#333333"));
         lineData.setValueTextSize(12f);
 
@@ -361,16 +360,9 @@ public class ConsumptionTrendFragment extends BaseFragment {
         xAxis.setAxisMinimum(0.5f);
         xAxis.setAxisMaximum(nameList.size() - 0.5f);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(nameList));
-//        xAxis.setValueFormatter(new IAxisValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                return value+"";
-//            }
-//        });
-        xAxis.setGranularity(1f);
+        xAxis.setGranularity(0.5f);
         xAxis.setTextColor(Color.parseColor("#333333"));
         xAxis.setTextSize(5f);
-//        xAxis.setLabelRotationAngle(90);
 
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setAxisMinimum(0f);
@@ -390,6 +382,10 @@ public class ConsumptionTrendFragment extends BaseFragment {
         yAxis1.setAxisMinimum(0f);
         yAxis1.setLabelCount(5);
 
+        Matrix matrix = new Matrix();
+//1f代表不缩放
+        matrix.postScale((float) nameList.size() / 8, 1f);
+        lineChart.getViewPortHandler().refresh(matrix, lineChart, false);
 
         lineChart.setData(lineData);
         lineChart.animateXY(0, 2000);
@@ -526,7 +522,7 @@ public class ConsumptionTrendFragment extends BaseFragment {
 
     private void setBarChart2() {
         barChart.setDescription(null);
-        barChart.setTouchEnabled(false);
+        barChart.setTouchEnabled(true);
         barChart.setDoubleTapToZoomEnabled(false);
 
         List<BarEntry> barEntryList = new ArrayList<>();
@@ -577,7 +573,10 @@ public class ConsumptionTrendFragment extends BaseFragment {
         yAxis1.setAxisMinimum(0f);
         yAxis1.setLabelCount(5);
 
-
+        Matrix matrix = new Matrix();
+//1f代表不缩放
+        matrix.postScale(1f, 1f);
+        barChart.getViewPortHandler().refresh(matrix, barChart, false);
         barChart.setData(barData);
         barChart.animateXY(0, 2000);
         barChart.invalidate();
@@ -585,7 +584,7 @@ public class ConsumptionTrendFragment extends BaseFragment {
 
     private void setLineChart2() {
         lineChart.setDescription(null);
-        lineChart.setTouchEnabled(false);
+        lineChart.setTouchEnabled(true);
         lineChart.setDoubleTapToZoomEnabled(false);
 
         LineDataSet lineDataSet = new LineDataSet(entryList, lable);
@@ -634,6 +633,10 @@ public class ConsumptionTrendFragment extends BaseFragment {
         yAxis1.setAxisMinimum(0f);
         yAxis1.setLabelCount(5);
 
+        Matrix matrix = new Matrix();
+//1f代表不缩放
+        matrix.postScale(1f, 1f);
+        lineChart.getViewPortHandler().refresh(matrix, lineChart, false);
 
         lineChart.setData(lineData);
         lineChart.animateXY(0, 2000);
@@ -746,7 +749,7 @@ public class ConsumptionTrendFragment extends BaseFragment {
 
     private void setBarChart1() {
         barChart.setDescription(null);
-        barChart.setTouchEnabled(false);
+        barChart.setTouchEnabled(true);
         barChart.setDoubleTapToZoomEnabled(false);
 
         List<BarEntry> barEntryList = new ArrayList<>();
@@ -797,6 +800,10 @@ public class ConsumptionTrendFragment extends BaseFragment {
         yAxis1.setAxisMinimum(0f);
         yAxis1.setLabelCount(5);
 
+        Matrix matrix = new Matrix();
+//1f代表不缩放
+        matrix.postScale(1f, 1f);
+        barChart.getViewPortHandler().refresh(matrix, barChart, false);
 
         barChart.setData(barData);
         barChart.animateXY(0, 2000);
@@ -805,7 +812,7 @@ public class ConsumptionTrendFragment extends BaseFragment {
 
     private void setLineChart1() {
         lineChart.setDescription(null);
-        lineChart.setTouchEnabled(false);
+        lineChart.setTouchEnabled(true);
         lineChart.setDoubleTapToZoomEnabled(false);
 
         LineDataSet lineDataSet = new LineDataSet(entryList, lable);
@@ -853,6 +860,11 @@ public class ConsumptionTrendFragment extends BaseFragment {
         yAxis1.setEnabled(false);
         yAxis1.setAxisMinimum(0f);
         yAxis1.setLabelCount(5);
+
+        Matrix matrix = new Matrix();
+//1f代表不缩放
+        matrix.postScale(1f, 1f);
+        lineChart.getViewPortHandler().refresh(matrix, lineChart, false);
 
 
         lineChart.setData(lineData);
@@ -916,60 +928,51 @@ public class ConsumptionTrendFragment extends BaseFragment {
     }
 
     private void setView() {
-        int height = (gridView.getHeight() - 120) / 2;
-        int width = (gridView.getWidth() - 100) / 2;
         List<View> viewList = new ArrayList<>();
         lineChart = new LineChart(getContext());
-        lineChart.setLayoutParams(new LayoutParams(width, height));
+        lineChart.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT , LayoutParams.MATCH_PARENT));
         viewList.add(lineChart);
         barChart = new BarChart(getContext());
-        barChart.setLayoutParams(new LayoutParams(width, height));
+        barChart.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT , LayoutParams.MATCH_PARENT));
         viewList.add(barChart);
         pieChart = new PieChart(getContext());
-        pieChart.setLayoutParams(new LayoutParams(width, height));
+        pieChart.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT , LayoutParams.MATCH_PARENT));
         viewList.add(pieChart);
         radarChart = new RadarChart(getContext());
-        radarChart.setLayoutParams(new LayoutParams(width, height));
+        radarChart.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT , LayoutParams.MATCH_PARENT));
         viewList.add(radarChart);
 
         for (View view : viewList) {
             view.setBackgroundColor(Color.parseColor("#FDFDFE"));
-            view.setEnabled(false);
         }
 
-        gridView.setNumColumns(2);
-        gridView.setVerticalSpacing(30);
-        gridView.setHorizontalSpacing(30);
-        gridView.setAdapter(new BaseAdapter() {
+
+
+        viewPager.setDirection(YViewPager.VERTICAL);
+
+        viewPager.setAdapter(new YPagerAdapter() {
             @Override
             public int getCount() {
                 return viewList.size();
             }
 
             @Override
-            public Object getItem(int position) {
-                return null;
+            public boolean isViewFromObject(View view, Object o) {
+                return view == o;
             }
 
             @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public Object instantiateItem(ViewGroup container, int position) {
+                container.addView(viewList.get(position));
                 return viewList.get(position);
             }
-        });
-        gridView.setOnItemClickListener(new OnItemClickListener() {
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("aaaa", "---------------" + position);
-                assert getFragmentManager() != null;
-                new ChartViewDialog(entryList , nameList , colors , position , lable).show(getFragmentManager(),
-                        ChartViewDialog.class.getName());
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView(viewList.get(position));
             }
         });
+
     }
 
     private void getProvinceMunicipalExpenseSumAll() {
@@ -1001,6 +1004,7 @@ public class ConsumptionTrendFragment extends BaseFragment {
                 .setOkHttpLo(new OkHttpLo() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
+                        Log.i("aaaa" , "------------------GetGradeSexExpenseSumAll");
                         gradeSexExpenseSumList = new Gson()
                                 .fromJson(jsonObject.optJSONArray("rows").toString(),
                                         new TypeToken<List<GradeSexExpenseSum>>() {
