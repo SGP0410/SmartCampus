@@ -1,4 +1,4 @@
-package com.example.smartcampus.fragment.homeScreenFragment;
+package com.example.smartcampus.fragment.My;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -17,8 +17,13 @@ import com.example.smartcampus.activity.LoginActivity;
 import com.example.smartcampus.adapter.wodeeAdapter.WodeAdapter;
 import com.example.smartcampus.bean.User;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
+import com.example.smartcampuslibrary.net.OkHttpLo;
+import com.example.smartcampuslibrary.net.OkHttpTo;
 import com.example.smartcampuslibrary.utils.myView.ImageViewOval;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +38,8 @@ public class WoDeFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private WodeAdapter adapter;
     private LinearLayout btnCourse;
+    private LinearLayout btnProof;
+    private TextView txtProof;
 
     @Override
     protected int layoutResId() {
@@ -48,6 +55,8 @@ public class WoDeFragment extends BaseFragment {
         imgUser = view.findViewById(R.id.img_user);
         recyclerView = view.findViewById(R.id.recyclerView);
         btnCourse = view.findViewById(R.id.btn_course);
+        btnProof = view.findViewById(R.id.btn_proof);
+        txtProof = view.findViewById(R.id.txt_proof);
     }
 
     @Override
@@ -57,10 +66,16 @@ public class WoDeFragment extends BaseFragment {
         btn();
     }
 
+
     private void btn() {
         btnCourse.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("name", "课程表");
+            toClass(getContext(), FragmentActivity.class, bundle);
+        });
+        btnProof.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("name", "证书");
             toClass(getContext(), FragmentActivity.class, bundle);
         });
     }
@@ -69,7 +84,38 @@ public class WoDeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getData();
+        getCertificate();
     }
+
+    private void getCertificate() {
+        User user = Application.getUser();
+        if (user == null) {
+            return;
+        } else {
+            if ("学生".equals(user.getStatus())) {
+                new OkHttpTo()
+                        .setUrl("GetCertificateSchoolCard")
+                        .setRequestType("post")
+                        .setJSONObject("schoolcard", user.getSchoolCard())
+                        .setOkHttpLo(new OkHttpLo() {
+                            @Override
+                            public void onResponse(JSONObject jsonObject) {
+                                String string = jsonObject.optString("total");
+                                txtProof.setText(string);
+                            }
+
+                            @Override
+                            public void onFailure(IOException e) {
+
+                            }
+                        }).start();
+            }
+        }
+
+
+    }
+
+    private static final String TAG = "WoDeFragment";
 
     @SuppressLint("SetTextI18n")
     private void getData() {
@@ -82,23 +128,33 @@ public class WoDeFragment extends BaseFragment {
                 list.add("我的成绩");
                 list.add("申请认证");
                 list.add("问题反馈");
+                studentId.setText("学号：" + user.getSchoolCard());
+                department.setText("所在系：" + user.getCollegName());
             } else if ("老师".equals(user.getStatus())) {
                 imgUser.setImageResource(R.mipmap.user6);
                 list.clear();
                 list.add("个人资料");
                 list.add("成绩管理");
                 list.add("问题反馈");
-            } else {
+                studentId.setText("学号：" + user.getSchoolCard());
+                department.setText("所在系：" + user.getCollegName());
+            } else if ("辅导员".equals(user.getStatus())) {
                 imgUser.setImageResource(R.mipmap.user5);
                 list.clear();
                 list.add("个人资料");
                 list.add("成绩管理");
                 list.add("查看认证");
                 list.add("问题反馈");
+                studentId.setText("学号：" + user.getSchoolCard());
+                department.setText("所在系：" + user.getCollegName());
+            } else {
+                imgUser.setImageResource(R.mipmap.user3);
+                user.setName("管理员");
+                list.clear();
+                list.add("用户反馈");
             }
             name.setText(user.getName());
-            studentId.setText("学号：" + user.getSchoolCard());
-            department.setText("所在系：" + user.getCollegName());
+
             if (adapter == null) {
                 adapter = new WodeAdapter(list);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -4,9 +4,14 @@ import android.os.Bundle;
 
 import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
+import com.example.smartcampus.bean.User;
 import com.example.smartcampus.fragment.My.FragmentApplyForCertification;
 import com.example.smartcampus.fragment.My.FragmentFeedback;
 import com.example.smartcampus.fragment.My.FragmentWoDeCourse;
+import com.example.smartcampus.fragment.My.FragmentWoDeCustomerFeedback;
+import com.example.smartcampus.fragment.My.FragmentWoDeScoreBoard;
+import com.example.smartcampus.fragment.My.FragmentWoDecertificate;
+import com.example.smartcampus.fragment.My.FragmentWoDeviewCertification;
 import com.example.smartcampus.fragment.applyFragment.Fragment_schoolCard;
 import com.example.smartcampus.fragment.homeFragment.ClassTodayFragment;
 import com.example.smartcampus.fragment.homeFragment.StatisticsFragment;
@@ -43,6 +48,8 @@ public class FragmentActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData() {
+        User user = Application.getUser();
+        String status = user.getStatus();
         switch (name){
             case "今日课堂":
                 setFragment(new ClassTodayFragment());
@@ -71,6 +78,18 @@ public class FragmentActivity extends BaseFragmentActivity {
                 break;
             case "课程表":
                 setFragment(new FragmentWoDeCourse());
+                break;
+            case "成绩管理":
+                setFragment(new FragmentWoDeScoreBoard());
+                break;
+            case "查看认证":
+                setFragment(new FragmentWoDeviewCertification());
+                break;
+            case "证书":
+                setFragment(new FragmentWoDecertificate(status));
+                break;
+            case "用户反馈":
+                setFragment(new FragmentWoDeCustomerFeedback());
                 break;
             default:
                 break;

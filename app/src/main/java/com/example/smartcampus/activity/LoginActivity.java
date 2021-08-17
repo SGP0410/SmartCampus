@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         getOkHttp();
         radio();
         login();
-
     }
 
     private void getOkHttp() {
@@ -98,11 +97,23 @@ public class LoginActivity extends AppCompatActivity {
             if ("".equals(name) || "".equals(pass)) {
                 Toast.makeText(LoginActivity.this,"学号或密码不能为空",Toast.LENGTH_SHORT).show();
             }else {
-                if ("学生".equals(identity)){
-                    getStudentID(name,pass);
+                if ("admin".equals(name)){
+                    if ("111222".equals(pass)){
+                        User user = new User();
+                        user.setStatus("管理员");
+                        Application.setUser(user);
+                        finish();
+                    }else {
+                        Toast.makeText(LoginActivity.this,"用户名密码错误",Toast.LENGTH_SHORT).show();
+                    }
                 }else {
-                    getTeacherID(name,pass);
+                    if ("学生".equals(identity)) {
+                        getStudentID(name, pass);
+                    } else {
+                        getTeacherID(name, pass);
+                    }
                 }
+
             }
 
         });
@@ -118,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                         String msg = jsonObject.optString("msg");
                         if ("操作成功".equals(msg)){
                             if (pass.equals(jsonObject.optString("password"))){
+                                Log.d(TAG, "onResponse: "+jsonObject.toString());
                                 User user = new Gson().fromJson(jsonObject.toString(),User.class);
                                 String collegeId = jsonObject.optString("collegeId");
                                 for (College college : colleges) {
@@ -126,8 +138,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d(TAG, "onResponse: "+line);
                                     }
                                 }
-                                user.setStatus("老师");
                                 user.setCollegName(line);
+                                Log.d(TAG, "onResponse: ===="+user.getCourse());
                                 Application.setUser(user);
                                 finish();
                             }else {

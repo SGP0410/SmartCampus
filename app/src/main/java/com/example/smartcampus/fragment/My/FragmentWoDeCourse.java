@@ -59,11 +59,15 @@ public class FragmentWoDeCourse extends BaseFragment {
     private void getOkHttp() {
         User user = Application.getUser();
         String classid = "";
+
         if ("学生".equals(user.getStatus())) {
             classid = user.getClassid();
+        } else if ("辅导员".equals(user.getStatus())) {
+            classid = user.getCourse();
         } else {
             return;
         }
+
         if (schedules == null) {
             schedules = new ArrayList<>();
         } else {
@@ -92,8 +96,8 @@ public class FragmentWoDeCourse extends BaseFragment {
 
     private void getRecycler() {
         WoDeCourseAdapter adapter = new WoDeCourseAdapter(schedules);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),5));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),RecyclerView.VERTICAL));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), RecyclerView.VERTICAL));
         recyclerView.setAdapter(adapter);
     }
 

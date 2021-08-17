@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/item_lin"
+    android:background="@drawable/hui1_r5"
+    android:elevation="@dimen/dp_10"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        >
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="123"
+            android:gravity="center"
+            android:textSize="17dp"
+            />
+
+        <TextView
+            android:id="@+id/item_yuwen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="123"
+            android:gravity="center"
+            android:textSize="17dp"
+            />
+
+        <TextView
+            android:id="@+id/item_shuxue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="123"
+            android:gravity="center"
+            android:textSize="17dp"
+            />
+
+        <TextView
+            android:id="@+id/item_yingyu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="123"
+            android:gravity="center"
+            android:textSize="17dp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
