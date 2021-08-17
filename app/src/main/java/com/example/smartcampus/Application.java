@@ -17,6 +17,15 @@ public class Application extends android.app.Application {
     public static List<Major> majors;
     public static List<College> colleges;
     public static User user;
+    private static List<Major> majorList;
+
+    public static List<Major> getMajorList() {
+        return majorList;
+    }
+
+    public static void setMajorList(List<Major> majorList) {
+        Application.majorList = majorList;
+    }
 
     public static List<College> getColleges() {
         return colleges;
@@ -46,7 +55,7 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        ZhcsConfig.setUrl("http://10.0.0.6:8080/Smart_campus_war/");
+        ZhcsConfig.setUrl("http://192.168.3.23:8080/Smart_campus/");
         ZhcsConfig.setContext(getApplicationContext());
     }
 

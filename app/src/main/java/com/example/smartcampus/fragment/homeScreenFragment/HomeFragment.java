@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
 import com.example.smartcampus.activity.FragmentActivity;
 import com.example.smartcampus.adapter.homeScreenAdapter.FunctionRecyclerViewAdapter;
@@ -15,6 +17,7 @@ import com.example.smartcampus.adapter.homeScreenAdapter.HomeThemeRecyclerViewAd
 import com.example.smartcampus.bean.home.HomeFunction;
 import com.example.smartcampus.bean.home.HomeTheme;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
+import com.example.smartcampuslibrary.utils.Utils;
 import com.example.smartcampuslibrary.utils.myView.BaseRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +84,10 @@ public class HomeFragment extends BaseFragment {
             functionList);
         functionRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
+            if (Application.getUser() == null){
+                Utils.showToast("请先登录！");
+                return;
+            }
             Bundle bundle = new Bundle();
             bundle.putString("name" , functionList.get(position).getName());
             toClass(getContext() , FragmentActivity.class , bundle);

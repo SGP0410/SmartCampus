@@ -69,4 +69,16 @@ public class GetClassSchedule {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "GetClassSchedule{" +
+                "number='" + number + '\'' +
+                ", classid='" + classid + '\'' +
+                ", teacher='" + teacher + '\'' +
+                ", name='" + name + '\'' +
+                ", course='" + course + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }

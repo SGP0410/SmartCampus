@@ -1,20 +1,36 @@
 package com.example.smartcampus.fragment.homeFragment;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
+import com.example.smartcampus.adapter.homeAdapter.ScheduleRecyclerViewAdapter;
+import com.example.smartcampus.bean.User;
+import com.example.smartcampus.bean.statistics.GetClassSchedule;
+import com.example.smartcampus.bean.statistics.Major;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
+import com.example.smartcampuslibrary.net.OkHttpLo;
+import com.example.smartcampuslibrary.net.OkHttpTo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClassTodayFragment extends BaseFragment implements CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener {
@@ -31,7 +47,10 @@ public class ClassTodayFragment extends BaseFragment implements CalendarView.OnC
     private TextView tvCurrentDay;
     private int mYear;
     private CalendarLayout calendarLayout;
-
+    private List<GetClassSchedule> schedules;
+    private RecyclerView recyclerView;
+    private ScheduleRecyclerViewAdapter adapter;
+    private List<GetClassSchedule> getClassScheduleList = new ArrayList<>();
 
     @Override
     protected int layoutResId() {
@@ -72,6 +91,7 @@ public class ClassTodayFragment extends BaseFragment implements CalendarView.OnC
             }
         });
         calendarLayout = view.findViewById(R.id.calendarLayout);
+        recyclerView = view.findViewById(R.id.recycler_view);
     }
 
     @SuppressLint("SetTextI18n")
@@ -82,7 +102,7 @@ public class ClassTodayFragment extends BaseFragment implements CalendarView.OnC
         tvLunar.setText("今日");
         tvCurrentDay.setText(String.valueOf(calendarView.getCurDay()));
         mYear = calendarView.getCurYear();
-
+        getOkHttp();
 
 
 //        int year = calendarView.getCurYear();
@@ -109,6 +129,61 @@ public class ClassTodayFragment extends BaseFragment implements CalendarView.OnC
 //        return calendar;
 //    }
 
+    private void getOkHttp() {
+        User user = Application.getUser();
+        String classid = "";
+
+        if ("学生".equals(user.getStatus())) {
+            classid = user.getClassid();
+        } else if ("辅导员".equals(user.getStatus())) {
+            classid = user.getCourse();
+        } else {
+            return;
+        }
+
+        if (schedules == null) {
+            schedules = new ArrayList<>();
+        } else {
+            schedules.clear();
+        }
+        new OkHttpTo()
+                .setUrl("GetClassSchedule")
+                .setRequestType("post")
+                .setJSONObject("classid", classid)
+                .setOkHttpLo(new OkHttpLo() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        schedules.addAll(new Gson().fromJson(jsonObject.optJSONArray("data").toString(),
+                                new TypeToken<List<GetClassSchedule>>() {
+                                }.getType()));
+                        showRecyclerView(calendarView.getSelectedCalendar());
+                    }
+
+                    @Override
+                    public void onFailure(IOException e) {
+
+                    }
+                }).start();
+
+
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void showRecyclerView(Calendar calendar) {
+        getClassScheduleList.clear();
+        int x = calendar.getWeek() * 3;
+        if (x > 1 && x < 16) {
+            getClassScheduleList.add(schedules.get(x - 3));
+            getClassScheduleList.add(schedules.get(x - 2));
+            getClassScheduleList.add(schedules.get(x - 1));
+        }
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        adapter = new ScheduleRecyclerViewAdapter(getClassScheduleList, calendarView.getSelectedCalendar());
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -128,6 +203,7 @@ public class ClassTodayFragment extends BaseFragment implements CalendarView.OnC
         tvYear.setText(String.valueOf(calendar.getYear()));
         tvLunar.setText(calendar.getLunar() + "");
         mYear = calendar.getYear();
+        showRecyclerView(calendar);
     }
 
     @Override
