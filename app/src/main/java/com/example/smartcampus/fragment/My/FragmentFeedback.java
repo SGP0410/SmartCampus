@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
+import com.example.smartcampus.bean.User;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import com.example.smartcampuslibrary.net.OkHttpLo;
 import com.example.smartcampuslibrary.net.OkHttpTo;
@@ -66,6 +68,7 @@ public class FragmentFeedback extends BaseFragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         String str = simpleDateFormat.format(date);
+        User user = Application.getUser();
         new OkHttpTo()
                 .setUrl("SetFeedback")
                 .setRequestType("post")
@@ -73,6 +76,7 @@ public class FragmentFeedback extends BaseFragment {
                 .setJSONObject("msg",msg)
                 .setJSONObject("time",str)
                 .setJSONObject("state","已提交")
+                .setJSONObject("schoolCard",user.getSchoolCard())
                 .setOkHttpLo(new OkHttpLo() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {

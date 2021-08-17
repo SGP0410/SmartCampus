@@ -8,6 +8,7 @@ import com.example.smartcampus.bean.User;
 import com.example.smartcampus.fragment.My.FragmentApplyForCertification;
 import com.example.smartcampus.fragment.My.FragmentFeedback;
 import com.example.smartcampus.fragment.My.FragmentWoDeCourse;
+import com.example.smartcampus.fragment.My.FragmentWoDeCustomerFeedback;
 import com.example.smartcampus.fragment.My.FragmentWoDeScoreBoard;
 import com.example.smartcampus.fragment.My.FragmentWoDecertificate;
 import com.example.smartcampus.fragment.My.FragmentWoDeviewCertification;
@@ -86,6 +87,9 @@ public class FragmentActivity extends BaseFragmentActivity {
                 break;
             case "证书":
                 setFragment(new FragmentWoDecertificate(status));
+                break;
+            case "用户反馈":
+                setFragment(new FragmentWoDeCustomerFeedback());
                 break;
             default:
                 break;

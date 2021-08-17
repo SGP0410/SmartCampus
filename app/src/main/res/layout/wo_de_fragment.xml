@@ -51,7 +51,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_weight="1"
                         android:gravity="center|left"
-                        android:text="智慧校园"
+                        android:text=""
                         android:textColor="#262626"
                         android:textSize="20dp" />
 
@@ -62,7 +62,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.3"
                         android:gravity="center|left"
-                        android:text="学号：201912345678"
+                        android:text=""
                         android:textColor="#404040" />
 
                     <TextView
@@ -72,7 +72,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.3"
                         android:gravity="center|left"
-                        android:text="所在系：计算机信息技术工程系"
+                        android:text=""
                         android:textColor="#404040" />
 
                 </LinearLayout>

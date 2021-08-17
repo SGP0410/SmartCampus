@@ -3,7 +3,6 @@ package com.example.smartcampus.fragment.My;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -129,24 +128,33 @@ public class WoDeFragment extends BaseFragment {
                 list.add("我的成绩");
                 list.add("申请认证");
                 list.add("问题反馈");
+                studentId.setText("学号：" + user.getSchoolCard());
+                department.setText("所在系：" + user.getCollegName());
             } else if ("老师".equals(user.getStatus())) {
                 imgUser.setImageResource(R.mipmap.user6);
                 list.clear();
                 list.add("个人资料");
                 list.add("成绩管理");
                 list.add("问题反馈");
-            } else {
+                studentId.setText("学号：" + user.getSchoolCard());
+                department.setText("所在系：" + user.getCollegName());
+            } else if ("辅导员".equals(user.getStatus())) {
                 imgUser.setImageResource(R.mipmap.user5);
                 list.clear();
                 list.add("个人资料");
                 list.add("成绩管理");
                 list.add("查看认证");
                 list.add("问题反馈");
-                Log.d(TAG, "getData: " + user.getCourse());
+                studentId.setText("学号：" + user.getSchoolCard());
+                department.setText("所在系：" + user.getCollegName());
+            } else {
+                imgUser.setImageResource(R.mipmap.user3);
+                user.setName("管理员");
+                list.clear();
+                list.add("用户反馈");
             }
             name.setText(user.getName());
-            studentId.setText("学号：" + user.getSchoolCard());
-            department.setText("所在系：" + user.getCollegName());
+
             if (adapter == null) {
                 adapter = new WodeAdapter(list);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
