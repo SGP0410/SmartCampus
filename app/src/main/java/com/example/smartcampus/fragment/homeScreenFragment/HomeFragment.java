@@ -1,20 +1,17 @@
 package com.example.smartcampus.fragment.homeScreenFragment;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import com.example.smartcampus.Application;
 import com.example.smartcampus.R;
@@ -24,6 +21,9 @@ import com.example.smartcampus.adapter.homeScreenAdapter.HomeThemeRecyclerViewAd
 import com.example.smartcampus.bean.home.HomeFunction;
 import com.example.smartcampus.bean.home.HomeTheme;
 import com.example.smartcampus.bean.home.Image;
+import com.example.smartcampus.fragment.homeFragment.JiuYeFragment;
+import com.example.smartcampus.fragment.homeFragment.XueXiFragment;
+import com.example.smartcampus.fragment.homeFragment.XueXiaoFragment;
 import com.example.smartcampuslibrary.adapter.BaseViewPagerAdapter;
 import com.example.smartcampuslibrary.fragment.BaseFragment;
 import com.example.smartcampuslibrary.net.OkHttpLo;
@@ -36,11 +36,15 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class HomeFragment extends BaseFragment {
 
@@ -52,14 +56,14 @@ public class HomeFragment extends BaseFragment {
     BaseRecyclerView functionRecyclerView;
     @BindView(R.id.theme_recycler_view)
     BaseRecyclerView themeRecyclerView;
-    @BindView(R.id.news_recycler_view)
-    BaseRecyclerView newsRecyclerView;
 
     private List<HomeFunction> functionList;
     private List<HomeTheme> themeList;
     private List<Image> imageList;
     private boolean isLunBo;
     private MyThreat myThreat;
+    private Fragment countFragment;
+    private Map<String , Fragment> fragmentMap;
 
     @Override
     protected int layoutResId() {
@@ -84,12 +88,11 @@ public class HomeFragment extends BaseFragment {
                 .setOkHttpLo(new OkHttpLo() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        Log.i("aaaaaa" , "=======================1111");
-                        imageList = new Gson().fromJson(jsonObject.optJSONArray("rows").toString() ,
-                                new TypeToken<List<Image>>(){}.getType());
-                        if (imageList != null){
+                        imageList = new Gson().fromJson(jsonObject.optJSONArray("rows").toString(),
+                                new TypeToken<List<Image>>() {
+                                }.getType());
+                        if (imageList != null) {
                             showLunBoViewPager();
-                            Log.i("aaaaaa" , "=======================222222");
                         }
                     }
 
@@ -120,16 +123,16 @@ public class HomeFragment extends BaseFragment {
         startLunBo();
     }
 
-    private void startLunBo(){
-        if (myThreat == null){
+    private void startLunBo() {
+        if (myThreat == null) {
             isLunBo = true;
             myThreat = new MyThreat();
             myThreat.start();
         }
     }
 
-    private void stopLunBo(){
-        if (myThreat != null){
+    private void stopLunBo() {
+        if (myThreat != null) {
             isLunBo = false;
             myThreat.interrupt();
             myThreat = null;
@@ -148,7 +151,7 @@ public class HomeFragment extends BaseFragment {
         stopLunBo();
     }
 
-    private class MyThreat extends Thread{
+    private class MyThreat extends Thread {
         @Override
         public void run() {
             do {
@@ -163,47 +166,56 @@ public class HomeFragment extends BaseFragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }while (isLunBo);
+            } while (isLunBo);
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void showTheme() {
         setTheme();
-        themeRecyclerView.setLayoutManager(new GridLayoutManager(getContext() , 3 ,
-            GridLayoutManager.VERTICAL , false));
+        themeRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3,
+                GridLayoutManager.VERTICAL, false));
         HomeThemeRecyclerViewAdapter adapter = new HomeThemeRecyclerViewAdapter(
-            themeList);
+                themeList);
         themeRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
             for (int i = 0; i < themeList.size(); i++) {
                 themeList.get(i).setClick(i == position);
             }
+            setFragment(Objects.requireNonNull(fragmentMap.get(themeList.get(position).getTheme())));
             adapter.notifyDataSetChanged();
         });
     }
 
     private void setTheme() {
         themeList = new ArrayList<>();
-        themeList.add(new HomeTheme("学习之星" , true));
-        themeList.add(new HomeTheme("就业标兵" , false));
-        themeList.add(new HomeTheme("学校简介" , false));
+        themeList.add(new HomeTheme("学习之星", true));
+        themeList.add(new HomeTheme("就业标兵", false));
+        themeList.add(new HomeTheme("学校简介", false));
+
+        fragmentMap = new HashMap<>();
+        fragmentMap.put("学习之星" , new XueXiFragment());
+        fragmentMap.put("就业标兵" , new JiuYeFragment());
+        fragmentMap.put("学校简介" , new XueXiaoFragment());
+
+        setFragment(Objects.requireNonNull(fragmentMap.get("学习之星")));
     }
 
     private void showFunction() {
         setFunctionList();
         functionRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
-            GridLayoutManager.VERTICAL, false));
+                GridLayoutManager.VERTICAL, false));
         FunctionRecyclerViewAdapter adapter = new FunctionRecyclerViewAdapter(
-            functionList);
+                functionList);
         functionRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
-            if (Application.getUser() == null){
+            if (Application.getUser() == null) {
                 Utils.showToast("请先登录！");
                 return;
             }
             Bundle bundle = new Bundle();
-            bundle.putString("name" , functionList.get(position).getName());
-            toClass(getContext() , FragmentActivity.class , bundle);
+            bundle.putString("name", functionList.get(position).getName());
+            toClass(getContext(), FragmentActivity.class, bundle);
         });
     }
 
@@ -213,8 +225,24 @@ public class HomeFragment extends BaseFragment {
         functionList.add(new HomeFunction("信息统计", Color.parseColor("#65EBD9"), R.mipmap.xxtj));
     }
 
+
+
     @Override
     public void onClick(View v) {
 
+    }
+
+    public void setFragment(Fragment fragment){
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if (fragment.isAdded()){
+            transaction.hide(countFragment).show(fragment);
+        }else {
+            if (countFragment != null){
+                transaction.hide(countFragment);
+            }
+            transaction.add(R.id.zi_frame_layout , fragment , fragment.getTag());
+        }
+        countFragment = fragment;
+        transaction.commit();
     }
 }

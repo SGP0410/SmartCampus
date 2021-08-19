@@ -103,12 +103,14 @@
             <com.haibin.calendarview.CalendarView
                 android:id="@+id/calendar_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="#FDFDFE"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:background="#FDFDFE"/>
 
 
         </com.haibin.calendarview.CalendarLayout>

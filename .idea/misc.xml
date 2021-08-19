@@ -3,14 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/drawable/baiyuanjiao.xml" value="0.23981481481481481" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/drawable/bg_ripple.xml" value="0.2365296803652968" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/drawable/huiyuanjiao.xml" value="0.23564814814814813" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/activity_home.xml" value="0.22546296296296298" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/chart_view_dialog.xml" value="0.15925925925925927" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/class_today_frament.xml" value="0.22546296296296298" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/consumption_trend_fragment.xml" value="0.18032786885245902" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/fragment_feedback.xml" value="0.22546296296296298" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/fragment_schoolcarid.xml" value="0.1814814814814815" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/fragment_wode_geren.xml" value="0.22546296296296298" />
-        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/home_fragment.xml" value="0.1" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/home_fragment.xml" value="0.264" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/jiuye_layout.xml" value="0.22546296296296298" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/schedule_item.xml" value="0.264" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/statistics_fragment.xml" value="0.22546296296296298" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/title_back_g.xml" value="0.22546296296296298" />
@@ -19,6 +23,8 @@
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/web_layout.xml" value="0.22546296296296298" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/wo_de_fragment.xml" value="0.22546296296296298" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/xiaouianka_ewm.xml" value="0.264" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/xiexiao_layout.xml" value="0.22546296296296298" />
+        <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/layout/xuexi_layout.xml" value="0.22546296296296298" />
         <entry key="..\:/ZhiHuiXiaoYuan/SmartCampus/app/src/main/res/menu/xiao_yuan_ka.xml" value="0.22546296296296298" />
       </map>
     </option>

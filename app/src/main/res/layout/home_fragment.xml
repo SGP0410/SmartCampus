@@ -37,14 +37,10 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/baiyuanjiao"/>
 
-
-            <com.example.smartcampuslibrary.utils.myView.BaseRecyclerView
-                android:id="@+id/news_recycler_view"
+            <FrameLayout
+                android:id="@+id/zi_frame_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="15dp"
-                android:layout_margin="10dp"/>
-
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
