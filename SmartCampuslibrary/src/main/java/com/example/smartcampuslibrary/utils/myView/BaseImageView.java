@@ -3,6 +3,8 @@ package com.example.smartcampuslibrary.utils.myView;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.smartcampuslibrary.net.OkHttpImageLo;
