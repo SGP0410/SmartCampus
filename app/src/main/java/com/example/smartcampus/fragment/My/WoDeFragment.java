@@ -152,9 +152,9 @@ public class WoDeFragment extends BaseFragment {
                 user.setName("管理员");
                 list.clear();
                 list.add("用户反馈");
+                list.add("通报");
             }
             name.setText(user.getName());
-
             if (adapter == null) {
                 adapter = new WodeAdapter(list);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -55,7 +55,7 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        ZhcsConfig.setUrl("http://192.168.3.23:8080/Smart_campus/");
+        ZhcsConfig.setUrl("http://10.0.0.6:8080/Smart_campus_war/");
         ZhcsConfig.setContext(getApplicationContext());
     }
 

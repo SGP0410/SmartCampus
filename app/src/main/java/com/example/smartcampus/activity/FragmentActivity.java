@@ -10,6 +10,7 @@ import com.example.smartcampus.fragment.My.FragmentFeedback;
 import com.example.smartcampus.fragment.My.FragmentWoDeCourse;
 import com.example.smartcampus.fragment.My.FragmentWoDeCustomerFeedback;
 import com.example.smartcampus.fragment.My.FragmentWoDeScoreBoard;
+import com.example.smartcampus.fragment.My.FragmentWoDeTongbao;
 import com.example.smartcampus.fragment.My.FragmentWoDecertificate;
 import com.example.smartcampus.fragment.My.FragmentWoDeviewCertification;
 import com.example.smartcampus.fragment.applyFragment.Fragment_schoolCard;
@@ -90,6 +91,9 @@ public class FragmentActivity extends BaseFragmentActivity {
                 break;
             case "用户反馈":
                 setFragment(new FragmentWoDeCustomerFeedback());
+                break;
+            case "通报":
+                setFragment(new FragmentWoDeTongbao());
                 break;
             default:
                 break;
